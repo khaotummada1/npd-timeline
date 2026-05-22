@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPD Timeline Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0c10;--s1:#111318;--s2:#181c24;--s3:#1e2330;
+  --border:#252b38;--border2:#2e3547;
+  --g:#22c55e;--g2:#16a34a;--gdim:rgba(34,197,94,0.12);
+  --a:#f59e0b;--adim:rgba(245,158,11,0.12);
+  --b:#38bdf8;--bdim:rgba(56,189,248,0.12);
+  --r:#f87171;--rdim:rgba(248,113,113,0.12);
+  --t:#e2e8f0;--tm:#94a3b8;--td:#475569;
+  --font:'Sarabun',sans-serif;--mono:'JetBrains Mono',monospace;
+  --radius:8px;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--t);min-height:100vh;overflow-x:hidden}
+
+/* ── Page system ── */
+.page{display:none;min-height:100vh;animation:fadeIn .3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Top nav ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,12,16,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:52px;
+}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.nav-brand h1{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:1px;color:var(--t)}
+.nav-brand span{font-size:11px;color:var(--td);font-family:var(--mono)}
+.nav-tabs{display:flex;gap:2px;background:var(--s2);padding:4px;border-radius:var(--radius);border:1px solid var(--border)}
+.tab-btn{
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.5px;
+  padding:5px 16px;border-radius:5px;border:none;cursor:pointer;
+  background:transparent;color:var(--td);transition:all .2s;
+}
+.tab-btn.active{background:var(--s3);color:var(--t);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.tab-btn:hover:not(.active){color:var(--tm)}
+
+/* ══════════════════════════════════
+   PAGE 1 — INPUT
+══════════════════════════════════ */
+.input-page{max-width:720px;margin:0 auto;padding:40px 24px}
+.input-page h2{font-family:var(--mono);font-size:11px;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.input-page h2::before{content:'';display:block;width:16px;height:1px;background:var(--border2)}
+
+.card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px}
+.card-title{font-family:var(--mono);font-size:10px;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+
+.field-grid{display:grid;gap:14px}
+.field-grid.cols2{grid-template-columns:1fr 1fr}
+.field-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+
+.field label{display:block;font-size:11px;font-family:var(--mono);color:var(--tm);margin-bottom:5px;letter-spacing:.3px}
+.field input,.field select{
+  width:100%;background:var(--bg);border:1px solid var(--border2);
+  color:var(--t);padding:9px 12px;border-radius:6px;
+  font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s;
+}
+.field input:focus,.field select:focus{border-color:var(--g)}
+.field input[type=number]{-moz-appearance:textfield}
+.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+.field select option{background:var(--s2)}
+
+.screen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.screen-field{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px}
+.screen-field label{font-size:10px;font-family:var(--mono);color:var(--td);display:block;margin-bottom:6px;letter-spacing:.5px}
+.screen-field input{width:100%;background:transparent;border:none;color:var(--g);font-family:var(--mono);font-size:20px;font-weight:700;outline:none;text-align:center}
+
+/* feasibility preview */
+.feasibility-preview{border-radius:8px;padding:14px 16px;margin-top:12px;font-size:13px;line-height:1.7;display:none}
+.feasibility-preview.ok{background:var(--gdim);border:1px solid rgba(34,197,94,.2)}
+.feasibility-preview.warn{background:var(--rdim);border:1px solid rgba(248,113,113,.2)}
+
+/* CTA */
+.cta-btn{
+  width:100%;padding:14px;border-radius:8px;border:none;cursor:pointer;
+  font-family:var(--font);font-size:15px;font-weight:700;
+  background:var(--g);color:#0a0c10;transition:all .2s;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cta-btn:hover{background:#16a34a;transform:translateY(-1px);box-shadow:0 6px 24px rgba(34,197,94,.25)}
+.cta-btn:disabled{background:var(--border2);color:var(--td);cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ══════════════════════════════════
+   PAGE 2 — DASHBOARD
+══════════════════════════════════ */
+.dash-page{padding:24px 28px}
+
+/* KPI row */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.kpi .kpi-label{font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.kpi .kpi-val{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1}
+.kpi .kpi-sub{font-size:10px;color:var(--tm);margin-top:4px}
+.kpi.green .kpi-val{color:var(--g)}
+.kpi.amber .kpi-val{color:var(--a)}
+.kpi.blue .kpi-val{color:var(--b)}
+.kpi.red .kpi-val{color:var(--r)}
+
+/* feasibility banner */
+.feas-banner{border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px}
+.feas-banner.ok{background:var(--gdim);border:1px solid rgba(34,197,94,.2)}
+.feas-banner.warn{background:var(--rdim);border:1px solid rgba(248,113,113,.2)}
+.feas-banner .icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.feas-banner .body{flex:1}
+.feas-banner .title{font-weight:700;font-size:14px;margin-bottom:4px}
+.feas-banner.ok .title{color:var(--g)}
+.feas-banner.warn .title{color:var(--r)}
+.feas-options{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.opt-card{background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:12px 14px;min-width:200px;flex:1}
+.opt-card .opt-label{font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
+.opt-card.a .opt-label{color:var(--a)}
+.opt-card.b .opt-label{color:var(--b)}
+.opt-card .opt-val{font-size:13px;color:var(--t);margin-bottom:8px}
+.opt-btn{border:none;padding:5px 14px;border-radius:5px;font-size:11px;font-family:var(--font);cursor:pointer;font-weight:600}
+.opt-btn.a{background:var(--adim);border:1px solid rgba(245,158,11,.3);color:var(--a)}
+.opt-btn.b{background:var(--bdim);border:1px solid rgba(56,189,248,.3);color:var(--b)}
+.opt-btn:hover{filter:brightness(1.2)}
+
+/* Gantt */
+.gantt-wrap{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.gantt-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.gantt-header h3{font-family:var(--mono);font-size:11px;color:var(--tm);letter-spacing:1px;text-transform:uppercase}
+.gantt-legend{display:flex;gap:14px}
+.gantt-legend span{font-size:10px;font-family:var(--mono);color:var(--td);display:flex;align-items:center;gap:5px}
+.gantt-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:2px}
+.gantt-legend .l-screen::before{background:var(--g)}
+.gantt-legend .l-rd::before{background:var(--b)}
+.gantt-legend .l-pkg::before{background:var(--a)}
+.gantt-legend .l-prod::before{background:#a78bfa}
+.gantt-legend .l-qc::before{background:#fb923c}
+
+/* month ruler */
+.gantt-ruler{display:flex;border-bottom:1px solid var(--border);overflow:hidden;position:relative}
+.ruler-spacer{flex-shrink:0;width:220px;border-right:1px solid var(--border);background:var(--s2)}
+.ruler-months{flex:1;display:flex;position:relative;overflow:hidden}
+.ruler-month{
+  flex-shrink:0;border-right:1px solid var(--border);
+  font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:.5px;
+  padding:5px 8px;text-transform:uppercase;white-space:nowrap;
+}
+
+/* row */
+.gantt-body{overflow-x:auto}
+.gantt-row{display:flex;min-height:32px;border-bottom:1px solid rgba(37,43,56,.5);transition:background .1s}
+.gantt-row:hover{background:rgba(255,255,255,.02)}
+.gantt-row.group-header{background:var(--s2);min-height:26px}
+.gantt-row.group-header .row-label{font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;padding-left:14px}
+.row-label{
+  flex-shrink:0;width:220px;border-right:1px solid var(--border);
+  font-size:12px;color:var(--tm);padding:0 12px;
+  display:flex;align-items:center;gap:6px;
+}
+.row-label .stage-icon{font-size:10px;opacity:.7}
+.row-chart{flex:1;position:relative;min-height:32px;overflow:hidden}
+.gantt-bar{
+  position:absolute;height:16px;top:50%;transform:translateY(-50%);
+  border-radius:3px;display:flex;align-items:center;padding:0 6px;
+  font-family:var(--mono);font-size:9px;font-weight:600;white-space:nowrap;overflow:hidden;
+  transition:filter .15s;cursor:default;
+  min-width:4px;
+}
+.gantt-bar:hover{filter:brightness(1.2);z-index:10}
+.gantt-bar.screen{background:linear-gradient(90deg,var(--g2),var(--g));color:#052e16}
+.gantt-bar.rd{background:linear-gradient(90deg,#0369a1,var(--b));color:#0c1a2e}
+.gantt-bar.pkg{background:linear-gradient(90deg,#b45309,var(--a));color:#1c0a00}
+.gantt-bar.prod{background:linear-gradient(90deg,#6d28d9,#a78bfa);color:#1e1333}
+.gantt-bar.qc{background:linear-gradient(90deg,#c2410c,#fb923c);color:#1c0800}
+.gantt-bar.milestone-bar{background:linear-gradient(90deg,var(--g),#86efac);color:#052e16;z-index:5}
+
+/* today line */
+.today-line{position:absolute;top:0;bottom:0;width:1px;background:rgba(248,113,113,.7);z-index:20;pointer-events:none}
+.today-line::before{
+  content:'TODAY';position:absolute;top:-18px;left:2px;
+  font-family:var(--mono);font-size:8px;color:var(--r);letter-spacing:.5px;
+}
+
+/* milestone pin */
+.ms-pin{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:10px;height:10px;background:var(--g);border-radius:50%;
+  box-shadow:0 0 8px var(--g);z-index:15;cursor:default;
+}
+.ms-pin.launch{background:var(--a);box-shadow:0 0 10px var(--a);width:12px;height:12px}
+
+/* tooltip */
+.tooltip{
+  position:fixed;background:var(--s3);border:1px solid var(--border2);
+  border-radius:6px;padding:8px 12px;font-size:11px;font-family:var(--mono);
+  color:var(--t);pointer-events:none;z-index:200;display:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);max-width:260px;line-height:1.6;
+}
+
+/* bottom table toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px;border-top:1px solid var(--border)}
+.toggle-row span{font-family:var(--mono);font-size:10px;color:var(--td)}
+.toggle-btn{background:transparent;border:1px solid var(--border2);color:var(--tm);font-family:var(--mono);font-size:10px;padding:4px 12px;border-radius:4px;cursor:pointer}
+.toggle-btn:hover{border-color:var(--g);color:var(--g)}
+
+/* detail table */
+.detail-table-wrap{padding:0 18px 18px;display:none}
+.detail-table{width:100%;border-collapse:collapse;font-size:12px}
+.detail-table th{font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:.8px;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
+.detail-table td{padding:8px 10px;border-bottom:1px solid rgba(37,43,56,.5);color:var(--tm)}
+.detail-table td:first-child{color:var(--t);font-size:12.5px}
+.detail-table .date-cell{font-family:var(--mono);color:var(--b);font-size:11px}
+.detail-table .date-cell.past{color:var(--td)}
+.detail-table .date-cell.soon{color:var(--a)}
+.detail-table .date-cell.today{color:var(--r);font-weight:700}
+
+/* action row */
+.action-row{display:flex;gap:10px;margin-top:16px}
+.act-btn{background:transparent;border:1px solid var(--border2);color:var(--tm);padding:8px 16px;border-radius:6px;font-family:var(--font);font-size:12px;cursor:pointer;transition:all .15s}
+.act-btn:hover{border-color:var(--g);color:var(--g)}
+
+@media(max-width:640px){
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .field-grid.cols3{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="dot"></div>
+    <h1>NPD TIMELINE</h1>
+    <span>Chef Cares · CPF</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showPage('input')">⚙ ตั้งค่า</button>
+    <button class="tab-btn" id="dashTab" onclick="showPage('dash')">📊 Dashboard</button>
+  </div>
+</nav>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ══ PAGE 1: INPUT ══ -->
+<div class="page active" id="page-input">
+<div class="input-page">
+  <h2>ตั้งค่า Product Timeline</h2>
+
+  <div class="card">
+    <div class="card-title">Product Info</div>
+    <div class="field-grid cols3">
+      <div class="field" style="grid-column:1/3">
+        <label>ชื่อสินค้า</label>
+        <input type="text" id="productName" placeholder="เช่น ซุปไก่ตุ๋นมะนาวดอง" />
+      </div>
+      <div class="field">
+        <label>ประเภทสินค้า</label>
+        <select id="productType" onchange="onProductTypeChange()">
+          <option value="frozen_soup">🧊 Frozen Soup (Sticker)</option>
+          <option value="frozen_meal">🧊 Frozen Meal (Top Film)</option>
+          <option value="chilled_sleeve">❄️ Chilled (Sleeve)</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-grid cols2" style="margin-top:14px">
+      <div class="field">
+        <label>Launch Date (วันปล่อยสินค้า)</label>
+        <input type="date" id="launchDate" onchange="livePreview()" />
+      </div>
+      <div class="field">
+        <label>Launch Venue</label>
+        <select id="launchVenue">
+          <option value="711">7-Eleven (พฤหัส)</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field" id="pkgFilmWrap">
+        <label id="pkgFilmLabel">PKG Film Lead Time</label>
+        <select id="pkgFilmDur" onchange="livePreview()">
+          <option value="45">45 วัน (ปกติ)</option>
+          <option value="60">60 วัน (ภาวะสงคราม / Chilled)</option>
+          <option value="75">75 วัน (NPD ฟิล์มใหม่)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Screening Sequence</div>
+    <div style="font-size:11px;color:var(--td);margin-bottom:12px;font-family:var(--mono)">
+      กด + เพื่อเพิ่ม step · กด × เพื่อลบ · สร้าง pattern ได้อิสระ เช่น S→FF→S→FF→PS
+    </div>
+
+    <!-- sequence builder -->
+    <div id="seqBuilder" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:44px;padding:10px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;margin-bottom:12px"></div>
+
+    <!-- add buttons -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button onclick="addStep('S')"  style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:var(--g);padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;cursor:pointer">+ Pre-Screen</button>
+      <button onclick="addStep('FF')" style="background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);color:var(--b);padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;cursor:pointer">+ FF</button>
+      <button onclick="addStep('PS')" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--a);padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;cursor:pointer">+ PS</button>
+      <button onclick="resetSeq()"    style="background:transparent;border:1px solid var(--border2);color:var(--td);padding:6px 14px;border-radius:6px;font-family:var(--mono);font-size:12px;cursor:pointer">↩ Reset</button>
+    </div>
+
+    <!-- First Pre-Screen date picker -->
+    <div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-size:10px;font-family:var(--mono);color:var(--td);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">📅 วันเริ่ม Pre-Screen</div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div class="field" style="margin:0;flex:1;min-width:160px;">
+          <label>Pre-Screen รอบแรก</label>
+          <input type="date" id="firstPreScreenDate" onchange="rebuildScreenDates()" style="width:100%" />
+        </div>
+        <div style="font-size:11px;color:var(--td);font-family:var(--mono);padding-top:18px;">
+          ระบบ suggest รอบถัดไปทุก 7 วัน · แก้ได้ด้านล่าง
+        </div>
+      </div>
+
+      <!-- per-round date overrides -->
+      <div id="screenDateList" style="margin-top:12px;display:flex;flex-direction:column;gap:6px;"></div>
+    </div>
+
+    <!-- PS count -->
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="screen-field" style="width:140px">
+        <label>PS (รอบ)</label>
+        <input type="number" id="numPS" value="1" min="1" max="10" oninput="livePreview()" />
+      </div>
+      <div style="font-size:11px;color:var(--td);font-family:var(--mono)">PS ทุกอังคารก่อน Launch</div>
+    </div>
+
+    <div class="feasibility-preview" id="feasPrev" style="margin-top:12px"></div>
+  </div>
+
+  <button class="cta-btn" id="buildBtn" onclick="buildDashboard()" disabled>
+    <span>📊</span> สร้าง Dashboard
+  </button>
+</div>
+</div>
+
+<!-- ══ PAGE 2: DASHBOARD ══ -->
+<div class="page" id="page-dash">
+<div class="dash-page">
+
+  <!-- KPI -->
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <!-- Feasibility banner -->
+  <div id="feasBanner"></div>
+
+  <!-- Gantt -->
+  <div class="gantt-wrap">
+    <div class="gantt-header">
+      <h3>Gantt Timeline</h3>
+      <div class="gantt-legend">
+        <span class="l-screen">Screening</span>
+        <span class="l-rd">R&D / PI</span>
+        <span class="l-qc">Photo / QC</span>
+        <span class="l-pkg">Packaging</span>
+        <span class="l-prod">Production</span>
+      </div>
+    </div>
+    <div class="gantt-ruler" id="ganttRuler">
+      <div class="ruler-spacer"></div>
+      <div class="ruler-months" id="rulerMonths"></div>
+    </div>
+    <div class="gantt-body" id="ganttBody"></div>
+    <div class="toggle-row">
+      <span>รายละเอียดวันที่</span>
+      <button class="toggle-btn" onclick="toggleDetail()">แสดง ▾</button>
+    </div>
+    <div class="detail-table-wrap" id="detailWrap">
+      <table class="detail-table" id="detailTable"></table>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="act-btn" onclick="showPage('input')">← แก้ไข</button>
+    <button class="act-btn" id="xlsxBtn" onclick="exportXLSX()" style="background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3);color:var(--g);font-weight:600">
+      📥 Export .xlsx
+    </button>
+    <button class="act-btn" onclick="copyCSV()">📋 Copy CSV</button>
+    <button class="act-btn" onclick="window.print()">🖨 Print</button>
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════
+const MONTH_TH = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const DAY_TH   = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r}
+function startOfDay(d){const r=new Date(d);r.setHours(0,0,0,0);return r}
+function fmt(d){if(!d)return'—';return`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`}
+function fmtFull(d){return`${d.getDate()} ${MONTH_TH[d.getMonth()]} ${d.getFullYear()+543}`}
+function diffDays(a,b){return Math.round((b-a)/86400000)}
+function nextDow(from,dow){const d=new Date(from);const diff=(dow-d.getDay()+7)%7;d.setDate(d.getDate()+(diff===0?0:diff));return d}
+function nextDowAfter(from,dow){const d=new Date(from);d.setDate(d.getDate()+1);return nextDow(d,dow)}
+
+// ══════════════════════════════════════════════════════
+//  FF 2026 SCHEDULE
+// ══════════════════════════════════════════════════════
+const FF2026=[
+  {d:new Date(2025,11,23),h:false},
+  {d:new Date(2026,0,13),h:true},
+  {d:new Date(2026,0,27),h:false},
+  {d:new Date(2026,1,10),h:false},
+  {d:new Date(2026,1,24),h:false},
+  {d:new Date(2026,2,10),h:false},
+  {d:new Date(2026,2,24),h:false},
+  {d:new Date(2026,3,7),h:true},
+  {d:new Date(2026,3,28),h:false},
+  {d:new Date(2026,4,12),h:false},
+  {d:new Date(2026,4,26),h:false},
+  {d:new Date(2026,5,9),h:false},
+  {d:new Date(2026,5,23),h:false},
+  {d:new Date(2026,6,7),h:true},
+  {d:new Date(2026,6,21),h:true},
+  {d:new Date(2026,7,11),h:false},
+  {d:new Date(2026,7,25),h:false},
+  {d:new Date(2026,8,8),h:false},
+  {d:new Date(2026,8,22),h:false},
+  {d:new Date(2026,9,6),h:true},
+  {d:new Date(2026,9,20),h:true},
+  {d:new Date(2026,10,10),h:false},
+  {d:new Date(2026,10,24),h:false},
+  {d:new Date(2026,11,8),h:false},
+  {d:new Date(2026,11,22),h:false},
+];
+function getLastNFF(before,n){return FF2026.filter(f=>f.d<before).slice(-n)}
+
+// ══════════════════════════════════════════════════════
+//  MANUAL SCREEN DATE OVERRIDES
+// ══════════════════════════════════════════════════════
+let screenDateOverrides = {}; // key = index of S in SEQ (0-based), value = 'YYYY-MM-DD'
+
+function getScreenDow(){
+  const pType = document.getElementById('productType')?.value || 'frozen_soup';
+  return pType === 'chilled_sleeve' ? 4 : 3; // Thu or Wed
+}
+
+function rebuildScreenDates(){
+  const firstInput = document.getElementById('firstPreScreenDate').value;
+  if(!firstInput){ renderScreenDateList(); livePreview(); return; }
+
+  // Count S steps in SEQ
+  const sIndices = SEQ.reduce((acc,s,i)=>{ if(s==='S') acc.push(i); return acc; },[]);
+  if(sIndices.length === 0){ livePreview(); return; }
+
+  // Set first S override
+  screenDateOverrides[sIndices[0]] = firstInput;
+
+  // Suggest subsequent S dates = +7 days each, snap to correct DOW
+  const dow = getScreenDow();
+  let lastDate = new Date(firstInput);
+  for(let i=1; i<sIndices.length; i++){
+    const suggested = new Date(lastDate);
+    suggested.setDate(suggested.getDate() + 7);
+    // snap to correct DOW if not already
+    let s5=0; while(suggested.getDay()!==dow && s5++<14) suggested.setDate(suggested.getDate()+1);
+    const iso = suggested.toISOString().split('T')[0];
+    // only set if not already manually overridden
+    if(!screenDateOverrides[sIndices[i]]) screenDateOverrides[sIndices[i]] = iso;
+    lastDate = suggested;
+  }
+
+  renderScreenDateList();
+  livePreview();
+}
+
+function renderScreenDateList(){
+  const list = document.getElementById('screenDateList');
+  if(!list) return;
+  const sIndices = SEQ.reduce((acc,s,i)=>{ if(s==='S') acc.push(i); return acc; },[]);
+  if(sIndices.length === 0){ list.innerHTML=''; return; }
+
+  const dow = getScreenDow();
+  const dowName = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+
+  list.innerHTML = sIndices.map((seqIdx, nth) => {
+    const val = screenDateOverrides[seqIdx] || '';
+    const dateObj = val ? new Date(val) : null;
+    const dayLabel = dateObj ? ` (${dowName[dateObj.getDay()]})` : '';
+    const isWrongDay = dateObj && dateObj.getDay() !== dow;
+    const warnIcon = isWrongDay ? ' ⚠️' : '';
+    const today = new Date(); today.setHours(0,0,0,0);
+    const isPast = dateObj && dateObj < today;
+    const pastStyle = isPast ? 'opacity:.5' : '';
+
+    return `<div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--tm);min-width:100px;">รอบ ${nth+1}${dayLabel}${warnIcon}</span>
+      <input type="date" value="${val}"
+        style="background:var(--s2);border:1px solid ${isWrongDay?'rgba(248,113,113,.5)':'var(--border2)'};color:${isWrongDay?'var(--r)':isPast?'var(--td)':'var(--t)'};padding:4px 8px;border-radius:5px;font-family:var(--mono);font-size:12px;outline:none;"
+        onchange="setScreenDate(${seqIdx}, this.value)"
+      />
+      ${isWrongDay ? `<span style="font-size:10px;color:var(--r);font-family:var(--mono)">ไม่ใช่วัน${dow===3?'พุธ':'พฤหัส'}</span>` : ''}
+      ${isPast && !isWrongDay ? `<span style="font-size:10px;color:var(--td);font-family:var(--mono)">✓ ผ่านไปแล้ว</span>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function setScreenDate(seqIdx, val){
+  screenDateOverrides[seqIdx] = val;
+  renderScreenDateList();
+  livePreview();
+}
+
+// Reset overrides when seq changes
+const _origAddStep = addStep;
+const _origRemoveStep = removeStep;
+const _origResetSeq = resetSeq;
+let SEQ=['S','FF','S','FF','S','FF']; // default
+
+function renderSeq(){
+  const el=document.getElementById('seqBuilder');
+  if(!el)return;
+  const cMap={S:'var(--g)',FF:'var(--b)',PS:'var(--a)'};
+  const bMap={S:'rgba(34,197,94,.1)',FF:'rgba(56,189,248,.1)',PS:'rgba(245,158,11,.1)'};
+  const lMap={S:'Screen',FF:'FF',PS:'PS'};
+  el.innerHTML=SEQ.map((s,i)=>`
+    <div style="display:inline-flex;align-items:center;gap:4px;background:${bMap[s]};border:1px solid ${cMap[s]}55;
+      border-radius:6px;padding:5px 10px;font-family:var(--mono);font-size:12px;color:${cMap[s]}">
+      ${lMap[s]}
+      <span onclick="removeStep(${i})" style="cursor:pointer;opacity:.5;font-size:15px;line-height:1;margin-left:2px"
+        onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">×</span>
+    </div>${i<SEQ.length-1?'<span style="color:var(--td);font-size:13px">→</span>':''}`
+  ).join('');
+}
+function addStep(t){SEQ.push(t);renderSeq();screenDateOverrides={};rebuildScreenDates();livePreview()}
+function removeStep(i){SEQ.splice(i,1);renderSeq();screenDateOverrides={};rebuildScreenDates();livePreview()}
+function resetSeq(){SEQ=['S','FF','S','FF','S','FF'];screenDateOverrides={};document.getElementById('firstPreScreenDate').value='';renderSeq();renderScreenDateList();livePreview()}
+
+// ══════════════════════════════════════════════════════
+//  SCREENING BUILDER — forward from first S if overrides set
+// ══════════════════════════════════════════════════════
+function buildScreening(launchDate, screenDow, nPS, seq){
+  const psDow = 2; // Tuesday
+
+  // ── ถ้ามี screenDateOverrides ให้เดิน forward จาก S แรก ──────────────
+  const hasOverrides = Object.keys(screenDateOverrides).length > 0;
+  const sIndices = seq.reduce((a,s,i)=>{ if(s==='S') a.push(i); return a; },[]);
+
+  if(hasOverrides){
+    const events = [];
+    let ffPoolFwd = [...FF2026]; // oldest first
+    let sCount = 0, ffCount = 0;
+    let lastEventDate = null;
+
+    for(let i=0; i<seq.length; i++){
+      const step = seq[i];
+      if(step === 'PS') continue;
+
+      if(step === 'S'){
+        const seqIdx = sIndices[sCount];
+        const override = screenDateOverrides[seqIdx];
+        let d;
+        if(override){
+          d = startOfDay(new Date(override));
+        } else if(lastEventDate){
+          // suggest +7 days snapped to screenDow
+          d = new Date(lastEventDate);
+          d.setDate(d.getDate()+7);
+          let s1=0; while(d.getDay()!==screenDow && s1++<14) d.setDate(d.getDate()+1);
+        } else {
+          // fallback: find screenDow before launch
+          d = new Date(launchDate);
+          let s2=0; while(d.getDay()!==screenDow && s2++<14) d.setDate(d.getDate()-1);
+        }
+        sCount++;
+        events.push({label:`Pre-Screen รอบ ${sCount}`, date:d, type:'prescreen', h:false});
+        lastEventDate = d;
+
+      } else if(step === 'FF'){
+        // หา FF วันแรกที่อยู่หลัง lastEventDate
+        const after = lastEventDate || new Date(0);
+        const ff = ffPoolFwd.find(f => f.d > after);
+        if(ff){
+          ffCount++;
+          events.push({label:`Fresh Food Committee รอบ ${ffCount}`, date:ff.d, type:'ff', h:ff.h});
+          lastEventDate = ff.d;
+          // remove used FF from pool
+          ffPoolFwd = ffPoolFwd.filter(f => f.d !== ff.d);
+        }
+      }
+    }
+
+    // PS: หา Tuesday หลัง lastEventDate ที่ห่าง launch พอ (post-PS lead)
+    const filmEl = document.getElementById('pkgFilmDur');
+    const pType = document.getElementById('productType')?.value || 'frozen_soup';
+    const pkgDur = pType==='frozen_soup' ? 21 : (filmEl ? +filmEl.value : 45);
+    const postPSLead = pkgDur + 14;
+    const psLatest = addDays(launchDate, -postPSLead);
+
+    // หา Tuesday ที่อยู่หลัง lastEventDate และไม่เกิน psLatest
+    let psDate = new Date(lastEventDate || new Date());
+    psDate.setDate(psDate.getDate()+1);
+    let s3=0; while(psDate.getDay()!==psDow && s3++<14) psDate.setDate(psDate.getDate()+1);
+    // ถ้า PS วันนั้นเกิน psLatest ให้ warn แต่ยังใช้ได้
+    for(let p=0; p<nPS; p++){
+      const d = addDays(psDate, 7*p);
+      events.push({label:`Product Selection รอบ ${p+1}`, date:d, type:'ps', h:false});
+    }
+
+    events.sort((a,b)=>a.date-b.date);
+    const fp = events.find(e=>e.type==='prescreen');
+    return{all:events, firstPre:fp?fp.date:psDate, lastPS:psDate};
+  }
+
+  // ── ไม่มี overrides → เดิน backward จาก PS เหมือนเดิม ─────────────────
+  let psLast = nextDow(launchDate, psDow);
+  if(psLast >= launchDate) psLast = addDays(psLast,-7);
+  const psDates = [];
+  for(let i=nPS-1; i>=0; i--) psDates.unshift(addDays(psLast,-7*i));
+
+  const ffPool = FF2026.filter(f=>f.d<psDates[0]).reverse();
+  let ffIdx=0;
+  const events=[];
+  let anchor=addDays(psDates[0],-1);
+  let sRightCount=0;
+
+  for(let i=seq.length-1; i>=0; i--){
+    const step=seq[i];
+    if(step==='PS')continue;
+    if(step==='FF'){
+      while(ffIdx<ffPool.length && ffPool[ffIdx].d>anchor)ffIdx++;
+      if(ffIdx<ffPool.length){
+        const ff=ffPool[ffIdx];
+        events.unshift({label:'FF',date:ff.d,type:'ff',h:ff.h});
+        anchor=addDays(ff.d,-1);
+        ffIdx++;
+      }
+    } else if(step==='S'){
+      const seqIdx=sIndices[sIndices.length-1-sRightCount];
+      sRightCount++;
+      let d=new Date(anchor);
+      let safety=0;
+      while(d.getDay()!==screenDow && safety++<14) d.setDate(d.getDate()-1);
+      events.unshift({label:'S',date:d,type:'prescreen',seqIdx});
+      anchor=addDays(d,-1);
+    }
+  }
+
+  let sN=0,ffN=0;
+  events.sort((a,b)=>a.date-b.date);
+  events.forEach(e=>{
+    if(e.type==='prescreen')e.label=`Pre-Screen รอบ ${++sN}`;
+    if(e.type==='ff')e.label=`Fresh Food Committee รอบ ${++ffN}`;
+  });
+  psDates.forEach((d,i)=>events.push({label:`Product Selection รอบ ${i+1}`,date:d,type:'ps',h:false}));
+  events.sort((a,b)=>a.date-b.date);
+  const fp=events.find(e=>e.type==='prescreen');
+  return{all:events,firstPre:fp?fp.date:psDates[0],lastPS:psLast};
+}
+
+// ══════════════════════════════════════════════════════
+//  LIVE PREVIEW (input page)
+// ══════════════════════════════════════════════════════
+function livePreview(){
+  const dv=document.getElementById('launchDate').value;
+  const prev=document.getElementById('feasPrev');
+  const btn=document.getElementById('buildBtn');
+  if(!dv){prev.style.display='none';btn.disabled=true;return}
+  btn.disabled=false;
+
+  const ld=startOfDay(new Date(dv));
+  const pType=document.getElementById('productType').value;
+  const nPS=+document.getElementById('numPS').value||1;
+  const sDow=pType==='chilled_sleeve'?4:3;
+  const today=startOfDay(new Date());
+
+  const sc=buildScreening(ld,sDow,nPS,SEQ);
+  const d2pre=diffDays(today,sc.firstPre);
+  const gap=diffDays(sc.firstPre,ld);
+  let ePre=new Date(sc.firstPre);
+  if(ePre<today)ePre=nextDowAfter(addDays(today,-1),sDow);
+  const eLaunch=addDays(ePre,gap);
+  const dToLaunch=diffDays(today,ld);
+  const seqStr=SEQ.map(s=>({S:'🔍S',FF:'🧪FF',PS:'✅PS'}[s]||s)).join('→');
+
+  prev.style.display='block';
+  if(d2pre>=0){
+    prev.className='feasibility-preview ok';
+    prev.innerHTML=`✅ <strong>Feasible</strong> — Pre-Screen รอบแรก <strong>${fmt(sc.firstPre)} (${DAY_TH[sc.firstPre.getDay()]})</strong> อีก ${d2pre} วัน<br>
+    <span style="font-size:11px;color:var(--tm)">🚀 Launch ${fmt(ld)} อีก ${dToLaunch} วัน · Earliest: ${fmt(eLaunch)}</span><br>
+    <span style="font-size:10px;color:var(--td);font-family:var(--mono)">${seqStr}→PS×${nPS}</span>`;
+  }else{
+    prev.className='feasibility-preview warn';
+    prev.innerHTML=`⚠️ <strong>ไม่ feasible</strong> — ช้าไป ${Math.abs(d2pre)} วัน · Earliest launch: <strong>${fmt(eLaunch)}</strong><br>
+    <span style="font-size:10px;color:var(--td);font-family:var(--mono)">${seqStr}→PS×${nPS}</span>`;
+  }
+}
+function onProductTypeChange(){
+  const pType = document.getElementById('productType').value;
+  const filmEl = document.getElementById('pkgFilmDur');
+  const filmLabel = document.getElementById('pkgFilmLabel');
+  const filmWrap = document.getElementById('pkgFilmWrap');
+  // frozen soup = ไม่มี film dropdown
+  filmWrap.style.display = pType==='frozen_soup' ? 'none' : '';
+  if(pType==='chilled_sleeve'){
+    filmLabel.textContent = 'Top Film Lead Time (Chilled)';
+    // set default 45 for chilled
+    filmEl.value = '45';
+  } else {
+    filmLabel.textContent = 'PKG Film Lead Time (Frozen Meal)';
+  }
+  livePreview();
+}
+
+function getStages(pType){
+  const isFS = pType==='frozen_soup';
+  const isFM = pType==='frozen_meal';
+  const isCS = pType==='chilled_sleeve';
+  const filmEl = document.getElementById('pkgFilmDur');
+  if(filmEl) filmEl.disabled = isFS;
+
+  // PKG durations
+  const topFilmDur = isFS ? 21 : (filmEl ? +filmEl.value : 45);
+  const sleeveDur  = isCS ? 45 : 0;
+
+  if(isCS){
+    // ══ CHILLED SLEEVE ══════════════════════════════════════
+    return[
+      {group:'R&D / Product Information',color:'rd',stages:[
+        {id:'microwave_test', name:'Production Microwave Testing (5 วัน)', offset:-56, dur:5},
+        {id:'pi_create',      name:'Create PI Document (3 วัน)',           offset:-50, dur:3},
+        {id:'pi_ra',          name:'RA Final PI (5 วัน)',                  offset:-47, dur:5},
+        {id:'nf',             name:'Nutrition Fact (14 วัน รวมเสาร์-อา)', offset:-42, dur:14},
+        {id:'nf_ra',          name:'NF — RA Recheck (1 วัน)',              offset:-28, dur:1},
+        {id:'fda',            name:'FDA/สบ. (7 วัน)',                      offset:-42, dur:7},
+        {id:'idea_cost',      name:'Idea Cost & Barcode (3 วัน)',          offset:-50, dur:3},
+      ]},
+      {group:'Photo & QC',color:'qc',stages:[
+        {id:'sample_photo',   name:'ขอตัวอย่างถ่ายรูป (30 วัน)',           offset:-55, dur:30},
+        {id:'pilot_test',     name:'Test RD / Pilot Test',                 offset:-21, dur:1},
+        {id:'micro_int',      name:'ตรวจจุลินทรีย์ Internal (18 วัน)',     offset:-40, dur:18},
+        {id:'micro_ext',      name:'ตรวจจุลินทรีย์ External (18 วัน) ⚠️ ผลต้องออกก่อน First Prod 2 wk', offset:-40, dur:18},
+      ]},
+      {group:'Packaging Development',color:'pkg',stages:[
+        {id:'aw_design',      name:'AW Design (3 วัน)',                    offset:-25, dur:3},
+        {id:'aw_review',      name:'RD/RA Review & Approved (5 วัน)',      offset:-22, dur:5},
+        {id:'qa_711',         name:'QA 7-11 Approved (7 วัน)',             offset:-17, dur:7},
+        {id:'final_aw',       name:'Final AW to Supplier',                 offset:-16, dur:1},
+        {id:'digital_proof',  name:'Digital Proof (2 วัน)',                offset:-15, dur:2},
+        {id:'paper_proof',    name:'Paper Proof (2 วัน)',                  offset:-13, dur:2},
+        {id:'pkg_po',         name:'เปิด PO สั่งซื้อ PKG',                 offset:-13, dur:1},
+        {id:'top_film_prod',  name:`Top Film Production (${topFilmDur} วัน)`, offset:-(topFilmDur+sleeveDur+7), dur:topFilmDur},
+        {id:'sleeve_enter',   name:'Sleeve Enter Factory (7 วันก่อน First Prod)', offset:-14, dur:7},
+        {id:'pkg_film',       name:'Packaging เทสฟิล์ม (3 วัน)',           offset:-14, dur:3},
+        {id:'scan_barcode',   name:'Scan Barcode',                         offset:-8,  dur:1},
+      ]},
+      {group:'Production & Launch',color:'prod',stages:[
+        {id:'first_prod',     name:'⭐ First Production (3-4 วันก่อน Launch)', offset:-4, dur:1, milestone:true},
+        {id:'order1',         name:'First Order 1 (อังคาร) 5,000 แพค',    offset:-2, dur:1},
+        {id:'order2',         name:'First Order 2 (พุธ) 5,000 แพค',       offset:-1, dur:1},
+        {id:'launch',         name:'🚀 LAUNCH (พฤหัส)',                    offset:0,  dur:1, milestone:true, isLaunch:true},
+      ]},
+    ];
+  }
+
+  // ══ FROZEN SOUP / FROZEN MEAL ════════════════════════════
+  const pkgLabel = isFS
+    ? 'PKG Production — Sticker 21 วัน'
+    : `PKG Production — Top Film ${topFilmDur} วัน${topFilmDur===75?' (NPD ฟิล์มใหม่)':topFilmDur===60?' (ภาวะสงคราม)':' (ปกติ)'}`;
+  const nfDur    = isFS ? 10 : 14;  // frozen soup=10work, frozen meal=14(รวมเสาร์-อา)
+  const qaSampleDur = isFS ? 1 : 7; // frozen soup=1, frozen meal=7
+
+  return[
+    {group:'R&D / Product Information',color:'rd',stages:[
+      {id:'microwave_prep', name:'Test Microwave Sample',                  offset:-56, dur:1},
+      {id:'microwave_test', name:`Microwave Testing (${isFS?4:1} วัน)`,   offset:-55, dur:isFS?4:1},
+      {id:'notify_name',    name:'แจ้งชื่อสินค้า Chef Cares',              offset:-49, dur:isFM?3:1},
+      {id:'plm',            name:'เปิด PLM',                               offset:-49, dur:1},
+      {id:'pi_create',      name:'Create PI Document (3 วัน)',             offset:-46, dur:3},
+      {id:'pi_ra',          name:'RA Final PI (3 วัน)',                    offset:-43, dur:3},
+      {id:'nf',             name:`Nutrition Fact (${nfDur} วัน${isFS?' work':' รวมเสาร์-อา'})`, offset:-40, dur:nfDur},
+      {id:'nf_rd',          name:'NF — RD Recheck (1 วัน)',                offset:-26, dur:1},
+      {id:'nf_ra',          name:'NF — RA Recheck (2 วัน)',                offset:-25, dur:2},
+      {id:'fda',            name:'FDA (7 วัน work)',                       offset:-23, dur:7},
+      {id:'idea_cost',      name:'Idea Cost',                              offset:-46, dur:1},
+      {id:'barcode',        name:'Barcode',                                offset:-49, dur:1},
+    ]},
+    {group:'Photo & QC',color:'qc',stages:[
+      {id:'sample_photo',   name:`ขอตัวอย่างถ่ายรูป (${isFS?'6+6':'5+5'} ถาด)`, offset:-50, dur:30},
+      {id:'pilot_test',     name:'Test RD / Pilot Test',                  offset:-21, dur:1},
+      {id:'micro_test',     name:'ตรวจจุลินทรีย์ Internal (30 วัน)',      offset:-42, dur:30},
+    ]},
+    {group:'Packaging Development',color:'pkg',stages:[
+      {id:'aw_design',      name:'AW Design (1 วัน)',                      offset:-22, dur:1},
+      {id:'aw_review',      name:'RD/RA Review & Approved (2 วัน)',        offset:-21, dur:2},
+      {id:'qa_docs',        name:'เอกสาร QA 10 รายการ (1 วัน)',            offset:-19, dur:1},
+      {id:'qa_711',         name:`QA 7-11 Approved (${isFS?7:1} วัน)`,    offset:-18, dur:isFS?7:1},
+      {id:'qa_sample',      name:`ส่งตัวอย่าง QA (${qaSampleDur} วัน)`,   offset:-16, dur:qaSampleDur},
+      {id:'final_aw',       name:'Final AW to Supplier',                  offset:-15, dur:1},
+      {id:'digital_proof',  name:'Digital Proof (1 วัน)',                  offset:-14, dur:1},
+      {id:'paper_proof',    name:`Paper Proof (${isFS?1:2} วัน)`,          offset:-13, dur:isFS?1:2},
+      ...(isFM?[{id:'approved_proof',name:'Approved Paper Proof (2 วัน)', offset:-11, dur:2}]:[]),
+      {id:'pkg_po',         name:'เปิด PO สั่งซื้อ PKG',                   offset:-13, dur:1},
+      {id:'pkg_prod',       name:pkgLabel,                                 offset:-(topFilmDur+14), dur:topFilmDur},
+      {id:'pkg_enter',      name:'PKG Enter Factory (7 วัน)',              offset:-14, dur:7},
+      {id:'pkg_film',       name:'Packaging เทสฟิล์ม',                     offset:-14, dur:1},
+      {id:'scan_barcode',   name:'Scan Barcode',                           offset:-8,  dur:1},
+    ]},
+    {group:'Production & Launch',color:'prod',stages:[
+      {id:'test_run',       name:'Test Run (Chef Cares เข้าด้วย)',         offset:-8,  dur:1},
+      {id:'first_prod',     name:'⭐ First Production',                    offset:-7,  dur:1, milestone:true},
+      {id:'stock',          name:'Stock (9 วัน รวมวัน first)',             offset:-7,  dur:9},
+      {id:'order1',         name:`First Order 1 (${isFS?'เสาร์':'อังคาร'})`, offset:-2, dur:1},
+      {id:'order2',         name:`First Order 2 (${isFS?'จันทร์':'พุธ'})`,   offset:0,  dur:1},
+      {id:'launch',         name:'🚀 LAUNCH',                              offset:0,   dur:1, milestone:true, isLaunch:true},
+    ]},
+  ];
+}
+
+// ══════════════════════════════════════════════════════
+//  BUILD DASHBOARD
+// ══════════════════════════════════════════════════════
+let G={};
+
+function buildDashboard(){
+  const dv=document.getElementById('launchDate').value;
+  if(!dv)return;
+
+  const launchDate=startOfDay(new Date(dv));
+  const pType=document.getElementById('productType').value;
+  const nPS=+document.getElementById('numPS').value||1;
+  const sDow=pType==='chilled_sleeve'?4:3;
+  const today=startOfDay(new Date());
+  const productName=document.getElementById('productName').value||'สินค้าใหม่';
+
+  const sc=buildScreening(launchDate,sDow,nPS,SEQ);
+  const stageGroups=getStages(pType);
+
+  const d2pre=diffDays(today,sc.firstPre);
+  let ePre=new Date(sc.firstPre);
+  if(ePre<today)ePre=nextDowAfter(addDays(today,-1),sDow);
+  const gap=diffDays(sc.firstPre,launchDate);
+  const eLaunch=addDays(ePre,gap);
+
+  // min rounds = try trimming leading S steps until feasible
+  let minSeq=SEQ.slice();
+  let minRounds=SEQ.filter(s=>s==='S').length;
+  if(d2pre<0){
+    // try removing S from front one at a time
+    for(let trim=1;trim<=SEQ.length;trim++){
+      const test=SEQ.slice(trim);
+      if(test.length===0)break;
+      const t=buildScreening(launchDate,sDow,nPS,test);
+      if(diffDays(today,t.firstPre)>=0){minSeq=test;minRounds=test.filter(s=>s==='S').length;break}
+    }
+  }
+
+  G={launchDate,pType,nPS,sDow,today,productName,sc,stageGroups,d2pre,eLaunch,ePre,gap,minSeq,minRounds};
+
+  renderKPI();
+  renderFeasBanner();
+  renderGantt();
+  renderDetailTable();
+  showPage('dash');
+}
+
+// ── KPI ──
+function renderKPI(){
+  const{launchDate,today,sc,d2pre,eLaunch}=G;
+  const dToLaunch=diffDays(today,launchDate);
+  const dToFirstPre=Math.abs(d2pre);
+  const kpis=[
+    {label:'Launch Date',val:fmt(launchDate),sub:DAY_TH[launchDate.getDay()],cls:dToLaunch<0?'red':dToLaunch<14?'amber':'green'},
+    {label:'วันเหลือถึง Launch',val:dToLaunch>=0?dToLaunch+'d':'PAST',sub:dToLaunch<0?'ผ่านมาแล้ว':'จากวันนี้',cls:dToLaunch<0?'red':dToLaunch<14?'amber':'blue'},
+    {label:'Pre-Screen รอบแรก',val:fmt(sc.firstPre),sub:DAY_TH[sc.firstPre.getDay()],cls:d2pre>=0?'green':'red'},
+    {label:'Earliest Launch',val:fmt(eLaunch),sub:'ถ้าเริ่ม screen วันนี้',cls:'blue'},
+    {label:'Feasibility',val:d2pre>=0?'✓ OK':'✗ LATE',sub:d2pre>=0?`อีก ${d2pre} วัน`:`ช้า ${Math.abs(d2pre)} วัน`,cls:d2pre>=0?'green':'red'},
+  ];
+  document.getElementById('kpiRow').innerHTML=kpis.map(k=>`
+    <div class="kpi ${k.cls}">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>`).join('');
+}
+
+// ── Feasibility Banner ──
+function renderFeasBanner(){
+  const{d2pre,sc,eLaunch,ePre,minRounds,launchDate}=G;
+  let html='';
+  if(d2pre>=0){
+    html=`<div class="feas-banner ok">
+      <div class="icon">✅</div>
+      <div class="body">
+        <div class="title">Timeline เป็นไปได้</div>
+        <div style="font-size:13px">Pre-Screen รอบแรก <strong>${fmt(sc.firstPre)} (${DAY_TH[sc.firstPre.getDay()]})</strong> — อีก <strong>${d2pre} วัน</strong></div>
+        <div style="font-size:12px;color:var(--tm);margin-top:2px">Earliest possible launch: <strong style="color:var(--b)">${fmt(eLaunch)}</strong></div>
+      </div>
+    </div>`;
+  } else {
+    const optA=minRounds>0
+      ?`<div class="opt-card a">
+          <div class="opt-label">Option A — ลด Screening</div>
+          <div class="opt-val">ตัด Step ต้น → เหลือ <strong>${minSeq.map(s=>({S:'S',FF:'FF',PS:'PS'}[s])).join('→')}</strong></div>
+          <button class="opt-btn a" onclick="applyOption('seq','${JSON.stringify(minSeq).replace(/'/g,"\\'")}')">ใช้ Sequence นี้</button>
+        </div>`
+      :`<div class="opt-card a"><div class="opt-label" style="color:var(--r)">Option A — ไม่มี sequence ที่ feasible</div><div class="opt-val" style="color:var(--td)">Launch Date นี้สั้นเกินไป</div></div>`;
+    const optB=`<div class="opt-card b">
+      <div class="opt-label">Option B — เลื่อน Launch Date</div>
+      <div class="opt-val">Launch <strong>${fmt(eLaunch)}</strong> เป็นวันเร็วสุด</div>
+      <button class="opt-btn b" onclick="applyOption('date','${eLaunch.toISOString().split('T')[0]}')">เปลี่ยนเป็น ${fmt(eLaunch)}</button>
+    </div>`;
+    html=`<div class="feas-banner warn">
+      <div class="icon">⚠️</div>
+      <div class="body">
+        <div class="title">Timeline ไม่ feasible</div>
+        <div style="font-size:13px">Pre-Screen รอบแรกต้องเริ่ม <strong>${fmt(sc.firstPre)}</strong> — ผ่านมาแล้ว <strong>${Math.abs(d2pre)} วัน</strong></div>
+        <div class="feas-options">${optA}${optB}</div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('feasBanner').innerHTML=html;
+}
+
+function applyOption(type,val){
+  if(type==='seq'){
+    SEQ=JSON.parse(val);
+    renderSeq();
+  } else {
+    document.getElementById('launchDate').value=val;
+  }
+  livePreview();
+  buildDashboard();
+}
+
+// ── GANTT ──
+function renderGantt(){
+  const{launchDate,today,sc,stageGroups}=G;
+
+  // find date range
+  let minD=new Date(launchDate),maxD=new Date(launchDate);
+  sc.all.forEach(s=>{if(s.date<minD)minD=new Date(s.date);if(s.date>maxD)maxD=new Date(s.date)});
+  stageGroups.forEach(g=>g.stages.forEach(s=>{
+    const sd=addDays(launchDate,s.offset);
+    const ed=addDays(sd,s.dur);
+    if(sd<minD)minD=new Date(sd);
+    if(ed>maxD)maxD=new Date(ed);
+  }));
+  minD=addDays(minD,-5);maxD=addDays(maxD,5);
+  const totalDays=diffDays(minD,maxD)||1;
+
+  function pct(d){return Math.max(0,Math.min(100,diffDays(minD,d)/totalDays*100))}
+  function pctW(d,dur){return Math.max(0.3,Math.min(100-pct(d),dur/totalDays*100))}
+
+  // month ruler
+  const rulerMonths=document.getElementById('rulerMonths');
+  rulerMonths.innerHTML='';
+  let cur=new Date(minD.getFullYear(),minD.getMonth(),1);
+  while(cur<=maxD){
+    const mStart=cur<minD?minD:cur;
+    const mEnd=new Date(cur.getFullYear(),cur.getMonth()+1,0);
+    const mEndC=mEnd>maxD?maxD:mEnd;
+    const w=diffDays(mStart,mEndC)/totalDays*100;
+    const el=document.createElement('div');
+    el.className='ruler-month';
+    el.style.width=w+'%';
+    el.textContent=MONTH_TH[cur.getMonth()]+' '+(cur.getFullYear()+543).toString();
+    rulerMonths.appendChild(el);
+    cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);
+  }
+
+  // today line pct
+  const todayPct=pct(today);
+
+  let html='';
+
+  // helper: make a row with a bar
+  function makeRow(label,icon,startDate,dur,colorClass,isMilestone=false,isLaunchFlag=false){
+    const lPct=pct(startDate);
+    const wPct=pctW(startDate,dur);
+    const barClass=isMilestone?(isLaunchFlag?'gantt-bar milestone-bar launch-bar':'gantt-bar milestone-bar'):('gantt-bar '+colorClass);
+    const labelText=dur>3?fmt(startDate):'';
+    const tooltip=`data-tip="${label}: ${fmt(startDate)} → ${fmt(addDays(startDate,dur-1))} (${dur} วัน)"`;
+    const pin=isMilestone?`<div class="ms-pin ${isLaunchFlag?'launch':''}" style="left:${lPct}%" ${tooltip}></div>`:'';
+    return`<div class="gantt-row">
+      <div class="row-label"><span class="stage-icon">${icon}</span><span>${label}</span></div>
+      <div class="row-chart" ${tooltip} onmouseenter="showTip(event,this)" onmouseleave="hideTip()">
+        <div class="today-line" style="left:${todayPct}%"></div>
+        <div class="${barClass}" style="left:${lPct}%;width:${wPct}%">${labelText}</div>
+        ${pin}
+      </div>
+    </div>`;
+  }
+
+  // SCREENING group
+  html+=`<div class="gantt-row group-header"><div class="row-label">🔎 Screening & Selection</div><div class="row-chart"><div class="today-line" style="left:${todayPct}%"></div></div></div>`;
+  sc.all.forEach(s=>{
+    const icon=s.type==='prescreen'?'🔍':s.type==='ff'?'🧪':'✅';
+    const cls='screen';
+    html+=makeRow(s.label,icon,s.date,1,cls);
+  });
+
+  // Other groups
+  stageGroups.forEach(g=>{
+    html+=`<div class="gantt-row group-header"><div class="row-label">${
+      g.color==='rd'?'🔬':g.color==='qc'?'📸':g.color==='pkg'?'📦':'⚙️'
+    } ${g.group}</div><div class="row-chart"><div class="today-line" style="left:${todayPct}%"></div></div></div>`;
+    g.stages.forEach(s=>{
+      const sd=addDays(launchDate,s.offset);
+      html+=makeRow(s.name,
+        s.isLaunch?'🚀':s.milestone?'⭐':
+        g.color==='rd'?'·':g.color==='qc'?'·':g.color==='pkg'?'·':'·',
+        sd,s.dur,g.color,s.milestone,s.isLaunch);
+    });
+  });
+
+  document.getElementById('ganttBody').innerHTML=html;
+  // attach tooltips
+  document.querySelectorAll('[data-tip]').forEach(el=>{
+    el.onmouseenter=e=>showTip(e,el);
+    el.onmouseleave=hideTip;
+  });
+}
+
+function showTip(e,el){
+  const t=document.getElementById('tooltip');
+  t.textContent=el.getAttribute('data-tip');
+  t.style.display='block';
+  t.style.left=e.clientX+12+'px';
+  t.style.top=e.clientY-8+'px';
+}
+function hideTip(){document.getElementById('tooltip').style.display='none'}
+
+// ── Detail table ──
+function renderDetailTable(){
+  const{launchDate,today,sc,stageGroups}=G;
+  let rows='<tr><th>Stage</th><th>วันที่</th><th>Duration</th><th>เหลืออีก</th></tr>';
+  const allItems=[
+    ...sc.all.map(s=>({name:s.label,date:s.date,dur:1})),
+    ...stageGroups.flatMap(g=>g.stages.map(s=>({name:s.name,date:addDays(launchDate,s.offset),dur:s.dur}))),
+  ].sort((a,b)=>a.date-b.date);
+
+  allItems.forEach(({name,date,dur})=>{
+    const d=diffDays(today,date);
+    let cls='date-cell';
+    let rel='';
+    if(d<0){cls+=' past';rel=`${Math.abs(d)}วันที่แล้ว`}
+    else if(d===0){cls+=' today';rel='วันนี้'}
+    else if(d<=7){cls+=' soon';rel=`อีก ${d} วัน`}
+    else rel=`อีก ${d} วัน`;
+    rows+=`<tr><td>${name}</td><td class="${cls}">${fmt(date)} ${DAY_TH[date.getDay()]}</td><td style="font-family:var(--mono);font-size:11px;color:var(--td)">${dur} วัน</td><td style="font-size:11px;color:var(--tm)">${rel}</td></tr>`;
+  });
+  document.getElementById('detailTable').innerHTML=rows;
+}
+
+function toggleDetail(){
+  const w=document.getElementById('detailWrap');
+  const b=document.querySelector('.toggle-btn');
+  if(w.style.display==='block'){w.style.display='none';b.textContent='แสดง ▾'}
+  else{w.style.display='block';b.textContent='ซ่อน ▴'}
+}
+
+// ── Nav ──
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const map={input:0,dash:1};
+  document.querySelectorAll('.tab-btn')[map[id]].classList.add('active');
+}
+
+function copyCSV(){
+  if(!G.launchDate)return;
+  let csv='Stage,วันที่,Duration\n';
+  G.sc.all.forEach(s=>csv+=`"${s.label}","${fmt(s.date)}","1"\n`);
+  G.stageGroups.forEach(g=>g.stages.forEach(s=>csv+=`"${s.name}","${fmt(addDays(G.launchDate,s.offset))}","${s.dur}"\n`));
+  navigator.clipboard.writeText(csv).then(()=>alert('Copied!'));
+}
+
+function buildAllStages(){
+  if(!G.launchDate) return [];
+  const LD = G.launchDate;
+  const pType = G.pType;
+  const isFS = pType==='frozen_soup';
+  const isFM = pType==='frozen_meal';
+  const isCS = pType==='chilled_sleeve';
+  const filmEl = document.getElementById('pkgFilmDur');
+  const topFilmDur = isFS ? 21 : (filmEl ? +filmEl.value : 45);
+  const postPSLead = topFilmDur + (isCS ? 45 : 0) + 14;
+
+  // PS anchor
+  let psAnchor = new Date(LD);
+  psAnchor.setDate(psAnchor.getDate() - postPSLead);
+  let s4=0; while(psAnchor.getDay()!==2 && s4++<14) psAnchor.setDate(psAnchor.getDate()-1);
+  const PS = startOfDay(psAnchor);
+
+  const rows = [];
+
+  // Screening
+  rows.push({task:'── Screening & Selection ──',start:'',end:'',days:'',group:''});
+  G.sc.all.forEach(e=>{
+    rows.push({task:e.label,start:fmtISO(e.date),end:fmtISO(e.date),days:1,group:'Screening'});
+  });
+
+  if(isCS){
+    // CHILLED SLEEVE stages post-PS
+    rows.push({task:'── R&D / Product Information ──',start:'',end:'',days:'',group:''});
+    [
+      {task:'Production Microwave Testing (5 วัน)',start:addDays(PS,1),dur:5},
+      {task:'Create PI Document (3 วัน)',          start:addDays(PS,6),dur:3},
+      {task:'RA Final PI (5 วัน)',                 start:addDays(PS,9),dur:5},
+      {task:'Nutrition Fact (14 วัน)',              start:addDays(PS,14),dur:14},
+      {task:'NF — RA Recheck (1 วัน)',              start:addDays(PS,28),dur:1},
+      {task:'FDA/สบ. (7 วัน)',                      start:addDays(PS,14),dur:7},
+      {task:'Idea Cost & Barcode (3 วัน)',          start:addDays(PS,6), dur:3},
+    ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'R&D'}));
+
+    rows.push({task:'── Photo & QC ──',start:'',end:'',days:'',group:''});
+    [
+      {task:'ขอตัวอย่างถ่ายรูป (30 วัน)',           start:addDays(PS,1), dur:30},
+      {task:'Test RD / Pilot Test',                start:addDays(LD,-21),dur:1},
+      {task:'ตรวจจุลินทรีย์ Internal (18 วัน)',     start:addDays(PS,1), dur:18},
+      {task:'ตรวจจุลินทรีย์ External (18 วัน) ⚠️ ผลต้องออกก่อน First Prod 2 wk',start:addDays(PS,1),dur:18},
+    ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'QC'}));
+
+    rows.push({task:'── Packaging Development ──',start:'',end:'',days:'',group:''});
+    [
+      {task:'AW Design (3 วัน)',                          start:addDays(PS,1), dur:3},
+      {task:'RD/RA Review & Approved (5 วัน)',            start:addDays(PS,4), dur:5},
+      {task:'QA 7-11 Approved (7 วัน)',                   start:addDays(PS,9), dur:7},
+      {task:'Final AW to Supplier',                       start:addDays(PS,16),dur:1},
+      {task:'Digital Proof (2 วัน)',                      start:addDays(PS,17),dur:2},
+      {task:'Paper Proof (2 วัน)',                        start:addDays(PS,19),dur:2},
+      {task:'เปิด PO สั่งซื้อ PKG',                      start:addDays(PS,19),dur:1},
+      {task:`Top Film Production (${topFilmDur} วัน)`,   start:addDays(PS,1), dur:topFilmDur},
+      {task:'Sleeve Enter Factory (7 วัน)',               start:addDays(LD,-14),dur:7},
+      {task:'Packaging เทสฟิล์ม (3 วัน)',                 start:addDays(LD,-14),dur:3},
+    ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'PKG'}));
+
+    rows.push({task:'── Production & Launch ──',start:'',end:'',days:'',group:''});
+    [
+      {task:'⭐ First Production',        start:addDays(LD,-4),dur:1},
+      {task:'First Order 1 (อังคาร)',     start:addDays(LD,-2),dur:1},
+      {task:'First Order 2 (พุธ)',        start:addDays(LD,-1),dur:1},
+      {task:'🚀 LAUNCH (พฤหัส)',          start:LD,            dur:1},
+    ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'Production'}));
+
+    return rows;
+  }
+
+  // FROZEN SOUP / FROZEN MEAL
+  const nfDur = isFS ? 10 : 14;
+  const qaSampleDur = isFS ? 1 : 7;
+
+  rows.push({task:'── R&D / Product Information ──',start:'',end:'',days:'',group:''});
+  [
+    {task:'Test Microwave Sample',                                    start:addDays(PS,1),  dur:1},
+    {task:`Microwave Testing (${isFS?4:1} วัน)`,                     start:addDays(PS,2),  dur:isFS?4:1},
+    {task:'แจ้งชื่อสินค้า Chef Cares',                               start:addDays(PS,1),  dur:isFM?3:1},
+    {task:'เปิด PLM Chef Cares',                                      start:addDays(PS,1),  dur:1},
+    {task:'Create PI Document (3 วัน)',                               start:addDays(PS,3),  dur:3},
+    {task:'RA Final PI (3 วัน)',                                      start:addDays(PS,6),  dur:3},
+    {task:`Nutrition Fact (${nfDur} วัน)`,                           start:addDays(PS,9),  dur:nfDur},
+    {task:'NF — RD Recheck (1 วัน)',                                  start:addDays(PS,23), dur:1},
+    {task:'NF — RA Recheck (2 วัน)',                                  start:addDays(PS,24), dur:2},
+    {task:'FDA (7 วัน work)',                                         start:addDays(PS,26), dur:7},
+    {task:'Idea Cost',                                                start:addDays(PS,3),  dur:1},
+    {task:'Barcode',                                                  start:addDays(PS,1),  dur:1},
+  ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'R&D'}));
+
+  rows.push({task:'── Photo & QC ──',start:'',end:'',days:'',group:''});
+  [
+    {task:`ขอตัวอย่างถ่ายรูป (${isFS?'6+6':'5+5'} ถาด)`,            start:addDays(PS,1),  dur:30},
+    {task:'Test RD / Pilot Test',                                    start:addDays(LD,-21),dur:1},
+    {task:'ตรวจจุลินทรีย์ Internal (30 วัน)',                        start:addDays(PS,1),  dur:30},
+  ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'QC'}));
+
+  rows.push({task:'── Packaging Development ──',start:'',end:'',days:'',group:''});
+  const pkgRows = [
+    {task:'AW Design (1 วัน)',                                        start:addDays(PS,1),  dur:1},
+    {task:'RD/RA Review & Approved (2 วัน)',                         start:addDays(PS,2),  dur:2},
+    {task:'เอกสาร QA 10 รายการ (1 วัน)',                              start:addDays(PS,4),  dur:1},
+    {task:`QA 7-11 Approved (${isFS?7:1} วัน)`,                      start:addDays(PS,5),  dur:isFS?7:1},
+    {task:`ส่งตัวอย่าง QA (${qaSampleDur} วัน)`,                     start:addDays(PS,6),  dur:qaSampleDur},
+    {task:'Final AW to Supplier',                                    start:addDays(PS,7),  dur:1},
+    {task:'Digital Proof (1 วัน)',                                    start:addDays(PS,8),  dur:1},
+    {task:`Paper Proof (${isFS?1:2} วัน)`,                           start:addDays(PS,9),  dur:isFS?1:2},
+    ...(isFM?[{task:'Approved Paper Proof (2 วัน)',start:addDays(PS,11),dur:2}]:[]),
+    {task:'เปิด PO สั่งซื้อ PKG',                                     start:addDays(PS,9),  dur:1},
+    {task:`PKG Production — ${isFS?`Sticker ${topFilmDur} วัน`:`Top Film ${topFilmDur} วัน`}`, start:addDays(PS,1), dur:topFilmDur},
+    {task:'PKG Enter Factory (7 วัน)',                                start:addDays(LD,-14),dur:7},
+    {task:'Packaging เทสฟิล์ม',                                       start:addDays(LD,-14),dur:1},
+    {task:'Scan Barcode',                                             start:addDays(LD,-8), dur:1},
+  ];
+  pkgRows.forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'PKG'}));
+
+  rows.push({task:'── Production & Launch ──',start:'',end:'',days:'',group:''});
+  [
+    {task:'Test Run (Chef Cares เข้าด้วย)',                          start:addDays(LD,-8), dur:1},
+    {task:'⭐ First Production',                                      start:addDays(LD,-7), dur:1},
+    {task:'Stock (9 วัน)',                                            start:addDays(LD,-7), dur:9},
+    {task:`First Order 1 (${isFS?'เสาร์':'อังคาร'})`,               start:addDays(LD,-2), dur:1},
+    {task:`First Order 2 (${isFS?'จันทร์':'พุธ'})`,                  start:addDays(LD,0),  dur:1},
+    {task:'🚀 LAUNCH',                                                start:LD,             dur:1},
+  ].forEach(s=>rows.push({task:s.task,start:fmtISO(s.start),end:fmtISO(addDays(s.start,s.dur-1)),days:s.dur,group:'Production'}));
+
+  return rows;
+}
+
+function fmtISO(d){
+  if(!d) return '';
+  const dd=d.getDate().toString().padStart(2,'0');
+  const mm=(d.getMonth()+1).toString().padStart(2,'0');
+  const yy=d.getFullYear().toString();
+  return `${dd}/${mm}/${yy}`;
+}
+
+function exportXLSX(){
+  if(!G.launchDate){ alert('กรุณาสร้าง Dashboard ก่อนนะ'); return; }
+  const btn = document.getElementById('xlsxBtn');
+  btn.textContent = '⏳ กำลัง generate...';
+  btn.disabled = true;
+
+  setTimeout(()=>{
+    try {
+      const wb = XLSX.utils.book_new();
+
+      // ── Sheet 1: Day-Timeline ──────────────────────────────────────────
+      const rows = buildAllStages();
+      const pName = G.productName;
+      const pType = G.pType==='frozen_soup'?'Frozen Soup (Sticker)':'Frozen Meal (Film)';
+      const filmEl = document.getElementById('pkgFilmDur');
+      const pkgDur = G.pType==='frozen_soup'?21:(filmEl?+filmEl.value:45);
+
+      // Header rows
+      const wsData = [
+        [pName,'','','',''],
+        [`Product Type: ${pType} | PKG Film: ${pkgDur} วัน | Launch: ${fmtISO(G.launchDate)}`,'','','',''],
+        [`Generated: ${fmtISO(startOfDay(new Date()))}`,'','','',''],
+        ['','','','',''],
+        ['TASK','START','END','DAYS','GROUP'],
+      ];
+
+      rows.forEach(r=>{
+        wsData.push([r.task, r.start, r.end, r.days||'', r.group||'']);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+      // Column widths
+      ws['!cols'] = [
+        {wch:50}, {wch:12}, {wch:12}, {wch:8}, {wch:16}
+      ];
+
+      // Style header row (row 5 = index 4)
+      const headerStyle = {font:{bold:true}, fill:{fgColor:{rgb:'1E2330'}}};
+      ['A5','B5','C5','D5','E5'].forEach(ref=>{
+        if(ws[ref]) ws[ref].s = headerStyle;
+      });
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Day-Timeline');
+
+      // ── Sheet 2: Screening Calendar ───────────────────────────────────
+      const scData = [
+        ['Screening Calendar','',''],
+        ['','',''],
+        ['Stage','วันที่','วัน'],
+      ];
+      G.sc.all.forEach(e=>{
+        const dayName = ['อา','จ','อ','พ','พฤ','ศ','ส'][e.date.getDay()];
+        scData.push([e.label, `${fmtISO(e.date)} (${dayName})`, 1]);
+      });
+
+      const wsSc = XLSX.utils.aoa_to_sheet(scData);
+      wsSc['!cols'] = [{wch:36},{wch:18},{wch:8}];
+      XLSX.utils.book_append_sheet(wb, wsSc, 'Screening');
+
+      // ── Download ──────────────────────────────────────────────────────
+      const safeName = pName.replace(/[^a-zA-Z0-9ก-๙]/g,'_');
+      XLSX.writeFile(wb, `NPD_${safeName}_Timeline.xlsx`);
+
+      btn.textContent = '✅ Downloaded!';
+      setTimeout(()=>{ btn.textContent='📥 Export .xlsx'; btn.disabled=false; }, 2500);
+    } catch(err){
+      console.error(err);
+      btn.textContent = '❌ Error — ลองใหม่';
+      btn.disabled = false;
+    }
+  }, 50);
+}
+
+// init
+const defDate=new Date();defDate.setDate(defDate.getDate()+90);
+document.getElementById('launchDate').value=defDate.toISOString().split('T')[0];
+renderSeq();
+renderScreenDateList();
+livePreview();
+</script>
+</body>
+</html>
