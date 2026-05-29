@@ -347,11 +347,14 @@ tr.conflict .step-name{color:var(--accent2);}
 
       <div class="seq-arrow">→</div>
 
-      <!-- Microwave (locked) -->
-      <div class="seq-block" style="opacity:.6;pointer-events:none;">
+      <!-- Microwave toggle -->
+      <div class="seq-block">
         <div class="seq-lbl" style="color:var(--accent);">Microwave Test</div>
-        <div style="font-size:11px;color:var(--text2);padding:4px 0;">เริ่มหลัง PS</div>
-        <div class="seq-sub">→ เปิด PLM → PI...</div>
+        <label class="seq-ff-toggle" style="margin-top:6px;justify-content:center;">
+          <input type="checkbox" id="earlyMW" onchange="onEarlyMWToggle()">
+          <span id="earlyMWLabel">ปกติ (หลัง PS)</span>
+        </label>
+        <div class="seq-sub">⚡ tick = เทสก่อน PS ด้วย</div>
       </div>
     </div>
   </div>
@@ -545,6 +548,11 @@ function onFF2Toggle() {
   document.getElementById('ff2label').textContent=document.getElementById('ff2on').checked?'เปิดอยู่':'ปิดอยู่';
 }
 
+function onEarlyMWToggle() {
+  const on = document.getElementById('earlyMW').checked;
+  document.getElementById('earlyMWLabel').textContent = on ? '⚡ เทสก่อน PS' : 'ปกติ (หลัง PS)';
+}
+
 function showTab(t,btn) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -628,29 +636,37 @@ function buildScreening(startDate) {
 // forward from psEndDate, OR backward from launchDate
 // ============================================================
 function getProductionSteps(pkgLd) {
-  // Lead times (days)
-  // forward = each step's duration, chained from PS end
-  // backward = days before launch
-  const isFrozen=currentType==='frozen';
-  return [
-    // Product Info phase
-    {id:'microwave',  phase:'product',   th:'Microwave Testing (4 วัน)',           en:'Microwave Test',     fwdLd:4,  dbl:76, note:'30 ถ้วย จากไลน์'},
-    {id:'plm',        phase:'product',   th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',           fwdLd:1,  dbl:80, note:'ทำก่อน Microwave'},
-    {id:'pi_doc',     phase:'product',   th:'Create PI Document (3 วัน)',          en:'PI Document',        fwdLd:3,  dbl:74, note:''},
-    {id:'ra_pi',      phase:'product',   th:`RA Final PI (${isFrozen?2:3} วัน)`,  en:'RA Approve PI',      fwdLd:isFrozen?2:3, dbl:isFrozen?70:60, note:''},
-    ...(isFrozen?[
-      {id:'nf',       phase:'product',   th:'Nutrition Fact (10 วัน)',             en:'NF',                 fwdLd:10, dbl:62, note:'Frozen ต้องตรวจ'},
-      {id:'nf_rd',    phase:'product',   th:'NF — RD Recheck (1 วัน)',            en:'NF RD Recheck',      fwdLd:1,  dbl:52, note:''},
-      {id:'nf_ra',    phase:'product',   th:'NF — RA Recheck (2 วัน)',            en:'NF RA Recheck',      fwdLd:2,  dbl:50, note:''},
-    ]:[
-      {id:'nf_skip',  phase:'product',   th:'Nutrition Fact — ไม่ตรวจ (Chilled)', en:'NF: N/A',            fwdLd:0,  dbl:null, note:'ไม่ต้องตรวจ', special:'skip'},
+  const isFrozen = currentType === 'frozen';
+  const earlyMW  = document.getElementById('earlyMW') && document.getElementById('earlyMW').checked;
+
+  // Microwave Test: ถ้า earlyMW = อยู่ใน screening phase (handled separately),
+  // ถ้าไม่ = อยู่หลัง PS เป็น step แรกของ product phase
+  const mwStep = earlyMW
+    ? {id:'microwave', phase:'product', th:'Microwave Testing (4 วัน) ⚡ Early',  en:'Microwave Test (Early)', fwdLd:4, dbl:78, note:'เทสก่อน PS · 30 ถ้วย'}
+    : {id:'microwave', phase:'product', th:'Microwave Testing (4 วัน)',            en:'Microwave Test',         fwdLd:4, dbl:76, note:'หลัง PS · 30 ถ้วย'};
+
+  const steps = [
+    // ── Product Info phase ──────────────────────────────────
+    // Brief ส่งให้โรงงานอยู่ในช่วง Pre-Screen → แสดงเป็น step แรกหลัง PS
+    {id:'brief',      phase:'product',  th:'ส่ง Brief + ถ่ายสูตรให้โรงงาน',        en:'Send Brief to Factory',  fwdLd:1, dbl:82, note:'หลังลูกค้า OK · ปิดสูตร'},
+    mwStep,
+    {id:'plm',        phase:'product',  th:'เปิด PLM + แจ้งชื่อสินค้า',            en:'Open PLM',               fwdLd:1, dbl:72, note:'ทำหลัง Microwave'},
+    {id:'pi_doc',     phase:'product',  th:'Create PI Document (3 วัน)',            en:'PI Document',            fwdLd:3, dbl:70, note:''},
+    {id:'ra_pi',      phase:'product',  th:`RA Final PI (${isFrozen?2:3} วัน)`,    en:'RA Approve PI',          fwdLd:isFrozen?2:3, dbl:isFrozen?66:64, note:isFrozen?'Frozen 2 วัน':'Chilled 3 วัน'},
+    ...(isFrozen ? [
+      {id:'nf',       phase:'product',  th:'Nutrition Fact (10 วัน)',               en:'NF',                     fwdLd:10, dbl:58, note:'Frozen ต้องตรวจ'},
+      {id:'nf_rd',    phase:'product',  th:'NF — RD Recheck (1 วัน)',              en:'NF RD Recheck',          fwdLd:1,  dbl:48, note:''},
+      {id:'nf_ra',    phase:'product',  th:'NF — RA Recheck (2 วัน)',              en:'NF RA Recheck',          fwdLd:2,  dbl:46, note:''},
+    ] : [
+      {id:'nf_skip',  phase:'product',  th:'Nutrition Fact — ไม่ตรวจ (Chilled)',   en:'NF: N/A',                fwdLd:0,  dbl:null, note:'Chilled ไม่ต้องตรวจ', special:'skip'},
     ]),
-    {id:'fda',        phase:'product',   th:'FDA Process (5 วัน)',                en:'FDA',                fwdLd:5,  dbl:48, note:''},
-    {id:'barcode',    phase:'product',   th:'Barcode',                            en:'Barcode',            fwdLd:1,  dbl:67, note:'ขอก่อน AW'},
-    {id:'ideacost',   phase:'product',   th:'Idea Cost',                          en:'Cost Est.',          fwdLd:1,  dbl:75, note:''},
-    {id:'pkg_trial',  phase:'product',   th:'PKG Trial',                          en:'PKG Trial',          fwdLd:1,  dbl:55, note:''},
-    {id:'microbio',   phase:'product',   th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',      en:'Micro/Chem',         fwdLd:30, dbl:48, note:'Internal · 1 เดือน'},
-    // Packaging
+    // FDA: 7 วันทำงาน = 10 วันปฏิทิน (ทั้ง Frozen และ Chilled)
+    {id:'fda',        phase:'product',  th:'FDA Process (7 วันทำงาน / ~10 วัน)',   en:'FDA',                    fwdLd:10, dbl:44, note:'7 วันทำงาน'},
+    {id:'barcode',    phase:'product',  th:'Barcode',                              en:'Barcode',                fwdLd:1,  dbl:60, note:'ขอก่อน AW'},
+    {id:'ideacost',   phase:'product',  th:'Idea Cost',                            en:'Cost Est.',              fwdLd:1,  dbl:68, note:''},
+    {id:'pkg_trial',  phase:'product',  th:'PKG Trial',                            en:'PKG Trial',              fwdLd:1,  dbl:50, note:''},
+    {id:'microbio',   phase:'product',  th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',        en:'Micro/Chem',             fwdLd:30, dbl:44, note:'Internal · 1 เดือน'},
+    // ── Packaging ───────────────────────────────────────────
     {id:'photoshoot', phase:'packaging', th:'Photo Shoot',                        en:'Photography',        fwdLd:1,  dbl:50, note:'6 portion + 6 FG'},
     {id:'aw_design',  phase:'packaging', th:'Artwork Design (1 วัน)',             en:'AW Design',          fwdLd:1,  dbl:46, note:'ไม่รวมถ่ายรูป'},
     {id:'aw_review',  phase:'packaging', th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',          fwdLd:2,  dbl:44, note:''},
@@ -674,6 +690,7 @@ function getProductionSteps(pkgLd) {
     {id:'order2',     phase:'launch',    th:'First Order 2 (จันทร์)',             en:'First Order 2',      fwdLd:1,  dbl:2,  note:''},
     {id:'launch',     phase:'launch',    th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',             fwdLd:1,  dbl:0,  note:isFrozen?'Repeat 3,000 ถาด/วัน':'Repeat 2,500 ถาด/วัน'},
   ];
+  return steps;
 }
 
 // ============================================================
