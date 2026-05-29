@@ -11,27 +11,27 @@
   --accent:#00d4a0;--accent2:#ff6b6b;--accent3:#ffc947;
   --frozen:#4fc3f7;--chilled:#f48fb1;
   --text:#e8eaf0;--text2:#8b8fa8;--text3:#5a5d72;
-  --gantt-h:32px;--radius:8px;
+  --gantt-h:30px;--radius:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
 
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 32px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;}
-.header-logo{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#000;flex-shrink:0;}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;}
+.header-logo{width:32px;height:32px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:#000;flex-shrink:0;}
 .header-title{font-size:15px;font-weight:600;}
 .header-sub{font-size:12px;color:var(--text2);}
 .header-badge{margin-left:auto;font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);}
 
-.container{max-width:1400px;margin:0 auto;padding:24px 32px;}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px;}
-.card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.card-title::before{content:'';display:inline-block;width:3px;height:13px;background:var(--accent);border-radius:2px;}
+.container{max-width:1400px;margin:0 auto;padding:22px 32px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:18px;}
+.card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.card-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--accent);border-radius:2px;}
 
 .field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
 .field label span{color:var(--text3);font-weight:400;margin-left:3px;}
 input[type="text"],input[type="date"],input[type="number"],select{
   width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;
-  padding:9px 11px;color:var(--text);font-family:'IBM Plex Sans Thai',sans-serif;
+  padding:8px 11px;color:var(--text);font-family:'IBM Plex Sans Thai',sans-serif;
   font-size:14px;transition:border-color .15s;outline:none;
 }
 input:focus,select:focus{border-color:var(--accent);}
@@ -41,78 +41,92 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
 select option{background:var(--surface);}
 
+/* Mode switcher */
+.mode-switcher{display:flex;gap:0;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:3px;margin-bottom:18px;}
+.mode-btn{flex:1;padding:10px 16px;border:none;border-radius:6px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .2s;text-align:left;}
+.mode-btn .mode-title{font-weight:600;font-size:14px;display:block;}
+.mode-btn .mode-sub{font-size:11px;opacity:.7;display:block;margin-top:1px;}
+.mode-btn.active-backward{background:rgba(255,107,107,.12);color:var(--accent2);}
+.mode-btn.active-forward{background:rgba(0,212,160,.12);color:var(--accent);}
+.mode-btn:not(.active-backward):not(.active-forward):hover{background:rgba(255,255,255,.04);}
+
 .toggle-group{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px;}
-.toggle-btn{flex:1;padding:7px 10px;border:none;border-radius:4px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap;}
+.toggle-btn{flex:1;padding:7px 10px;border:none;border-radius:4px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap;}
 .toggle-btn.active-frozen{background:rgba(79,195,247,.15);color:var(--frozen);}
 .toggle-btn.active-chilled{background:rgba(244,143,177,.15);color:var(--chilled);}
 .toggle-btn.active{background:rgba(0,212,160,.15);color:var(--accent);}
 
-.btn-calc{background:var(--accent);color:#000;border:none;border-radius:6px;padding:10px 24px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;}
-.btn-calc:hover{opacity:.85;}
-.btn-calc:active{transform:scale(.98);}
+/* Setup grids */
+.grid-4{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:12px;align-items:end;margin-bottom:14px;}
+.grid-2{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;align-items:start;margin-bottom:14px;}
 
-/* Setup grid */
-.setup-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:14px;align-items:end;margin-bottom:16px;}
-
-/* PKG row */
-.pkg-row{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:16px;align-items:start;}
-.pkg-info{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 13px;margin-top:6px;display:flex;justify-content:space-between;align-items:center;}
+/* PKG info */
+.pkg-info{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:9px 12px;margin-top:5px;display:flex;justify-content:space-between;}
 .pkg-info-label{font-size:12px;color:var(--text3);}
 .pkg-info-val{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);font-weight:600;}
-.pkg-warn-val{color:var(--accent3) !important;}
+.pkg-warn-val{color:var(--accent3)!important;}
 
-/* FF calendar */
-.ff-ref{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}
-.ff-ref-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px;}
-.ff-ref-body{font-size:11px;color:var(--text2);line-height:2;}
+/* FF ref */
+.ff-ref{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:11px 13px;}
+.ff-ref-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:7px;}
+.ff-ref-body{font-size:11px;color:var(--text2);line-height:2.1;}
 .ff-ref-body strong{color:var(--text);font-weight:600;}
 
-/* Screening sequence builder */
-.seq-builder{background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
-.seq-header{padding:10px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.seq-body{padding:16px;}
-.seq-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:8px;}
+/* Sequence builder */
+.seq-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px;}
+.seq-head{padding:10px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.seq-body{padding:14px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.seq-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 13px;min-width:110px;text-align:center;}
+.seq-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;}
+.lbl-pre{color:var(--accent3);}
+.lbl-ff{color:var(--chilled);}
+.lbl-ps{color:var(--accent);}
+.seq-counter{display:flex;align-items:center;justify-content:center;gap:7px;}
+.cnt-btn{width:22px;height:22px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;font-size:14px;line-height:1;transition:all .15s;}
+.cnt-btn:hover{border-color:var(--accent);color:var(--accent);}
+.cnt-val{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;min-width:20px;text-align:center;}
+.seq-sub{font-size:10px;color:var(--text3);margin-top:5px;}
+.seq-arrow{color:var(--text3);font-size:18px;flex-shrink:0;}
+.seq-ff-toggle{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);cursor:pointer;margin-top:5px;}
+.seq-ff-toggle input{width:auto;accent-color:var(--chilled);}
 
-/* Each block in the sequence */
-.seq-block{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.seq-block-inner{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;min-width:120px;text-align:center;}
-.seq-block-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
-.seq-block-label.ps-color{color:var(--accent);}
-.seq-block-label.ff-color{color:var(--chilled);}
-.seq-block-label.pre-color{color:var(--accent3);}
-.seq-block-count{display:flex;align-items:center;justify-content:center;gap:6px;}
-.seq-count-btn{width:24px;height:24px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.seq-count-btn:hover{border-color:var(--accent);color:var(--accent);}
-.seq-count-val{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;min-width:24px;text-align:center;}
-.seq-block-sub{font-size:10px;color:var(--text3);text-align:center;}
+/* Calc button */
+.btn-calc{background:var(--accent);color:#000;border:none;border-radius:6px;padding:10px 26px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s;display:flex;align-items:center;gap:8px;}
+.btn-calc:hover{opacity:.85;}
+.btn-calc:active{transform:scale(.98);}
+.btn-calc.backward{background:var(--accent2);color:#fff;}
+.btn-calc.forward{background:var(--accent);color:#000;}
 
-/* Arrow between blocks */
-.seq-arrow{color:var(--text3);font-size:16px;flex-shrink:0;align-self:center;}
+/* Results header — mode indicator */
+.result-mode-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);}
+.result-mode-pill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;}
+.pill-backward{background:rgba(255,107,107,.15);color:var(--accent2);}
+.pill-forward{background:rgba(0,212,160,.15);color:var(--accent);}
+.result-headline{font-size:14px;font-weight:600;}
+.result-headline span{font-family:'IBM Plex Mono',monospace;}
 
-/* Optional block toggle */
-.seq-optional-toggle{font-size:11px;color:var(--text3);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:2px;}
-.seq-optional-toggle:hover{color:var(--accent);}
-.seq-block.disabled .seq-block-inner{opacity:.35;pointer-events:none;}
-
-/* FF2 add/remove */
-.btn-add-ff2{background:transparent;border:1px dashed var(--border);border-radius:6px;padding:8px 14px;color:var(--text3);font-size:12px;cursor:pointer;transition:all .15s;font-family:'IBM Plex Sans Thai',sans-serif;}
-.btn-add-ff2:hover{border-color:var(--chilled);color:var(--chilled);}
-.btn-remove-ff2{background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;margin-top:2px;}
-.btn-remove-ff2:hover{color:var(--accent2);}
-
-/* Summary */
-.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;}
-.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;}
-.stat-value{font-size:18px;font-weight:600;font-family:'IBM Plex Mono',monospace;}
+/* Summary strip */
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;}
+.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;}
+.stat-value{font-size:17px;font-weight:600;font-family:'IBM Plex Mono',monospace;}
 .stat-sub{font-size:11px;color:var(--text2);margin-top:2px;}
 .urgent .stat-value{color:var(--accent2);}
 .ok .stat-value{color:var(--accent);}
 .warn .stat-value{color:var(--accent3);}
 
+/* Alerts */
+.alert{border-radius:var(--radius);padding:11px 15px;margin-bottom:10px;font-size:13px;display:flex;gap:10px;}
+.alert-warn{background:rgba(255,201,71,.08);border:1px solid rgba(255,201,71,.2);color:var(--accent3);}
+.alert-danger{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);color:var(--accent2);}
+.alert-ok{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2);color:var(--accent);}
+.alert-info{background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);color:var(--frozen);}
+.alert-title{font-weight:600;margin-bottom:1px;}
+.alert-msg{color:var(--text2);font-size:12px;}
+
 /* Tabs */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);padding:0 22px;}
-.tab-btn{padding:10px 18px;border:none;background:transparent;color:var(--text2);font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);padding:0 20px;}
+.tab-btn{padding:9px 16px;border:none;background:transparent;color:var(--text2);font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
 .tab-btn:hover:not(.active){color:var(--text);}
 .tab-panel{display:none;}
@@ -121,72 +135,70 @@ select option{background:var(--surface);}
 /* Table */
 .table-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;}
-th{text-align:left;padding:9px 13px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;}
-td{padding:10px 13px;border-bottom:1px solid rgba(42,45,58,.5);vertical-align:middle;}
+th{text-align:left;padding:8px 12px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:9px 12px;border-bottom:1px solid rgba(42,45,58,.5);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:rgba(255,255,255,.02);}
 
-.phase-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;padding:3px 7px;border-radius:4px;white-space:nowrap;}
-.phase-screening{background:rgba(255,201,71,.12);color:var(--accent3);}
-.phase-product{background:rgba(0,212,160,.12);color:var(--accent);}
-.phase-packaging{background:rgba(79,195,247,.12);color:var(--frozen);}
-.phase-production{background:rgba(244,143,177,.12);color:var(--chilled);}
-.phase-launch{background:rgba(255,107,107,.12);color:var(--accent2);}
-.phase-ff{background:rgba(244,143,177,.12);color:var(--chilled);}
-.phase-ps{background:rgba(0,212,160,.12);color:var(--accent);}
+/* Phase labels */
+.plbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border-radius:3px;white-space:nowrap;}
+.plbl-screening{background:rgba(255,201,71,.12);color:var(--accent3);}
+.plbl-ff{background:rgba(244,143,177,.12);color:var(--chilled);}
+.plbl-ps{background:rgba(0,212,160,.12);color:var(--accent);}
+.plbl-product{background:rgba(0,212,160,.12);color:var(--accent);}
+.plbl-packaging{background:rgba(79,195,247,.12);color:var(--frozen);}
+.plbl-production{background:rgba(244,143,177,.12);color:var(--chilled);}
+.plbl-launch{background:rgba(255,107,107,.12);color:var(--accent2);}
 
 .step-name{font-size:13px;}
 .step-eng{font-size:11px;color:var(--text3);margin-top:1px;}
-.date-cell{font-family:'IBM Plex Mono',monospace;font-size:13px;white-space:nowrap;}
-.date-past{color:var(--text3);}
-.date-today{color:var(--accent3);font-weight:600;}
-.date-soon{color:var(--accent2);}
-.date-future{color:var(--text);}
-.days-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;}
-.days-past{background:rgba(90,93,114,.3);color:var(--text3);}
-.days-today{background:rgba(255,201,71,.15);color:var(--accent3);}
-.days-soon{background:rgba(255,107,107,.15);color:var(--accent2);}
-.days-future{background:rgba(0,212,160,.1);color:var(--accent);}
-.note-cell{font-size:11px;color:var(--text3);max-width:180px;}
-.tag{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500;margin-left:4px;white-space:nowrap;}
-.tag-factory{background:rgba(0,212,160,.08);color:var(--accent);}
+.dcell{font-family:'IBM Plex Mono',monospace;font-size:12px;white-space:nowrap;}
+.d-past{color:var(--text3);}
+.d-today{color:var(--accent3);font-weight:600;}
+.d-soon{color:var(--accent2);}
+.d-ok{color:var(--text);}
+.dbadge{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+.db-past{background:rgba(90,93,114,.3);color:var(--text3);}
+.db-today{background:rgba(255,201,71,.15);color:var(--accent3);}
+.db-soon{background:rgba(255,107,107,.15);color:var(--accent2);}
+.db-ok{background:rgba(0,212,160,.1);color:var(--accent);}
+.note-cell{font-size:11px;color:var(--text3);max-width:160px;}
+.tag{font-size:10px;padding:2px 5px;border-radius:3px;font-weight:600;margin-left:4px;white-space:nowrap;}
 .tag-day{background:rgba(255,201,71,.1);color:var(--accent3);font-family:'IBM Plex Mono',monospace;}
-.tag-ff{background:rgba(244,143,177,.1);color:var(--chilled);}
-.tag-ps{background:rgba(0,212,160,.1);color:var(--accent);}
+.tag-fwd{background:rgba(0,212,160,.1);color:var(--accent);}
+.tag-bwd{background:rgba(255,107,107,.1);color:var(--accent2);}
+.tag-factory{background:rgba(79,195,247,.08);color:var(--frozen);}
+
+/* Conflict row highlight */
+tr.conflict td{background:rgba(255,107,107,.04)!important;}
+tr.conflict .step-name{color:var(--accent2);}
 
 /* Gantt */
 .gantt-wrap{overflow-x:auto;}
-.gantt-container{min-width:800px;}
-.gantt-header{display:flex;margin-left:220px;border-bottom:1px solid var(--border);}
-.gantt-month{flex-shrink:0;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);padding:7px 0;text-align:center;border-right:1px solid var(--border);}
-.gantt-row{display:flex;align-items:center;border-bottom:1px solid rgba(42,45,58,.4);height:var(--gantt-h);}
+.gantt-container{min-width:780px;}
+.gantt-header{display:flex;margin-left:210px;border-bottom:1px solid var(--border);}
+.gantt-month{flex-shrink:0;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);padding:6px 0;text-align:center;border-right:1px solid var(--border);}
+.gantt-row{display:flex;align-items:center;border-bottom:1px solid rgba(42,45,58,.35);height:var(--gantt-h);}
 .gantt-row:hover{background:rgba(255,255,255,.02);}
-.gantt-label{width:220px;flex-shrink:0;padding-right:10px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);display:flex;align-items:center;gap:5px;}
-.gantt-label .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.gantt-timeline{position:relative;height:var(--gantt-h);overflow:hidden;}
-.gantt-bar{position:absolute;top:50%;transform:translateY(-50%);height:14px;border-radius:3px;display:flex;align-items:center;padding:0 5px;font-size:10px;font-family:'IBM Plex Mono',monospace;white-space:nowrap;overflow:hidden;color:#000;font-weight:600;min-width:4px;}
-.gantt-today-line{position:absolute;top:0;bottom:0;width:1px;background:var(--accent2);opacity:.6;z-index:5;}
-.gantt-phase-header{background:var(--surface2);padding:5px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);border-bottom:1px solid var(--border);}
+.gantt-lbl{width:210px;flex-shrink:0;padding-right:8px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);display:flex;align-items:center;gap:4px;}
+.gdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.gantt-tl{position:relative;height:var(--gantt-h);overflow:hidden;}
+.gbar{position:absolute;top:50%;transform:translateY(-50%);height:12px;border-radius:3px;min-width:3px;display:flex;align-items:center;padding:0 4px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:#000;font-weight:700;overflow:hidden;white-space:nowrap;}
+.gbar.fwd-bar{opacity:.85;border:1px solid rgba(255,255,255,.2);}
+.today-line{position:absolute;top:0;bottom:0;width:1px;background:var(--accent2);opacity:.55;z-index:5;}
+.launch-line{position:absolute;top:0;bottom:0;width:1px;background:var(--accent2);opacity:.2;}
+.gphase-hdr{background:var(--surface2);padding:4px 13px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);border-bottom:1px solid var(--border);}
 
-/* Alerts */
-.alert{border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;font-size:13px;display:flex;gap:10px;}
-.alert-warn{background:rgba(255,201,71,.08);border:1px solid rgba(255,201,71,.2);color:var(--accent3);}
-.alert-danger{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);color:var(--accent2);}
-.alert-ok{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2);color:var(--accent);}
-.alert-title{font-weight:600;margin-bottom:1px;}
-.alert-msg{color:var(--text2);font-size:12px;}
-
-.empty-state{text-align:center;padding:56px 20px;color:var(--text3);}
-.empty-state .icon{font-size:36px;margin-bottom:10px;opacity:.5;}
+.empty-state{text-align:center;padding:50px 20px;color:var(--text3);}
+.empty-state .icon{font-size:34px;margin-bottom:10px;opacity:.45;}
 
 @media(max-width:900px){
-  .setup-grid{grid-template-columns:1fr 1fr;}
-  .pkg-row{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+  .grid-2{grid-template-columns:1fr;}
   .summary-strip{grid-template-columns:1fr 1fr;}
-  .container{padding:14px;}
-  .header{padding:12px 14px;}
-  .seq-flow{flex-direction:column;align-items:flex-start;}
-  .seq-arrow{transform:rotate(90deg);}
+  .container{padding:12px;}
+  .header{padding:10px 14px;}
+  .seq-body{flex-direction:column;align-items:flex-start;}
 }
 </style>
 </head>
@@ -198,22 +210,34 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="header-title">NPD Timeline Calculator</div>
     <div class="header-sub">Chef Cares · PLP-CPF</div>
   </div>
-  <div class="header-badge">v5.0 · 2026</div>
+  <div class="header-badge">v6.0 · 2026</div>
 </header>
 
 <div class="container">
 <div class="card">
-  <div class="card-title">ตั้งค่าสินค้า / Product Setup</div>
+  <div class="card-title">Mode การคำนวณ</div>
 
-  <!-- Row 1 -->
-  <div class="setup-grid">
+  <!-- Mode switcher -->
+  <div class="mode-switcher">
+    <button class="mode-btn active-backward" id="modeBtn-backward" onclick="setMode('backward')">
+      <span class="mode-title">← Backward</span>
+      <span class="mode-sub">อยากปล่อยวันไหน → รู้ว่าต้องเริ่มเมื่อไหร่</span>
+    </button>
+    <button class="mode-btn" id="modeBtn-forward" onclick="setMode('forward')">
+      <span class="mode-title">Forward →</span>
+      <span class="mode-sub">เริ่มได้วันนี้ → รู้ว่าปล่อยสินค้าได้วันไหน</span>
+    </button>
+  </div>
+
+  <!-- Product info -->
+  <div class="grid-4">
     <div class="field">
       <label>ชื่อสินค้า <span>Product Name</span></label>
       <input type="text" id="productName" placeholder="เช่น บะหมี่เป็ดราดซอส">
     </div>
-    <div class="field">
-      <label>วันที่ Launch <span>Launch Date</span></label>
-      <input type="date" id="launchDate">
+    <div class="field" id="fieldLaunch">
+      <label id="dateLabel">วันที่ Launch <span>Target Launch Date</span></label>
+      <input type="date" id="mainDate">
     </div>
     <div class="field">
       <label>ประเภท <span>Type</span></label>
@@ -232,8 +256,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
 
-  <!-- Row 2: PKG + FF ref -->
-  <div class="pkg-row">
+  <!-- PKG + FF ref -->
+  <div class="grid-2">
     <div>
       <div class="field">
         <label>ประเภท Packaging <span>PKG Type</span></label>
@@ -256,117 +280,124 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
 
-  <!-- Row 3: Screening sequence builder -->
-  <div class="seq-builder">
-    <div class="seq-header">
+  <!-- Screening sequence -->
+  <div class="seq-wrap">
+    <div class="seq-head">
       <span>🔬 Screening Sequence</span>
       <span style="font-size:11px;color:var(--text3);font-weight:400;" id="prescreenDayNote">Frozen: Pre-Screen วันพุธ</span>
     </div>
     <div class="seq-body">
-      <div class="seq-flow" id="seqFlow">
-        <!-- Pre-Screen block 1 -->
-        <div class="seq-block" id="block-pre1">
-          <div class="seq-block-inner">
-            <div class="seq-block-label pre-color">Pre-Screen</div>
-            <div class="seq-block-count">
-              <button class="seq-count-btn" onclick="adjustCount('pre1',-1)">−</button>
-              <span class="seq-count-val" id="count-pre1">4</span>
-              <button class="seq-count-btn" onclick="adjustCount('pre1',1)">+</button>
-            </div>
-            <div class="seq-block-sub" id="sub-pre1">4 รอบ · วันพุธ</div>
-          </div>
+      <!-- Pre-Screen 1 -->
+      <div class="seq-block">
+        <div class="seq-lbl lbl-pre">Pre-Screen</div>
+        <div class="seq-counter">
+          <button class="cnt-btn" onclick="adj('pre1',-1)">−</button>
+          <span class="cnt-val" id="cv-pre1">4</span>
+          <button class="cnt-btn" onclick="adj('pre1',1)">+</button>
         </div>
+        <div class="seq-sub" id="sub-pre1">4 รอบ · วันพุธ</div>
+      </div>
 
-        <div class="seq-arrow">→</div>
+      <div class="seq-arrow">→</div>
 
-        <!-- FF1 block -->
-        <div class="seq-block" id="block-ff1">
-          <div class="seq-block-inner">
-            <div class="seq-block-label ff-color">FF ครั้งที่ 1</div>
-            <div style="font-size:11px;color:var(--text2);margin-top:4px;">จากตาราง FF 2026</div>
-          </div>
+      <!-- FF1 -->
+      <div class="seq-block">
+        <div class="seq-lbl lbl-ff">FF ครั้งที่ 1</div>
+        <div style="font-size:11px;color:var(--text2);padding:4px 0;">จากตาราง FF 2026</div>
+        <div class="seq-sub">วันอังคาร</div>
+      </div>
+
+      <div class="seq-arrow">→</div>
+
+      <!-- Pre-Screen 2 (extra) -->
+      <div class="seq-block">
+        <div class="seq-lbl lbl-pre">Pre-Screen เพิ่ม</div>
+        <div class="seq-counter">
+          <button class="cnt-btn" onclick="adj('pre2',-1)">−</button>
+          <span class="cnt-val" id="cv-pre2">0</span>
+          <button class="cnt-btn" onclick="adj('pre2',1)">+</button>
         </div>
+        <div class="seq-sub">ถ้าไม่ผ่าน FF1</div>
+      </div>
 
-        <div class="seq-arrow" id="arrow-pre2">→</div>
+      <div class="seq-arrow">→</div>
 
-        <!-- Pre-Screen block 2 (optional) -->
-        <div class="seq-block" id="block-pre2">
-          <div class="seq-block-inner">
-            <div class="seq-block-label pre-color">Pre-Screen เพิ่ม</div>
-            <div class="seq-block-count">
-              <button class="seq-count-btn" onclick="adjustCount('pre2',-1)">−</button>
-              <span class="seq-count-val" id="count-pre2">0</span>
-              <button class="seq-count-btn" onclick="adjustCount('pre2',1)">+</button>
-            </div>
-            <div class="seq-block-sub">รอบเพิ่ม (ถ้าไม่ผ่าน FF1)</div>
-          </div>
+      <!-- FF2 optional -->
+      <div class="seq-block">
+        <div class="seq-lbl lbl-ff">FF ครั้งที่ 2</div>
+        <label class="seq-ff-toggle">
+          <input type="checkbox" id="ff2on" onchange="onFF2Toggle()">
+          <span id="ff2label">ปิดอยู่</span>
+        </label>
+        <div class="seq-sub">optional</div>
+      </div>
+
+      <div class="seq-arrow">→</div>
+
+      <!-- PS -->
+      <div class="seq-block">
+        <div class="seq-lbl lbl-ps">Product Selection</div>
+        <div class="seq-counter">
+          <button class="cnt-btn" onclick="adj('ps',-1)">−</button>
+          <span class="cnt-val" id="cv-ps">2</span>
+          <button class="cnt-btn" onclick="adj('ps',1)">+</button>
         </div>
+        <div class="seq-sub">ทุกวันอังคาร</div>
+      </div>
 
-        <div class="seq-arrow" id="arrow-ff2">→</div>
+      <div class="seq-arrow">→</div>
 
-        <!-- FF2 block (optional) -->
-        <div class="seq-block" id="block-ff2">
-          <div class="seq-block-inner">
-            <div class="seq-block-label ff-color">FF ครั้งที่ 2</div>
-            <div class="seq-block-count" style="margin-top:4px;">
-              <label style="font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px;cursor:pointer;">
-                <input type="checkbox" id="ff2enabled" onchange="onFF2Toggle()" style="width:auto;accent-color:var(--chilled);">
-                <span>มี FF รอบ 2</span>
-              </label>
-            </div>
-            <div class="seq-block-sub" id="sub-ff2" style="color:var(--text3);">ปิดอยู่</div>
-          </div>
-        </div>
-
-        <div class="seq-arrow">→</div>
-
-        <!-- PS block -->
-        <div class="seq-block" id="block-ps">
-          <div class="seq-block-inner">
-            <div class="seq-block-label ps-color">Product Selection</div>
-            <div class="seq-block-count">
-              <button class="seq-count-btn" onclick="adjustCount('ps',-1)">−</button>
-              <span class="seq-count-val" id="count-ps">2</span>
-              <button class="seq-count-btn" onclick="adjustCount('ps',1)">+</button>
-            </div>
-            <div class="seq-block-sub">รอบ · ทุกวันอังคาร</div>
-          </div>
-        </div>
+      <!-- Microwave (locked) -->
+      <div class="seq-block" style="opacity:.6;pointer-events:none;">
+        <div class="seq-lbl" style="color:var(--accent);">Microwave Test</div>
+        <div style="font-size:11px;color:var(--text2);padding:4px 0;">เริ่มหลัง PS</div>
+        <div class="seq-sub">→ เปิด PLM → PI...</div>
       </div>
     </div>
   </div>
 
   <div style="display:flex;justify-content:flex-end;">
-    <button class="btn-calc" onclick="calculate()">คำนวณ Timeline →</button>
+    <button class="btn-calc backward" id="calcBtn" onclick="calculate()">← คำนวณ Backward</button>
   </div>
 </div>
 
 <!-- Results -->
-<div id="summaryStrip" style="display:none;">
-  <div class="summary-strip">
-    <div class="stat-card ok" id="statDays">
-      <div class="stat-label">เวลาที่เหลือ</div>
-      <div class="stat-value" id="statDaysVal">–</div>
-      <div class="stat-sub" id="statDaysSub"></div>
+<div id="results" style="display:none;">
+
+  <!-- Result mode bar -->
+  <div class="card" style="padding:0;overflow:hidden;" id="resultCard">
+    <div class="result-mode-bar" id="resultModeBar">
+      <span class="result-mode-pill pill-backward" id="resultModePill">← Backward</span>
+      <span class="result-headline" id="resultHeadline">–</span>
     </div>
-    <div class="stat-card ok" id="statFirst">
-      <div class="stat-label">เริ่มงานจาก</div>
-      <div class="stat-value" id="statFirstVal">–</div>
-      <div class="stat-sub" id="statFirstSub"></div>
+
+    <div style="padding:16px 16px 4px;">
+      <div class="summary-strip">
+        <div class="stat-card ok" id="stat0">
+          <div class="stat-label" id="stat0lbl">เวลาที่เหลือ</div>
+          <div class="stat-value" id="stat0val">–</div>
+          <div class="stat-sub" id="stat0sub"></div>
+        </div>
+        <div class="stat-card ok" id="stat1">
+          <div class="stat-label" id="stat1lbl">Pre-Screen เริ่ม</div>
+          <div class="stat-value" id="stat1val">–</div>
+          <div class="stat-sub" id="stat1sub"></div>
+        </div>
+        <div class="stat-card ok" id="stat2">
+          <div class="stat-label" id="stat2lbl">Deadline สั่ง PKG</div>
+          <div class="stat-value" id="stat2val">–</div>
+          <div class="stat-sub" id="stat2sub"></div>
+        </div>
+        <div class="stat-card ok" id="stat3">
+          <div class="stat-label" id="stat3lbl">Launch Date</div>
+          <div class="stat-value" id="stat3val">–</div>
+          <div class="stat-sub" id="stat3sub"></div>
+        </div>
+      </div>
     </div>
-    <div class="stat-card ok" id="statPkg">
-      <div class="stat-label">Deadline สั่ง PKG</div>
-      <div class="stat-value" id="statPkgVal">–</div>
-      <div class="stat-sub" id="statPkgSub"></div>
-    </div>
-    <div class="stat-card ok" id="statFactory">
-      <div class="stat-label">โรงงาน / PKG</div>
-      <div class="stat-value" id="statFactoryVal">–</div>
-      <div class="stat-sub" id="statFactorySub"></div>
-    </div>
-  </div>
-  <div id="alertZone"></div>
-  <div class="card" style="padding:0;overflow:hidden;">
+
+    <div id="alertZone" style="padding:0 16px;"></div>
+
     <div class="tabs">
       <button class="tab-btn active" onclick="showTab('checklist',this)">☑ Checklist</button>
       <button class="tab-btn" onclick="showTab('gantt',this)">📊 Gantt</button>
@@ -375,18 +406,18 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div class="table-wrap">
         <table>
           <thead><tr>
-            <th style="width:90px">Phase</th>
+            <th style="width:85px">Phase</th>
             <th>งาน / Task</th>
             <th>วันที่</th>
             <th>Lead</th>
             <th>สถานะ</th>
             <th>หมายเหตุ</th>
           </tr></thead>
-          <tbody id="timelineBody"></tbody>
+          <tbody id="tbody"></tbody>
         </table>
       </div>
     </div>
-    <div class="tab-panel" id="tab-gantt" style="padding:20px;">
+    <div class="tab-panel" id="tab-gantt" style="padding:18px;">
       <div class="gantt-wrap">
         <div class="gantt-container" id="ganttContainer"></div>
       </div>
@@ -396,50 +427,54 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
 <div class="empty-state" id="emptyState">
   <div class="icon">📋</div>
-  <p>ตั้งค่า Screening sequence และ PKG Type<br>แล้วกด <strong>คำนวณ Timeline</strong></p>
+  <p>เลือก Mode → ตั้งค่า Screening → กด <strong>คำนวณ</strong></p>
 </div>
 </div>
 
 <script>
 // ============================================================
-// FF 2026 OFFICIAL DATES (all Tuesdays)
+// FF 2026
 // ============================================================
 const FF_2026 = [
   new Date(2025,11,23),
-  new Date(2026,0,13), new Date(2026,0,27),
-  new Date(2026,1,10), new Date(2026,1,24),
-  new Date(2026,2,10), new Date(2026,2,24),
-  new Date(2026,3,7),  new Date(2026,3,28),
-  new Date(2026,4,12), new Date(2026,4,26),
-  new Date(2026,5,9),  new Date(2026,5,23),
-  new Date(2026,6,7),  new Date(2026,6,21),
-  new Date(2026,7,11), new Date(2026,7,25),
-  new Date(2026,8,8),  new Date(2026,8,22),
-  new Date(2026,9,6),  new Date(2026,9,20),
+  new Date(2026,0,13),new Date(2026,0,27),
+  new Date(2026,1,10),new Date(2026,1,24),
+  new Date(2026,2,10),new Date(2026,2,24),
+  new Date(2026,3,7), new Date(2026,3,28),
+  new Date(2026,4,12),new Date(2026,4,26),
+  new Date(2026,5,9), new Date(2026,5,23),
+  new Date(2026,6,7), new Date(2026,6,21),
+  new Date(2026,7,11),new Date(2026,7,25),
+  new Date(2026,8,8), new Date(2026,8,22),
+  new Date(2026,9,6), new Date(2026,9,20),
   new Date(2026,10,10),new Date(2026,10,24),
-  new Date(2026,11,8), new Date(2026,11,22),
+  new Date(2026,11,8),new Date(2026,11,22),
 ];
 
-// ============================================================
-// PKG CONFIG
-// ============================================================
 const PKG = {
-  sticker:     {label:'Sticker',               ld:21, warn:false},
-  sleeve:      {label:'Sleeve / สายคาด',        ld:21, warn:false},
-  topfilm:     {label:'Top Film (ปกติ)',         ld:45, warn:false},
-  topfilm_war: {label:'Top Film (ภาวะสงคราม)',   ld:60, warn:true},
-  npd_film:    {label:'NPD Top Film',            ld:75, warn:true},
+  sticker:    {label:'Sticker',              ld:21,warn:false},
+  sleeve:     {label:'Sleeve/สายคาด',         ld:21,warn:false},
+  topfilm:    {label:'Top Film (ปกติ)',        ld:45,warn:false},
+  topfilm_war:{label:'Top Film (ภาวะสงคราม)', ld:60,warn:true},
+  npd_film:   {label:'NPD Top Film',           ld:75,warn:true},
 };
 
 const FACTORY = {
-  saraburi:{label:'Saraburi', sub:'บะหมี่เป็ด · ไก่ตุ๋น · สปาเก็ตตี้'},
-  nongjok: {label:'Nongjok',  sub:'ทิกก้า · น้ำพริกอ่อง · เรือน้ำพริก'},
-  mahachai:{label:'Mahachai', sub:'กะเพราซีฟู้ด · แกงเขียวหวาน'},
+  saraburi:{label:'Saraburi',sub:'บะหมี่เป็ด · ไก่ตุ๋น'},
+  nongjok: {label:'Nongjok', sub:'ทิกก้า · น้ำพริก'},
+  mahachai:{label:'Mahachai',sub:'กะเพรา · แกงเขียวหวาน'},
+};
+
+// PHASE COLORS
+const PC = {
+  screening:'#ffc947',ff:'#f48fb1',ps:'#00d4a0',
+  product:'#00d4a0',packaging:'#4fc3f7',production:'#f48fb1',launch:'#ff6b6b'
 };
 
 // ============================================================
 // STATE
 // ============================================================
+let mode = 'backward'; // 'backward' | 'forward'
 let currentType = 'frozen';
 let currentFactory = 'saraburi';
 const counts = {pre1:4, pre2:0, ps:2};
@@ -450,60 +485,67 @@ const counts = {pre1:4, pre2:0, ps:2};
 window.onload = () => { renderFFRef(); onPkgChange(); };
 
 function renderFFRef() {
-  const M = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  let html = ''; let lastM = -1;
-  FF_2026.forEach(d => {
-    if (d.getMonth() !== lastM) {
-      if (lastM !== -1) html += '<br>';
-      html += `<strong>${M[d.getMonth()]}:</strong> `;
-      lastM = d.getMonth();
-    } else { html += ', '; }
-    html += d.getDate();
+  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  let html=''; let lm=-1;
+  FF_2026.forEach(d=>{
+    if(d.getMonth()!==lm){if(lm!==-1)html+='<br>';html+=`<strong>${M[d.getMonth()]}:</strong> `;lm=d.getMonth();}
+    else html+=', ';
+    html+=d.getDate();
   });
-  document.getElementById('ffRefBody').innerHTML = html;
+  document.getElementById('ffRefBody').innerHTML=html;
+}
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('modeBtn-backward').className = 'mode-btn' + (m==='backward'?' active-backward':'');
+  document.getElementById('modeBtn-forward').className  = 'mode-btn' + (m==='forward'?' active-forward':'');
+  const lbl = document.getElementById('dateLabel');
+  const btn = document.getElementById('calcBtn');
+  if (m==='backward') {
+    lbl.innerHTML = 'วันที่ Launch <span>Target Launch Date</span>';
+    btn.textContent = '← คำนวณ Backward';
+    btn.className = 'btn-calc backward';
+  } else {
+    lbl.innerHTML = 'วันที่เริ่มได้ <span>Start Date (Today or Later)</span>';
+    btn.textContent = 'Forward → คำนวณ';
+    btn.className = 'btn-calc forward';
+  }
 }
 
 function onPkgChange() {
   const cfg = PKG[document.getElementById('pkgType').value];
   const el = document.getElementById('pkgLeadVal');
-  el.textContent = cfg.ld + ' วัน';
-  el.className = 'pkg-info-val' + (cfg.warn ? ' pkg-warn-val' : '');
+  el.textContent = cfg.ld+' วัน';
+  el.className = 'pkg-info-val'+(cfg.warn?' pkg-warn-val':'');
 }
 
-function setType(type) {
-  currentType = type;
-  document.querySelectorAll('[data-type]').forEach(b => {
-    b.className = 'toggle-btn' + (b.dataset.type===type ? ' active-'+type : '');
+function setType(t) {
+  currentType=t;
+  document.querySelectorAll('[data-type]').forEach(b=>{
+    b.className='toggle-btn'+(b.dataset.type===t?' active-'+t:'');
   });
-  const isFrozen = type === 'frozen';
-  document.getElementById('prescreenDayNote').textContent =
-    isFrozen ? 'Frozen: Pre-Screen วันพุธ' : 'Chilled: Pre-Screen วันพฤหัส';
-  document.getElementById('sub-pre1').textContent =
-    `${counts.pre1} รอบ · ${isFrozen?'วันพุธ':'วันพฤหัส'}`;
+  const isFrozen=t==='frozen';
+  document.getElementById('prescreenDayNote').textContent=isFrozen?'Frozen: Pre-Screen วันพุธ':'Chilled: Pre-Screen วันพฤหัส';
+  document.getElementById('sub-pre1').textContent=`${counts.pre1} รอบ · ${isFrozen?'วันพุธ':'วันพฤหัส'}`;
 }
 
 function setFactory(f) {
-  currentFactory = f;
-  document.querySelectorAll('[data-factory]').forEach(b =>
-    b.classList.toggle('active', b.dataset.factory===f));
+  currentFactory=f;
+  document.querySelectorAll('[data-factory]').forEach(b=>b.classList.toggle('active',b.dataset.factory===f));
 }
 
-function adjustCount(key, delta) {
-  const min = key === 'pre2' ? 0 : 1;
-  counts[key] = Math.max(min, Math.min(10, (counts[key]||0) + delta));
-  document.getElementById('count-'+key).textContent = counts[key];
-  if (key === 'pre1') {
-    document.getElementById('sub-pre1').textContent =
-      `${counts.pre1} รอบ · ${currentType==='frozen'?'วันพุธ':'วันพฤหัส'}`;
-  }
+function adj(key, delta) {
+  const min=key==='pre2'?0:1;
+  counts[key]=Math.max(min,Math.min(12,(counts[key]||0)+delta));
+  document.getElementById('cv-'+key).textContent=counts[key];
+  if(key==='pre1') document.getElementById('sub-pre1').textContent=`${counts.pre1} รอบ · ${currentType==='frozen'?'วันพุธ':'วันพฤหัส'}`;
 }
 
 function onFF2Toggle() {
-  const on = document.getElementById('ff2enabled').checked;
-  document.getElementById('sub-ff2').textContent = on ? 'เปิดอยู่ · จากตาราง FF' : 'ปิดอยู่';
+  document.getElementById('ff2label').textContent=document.getElementById('ff2on').checked?'เปิดอยู่':'ปิดอยู่';
 }
 
-function showTab(t, btn) {
+function showTab(t,btn) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
@@ -515,355 +557,377 @@ function showTab(t, btn) {
 // ============================================================
 function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
 function daysDiff(a,b){return Math.round((b-a)/86400000);}
-function fmtDate(d){
-  if(!d)return'–';
-  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  return`${String(d.getDate()).padStart(2,'0')} ${M[d.getMonth()]} ${d.getFullYear()}`;
-}
-function fmtShort(d){
-  if(!d)return'–';
-  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  return`${d.getDate()} ${M[d.getMonth()]}`;
-}
-function nextWeekdayOnOrAfter(from, wday) {
-  const d = new Date(from);
-  const diff = (wday - d.getDay() + 7) % 7;
-  d.setDate(d.getDate() + diff);
-  return d;
-}
-function nWeekdays(from, wday, n) {
-  const res = []; let cur = nextWeekdayOnOrAfter(from, wday);
-  for (let i=0;i<n;i++) { res.push(new Date(cur)); cur=addDays(cur,7); }
-  return res;
-}
-function nFFFrom(from, n) {
-  return FF_2026.filter(d=>d>=from).slice(0,n);
-}
-function closestThursday(d){
-  const diff=(4-d.getDay()+7)%7||7;
-  return addDays(d,diff);
-}
+const MN=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const DN=['อา','จ','อ','พ','พฤ','ศ','ส'];
+function fmtDate(d){if(!d)return'–';return`${String(d.getDate()).padStart(2,'0')} ${MN[d.getMonth()]} ${d.getFullYear()}`;}
+function fmtShort(d){if(!d)return'–';return`${d.getDate()} ${MN[d.getMonth()]}`;}
+function nextWday(from,wday){const d=new Date(from);const diff=(wday-d.getDay()+7)%7;d.setDate(d.getDate()+diff);return d;}
+function nWdays(from,wday,n){const res=[];let c=nextWday(from,wday);for(let i=0;i<n;i++){res.push(new Date(c));c=addDays(c,7);}return res;}
+function nFFFrom(from,n){return FF_2026.filter(d=>d>=from).slice(0,n);}
+function nextThursday(d){const diff=(4-d.getDay()+7)%7||7;return addDays(d,diff);}
 
 // ============================================================
-// BUILD SCREENING SEQUENCE
+// BUILD SCREENING ROWS (forward from a start date)
 // ============================================================
-function buildScreeningSequence(launchDate) {
-  const rows = [];
-  const wday = currentType==='frozen' ? 3 : 4; // Wed=3, Thu=4
-  const ff2on = document.getElementById('ff2enabled').checked;
+function buildScreening(startDate) {
+  const rows=[];
+  const wday=currentType==='frozen'?3:4;
+  const ff2on=document.getElementById('ff2on').checked;
+  let cursor=new Date(startDate);
 
-  // Start from ~launchDate - 90 days
-  let cursor = addDays(launchDate, -90);
-
-  // Phase 1: Pre-Screen rounds before FF1
-  if (counts.pre1 > 0) {
-    const dates = nWeekdays(cursor, wday, counts.pre1);
-    dates.forEach((d,i) => {
-      rows.push({id:`pre1_${i}`, phase:'screening', subtype:'prescreen',
-        th:`Pre-Screen รอบที่ ${i+1}`, en:`Pre-Screen Round ${i+1}`,
-        date:d, note:`${currentType==='frozen'?'วันพุธ':'วันพฤหัส'} · 5 ถาด`});
-    });
-    cursor = addDays(dates[dates.length-1], 1);
+  // Pre-Screen 1
+  if(counts.pre1>0){
+    const dates=nWdays(cursor,wday,counts.pre1);
+    dates.forEach((d,i)=>rows.push({id:`pre1_${i}`,phase:'screening',
+      th:`Pre-Screen รอบที่ ${i+1}`,en:`Pre-Screen R${i+1}`,
+      date:d,ld:1,note:`${currentType==='frozen'?'พุธ':'พฤหัส'} · 5 ถาด`}));
+    cursor=addDays(dates[dates.length-1],1);
   }
 
   // FF1
-  const ff1dates = nFFFrom(cursor, 1);
-  if (ff1dates.length > 0) {
-    rows.push({id:'ff1', phase:'ff', subtype:'ff',
-      th:'FF Committee ครั้งที่ 1', en:'FF Committee Round 1',
-      date:ff1dates[0], note:'ตาราง FF 2026 · อังคาร · 10 ถาด'});
-    cursor = addDays(ff1dates[0], 1);
+  const ff1=nFFFrom(cursor,1);
+  if(ff1.length){
+    rows.push({id:'ff1',phase:'ff',th:'FF Committee ครั้งที่ 1',en:'FF Round 1',
+      date:ff1[0],ld:1,note:'ตาราง FF 2026 · อังคาร · 10 ถาด'});
+    cursor=addDays(ff1[0],1);
   }
 
-  // Phase 2: Extra Pre-Screen rounds (if any) after FF1
-  if (counts.pre2 > 0) {
-    const dates = nWeekdays(cursor, wday, counts.pre2);
-    dates.forEach((d,i) => {
-      rows.push({id:`pre2_${i}`, phase:'screening', subtype:'prescreen',
-        th:`Pre-Screen รอบที่ ${counts.pre1+i+1}`, en:`Pre-Screen Round ${counts.pre1+i+1}`,
-        date:d, note:`เพิ่มหลัง FF1 · ${currentType==='frozen'?'วันพุธ':'วันพฤหัส'}`});
-    });
-    cursor = addDays(dates[dates.length-1], 1);
+  // Pre-Screen 2 (extra)
+  if(counts.pre2>0){
+    const dates=nWdays(cursor,wday,counts.pre2);
+    dates.forEach((d,i)=>rows.push({id:`pre2_${i}`,phase:'screening',
+      th:`Pre-Screen รอบที่ ${counts.pre1+i+1}`,en:`Pre-Screen R${counts.pre1+i+1}`,
+      date:d,ld:1,note:`เพิ่มหลัง FF1 · ${currentType==='frozen'?'พุธ':'พฤหัส'}`}));
+    cursor=addDays(dates[dates.length-1],1);
   }
 
-  // FF2 (optional)
-  if (ff2on) {
-    const ff2dates = nFFFrom(cursor, 1);
-    if (ff2dates.length > 0) {
-      rows.push({id:'ff2', phase:'ff', subtype:'ff',
-        th:'FF Committee ครั้งที่ 2', en:'FF Committee Round 2',
-        date:ff2dates[0], note:'ตาราง FF 2026 · อังคาร · 10 ถาด'});
-      cursor = addDays(ff2dates[0], 1);
+  // FF2
+  if(ff2on){
+    const ff2=nFFFrom(cursor,1);
+    if(ff2.length){
+      rows.push({id:'ff2',phase:'ff',th:'FF Committee ครั้งที่ 2',en:'FF Round 2',
+        date:ff2[0],ld:1,note:'ตาราง FF 2026 · อังคาร · 10 ถาด'});
+      cursor=addDays(ff2[0],1);
     }
   }
 
-  // PS rounds (every Tuesday after last FF)
-  if (counts.ps > 0) {
-    const dates = nWeekdays(cursor, 2, counts.ps); // Tuesday=2
-    dates.forEach((d,i) => {
-      rows.push({id:`ps_${i}`, phase:'ps', subtype:'ps',
-        th:`Product Selection รอบที่ ${i+1}`, en:`PS Round ${i+1}`,
-        date:d, note:'ทุกวันอังคาร · 10 ถาด'});
-    });
+  // PS
+  if(counts.ps>0){
+    const dates=nWdays(cursor,2,counts.ps);
+    dates.forEach((d,i)=>rows.push({id:`ps_${i}`,phase:'ps',
+      th:`Product Selection รอบที่ ${i+1}`,en:`PS Round ${i+1}`,
+      date:d,ld:1,note:'ทุกวันอังคาร · 10 ถาด'}));
+    cursor=addDays(dates[dates.length-1],1);
   }
 
-  return rows;
+  return {rows, endDate:cursor}; // endDate = day after last PS
 }
 
 // ============================================================
-// MAIN STEPS DATA
+// MAIN STEPS (Product Info → Launch)
+// forward from psEndDate, OR backward from launchDate
 // ============================================================
-function getMainSteps(pkgLd) {
-  const FROZEN = [
-    {id:'microwave',    phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',     dbl:76, ld:4,  note:'30 ถ้วย จากไลน์'},
-    {id:'plm',          phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',           dbl:80, ld:1,  note:'ทำก่อน PI'},
-    {id:'pi_doc',       phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',        dbl:74, ld:3,  note:''},
-    {id:'ra_pi',        phase:'product',    th:'RA Final PI (2 วัน)',                 en:'RA Approve PI',      dbl:70, ld:2,  note:''},
-    {id:'nf',           phase:'product',    th:'Nutrition Fact (10 วัน)',             en:'Nutrition Facts',    dbl:62, ld:10, note:'Frozen ต้องตรวจ'},
-    {id:'nf_rd',        phase:'product',    th:'NF — RD Recheck (1 วัน)',            en:'NF RD Recheck',      dbl:52, ld:1,  note:''},
-    {id:'nf_ra',        phase:'product',    th:'NF — RA Recheck (2 วัน)',            en:'NF RA Recheck',      dbl:50, ld:2,  note:''},
-    {id:'fda',          phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                dbl:48, ld:5,  note:''},
-    {id:'barcode',      phase:'product',    th:'Barcode',                            en:'Barcode',            dbl:67, ld:1,  note:'ขอก่อน AW'},
-    {id:'ideacost',     phase:'product',    th:'Idea Cost',                          en:'Cost Est.',          dbl:75, ld:1,  note:''},
-    {id:'pkg_trial',    phase:'product',    th:'PKG Trial',                          en:'PKG Trial',          dbl:55, ld:1,  note:''},
-    {id:'microbio',     phase:'product',    th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',      en:'Micro/Chem Test',    dbl:48, ld:30, note:'Internal · 1 เดือน'},
-    {id:'photoshoot',   phase:'packaging',  th:'Photo Shoot',                        en:'Photography',        dbl:50, ld:1,  note:'6 portion + 6 FG'},
-    {id:'aw_design',    phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',          dbl:46, ld:1,  note:'ไม่รวมถ่ายรูป'},
-    {id:'aw_review',    phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',          dbl:44, ld:2,  note:''},
-    {id:'qa_doc',       phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',       dbl:42, ld:2,  note:'แผนตรวจเชื้อ'},
-    {id:'qa_711',       phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',   dbl:39, ld:9,  note:'แจ้งล่วงหน้า'},
-    {id:'final_aw',     phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',           dbl:37, ld:1,  note:''},
-    {id:'digital_proof',phase:'packaging',  th:'Digital Proof',                      en:'Digital Proof',      dbl:36, ld:1,  note:''},
-    {id:'paper_proof',  phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',        dbl:35, ld:1,  note:''},
-    {id:'po_pkg',       phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',         dbl:35, ld:1,  note:''},
-    {id:'pkg_prod',     phase:'packaging',  th:`PKG Production (${pkgLd} วัน)`,      en:'PKG Production',     dbl:35, ld:pkgLd, note:`Lead: ${pkgLd} วัน`},
-    {id:'pkg_enter',    phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',         dbl:7,  ld:1,  note:'7 วันก่อน First Prod'},
-    {id:'pkg_film',     phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',          dbl:6,  ld:1,  note:''},
-    {id:'forecast',     phase:'production', th:'Forecast',                           en:'Forecast',           dbl:55, ld:1,  note:''},
-    {id:'order_rm',     phase:'production', th:'Order Raw Material',                 en:'RM Order',           dbl:52, ld:1,  note:''},
-    {id:'test_run',     phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',           dbl:12, ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'first_prod',   phase:'production', th:'First Production',                   en:'First Production',   dbl:10, ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'stock',        phase:'production', th:'Stock (9 วัน) · 75,000 ถ้วย',       en:'Stock Build',        dbl:9,  ld:9,  note:'5 ถาด/สาขา'},
-    {id:'first_order1', phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',      dbl:4,  ld:1,  note:''},
-    {id:'first_order2', phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',      dbl:2,  ld:1,  note:''},
-    {id:'launch',       phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',             dbl:0,  ld:1,  note:'Repeat 3,000 ถาด/วัน'},
+function getProductionSteps(pkgLd) {
+  // Lead times (days)
+  // forward = each step's duration, chained from PS end
+  // backward = days before launch
+  const isFrozen=currentType==='frozen';
+  return [
+    // Product Info phase
+    {id:'microwave',  phase:'product',   th:'Microwave Testing (4 วัน)',           en:'Microwave Test',     fwdLd:4,  dbl:76, note:'30 ถ้วย จากไลน์'},
+    {id:'plm',        phase:'product',   th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',           fwdLd:1,  dbl:80, note:'ทำก่อน Microwave'},
+    {id:'pi_doc',     phase:'product',   th:'Create PI Document (3 วัน)',          en:'PI Document',        fwdLd:3,  dbl:74, note:''},
+    {id:'ra_pi',      phase:'product',   th:`RA Final PI (${isFrozen?2:3} วัน)`,  en:'RA Approve PI',      fwdLd:isFrozen?2:3, dbl:isFrozen?70:60, note:''},
+    ...(isFrozen?[
+      {id:'nf',       phase:'product',   th:'Nutrition Fact (10 วัน)',             en:'NF',                 fwdLd:10, dbl:62, note:'Frozen ต้องตรวจ'},
+      {id:'nf_rd',    phase:'product',   th:'NF — RD Recheck (1 วัน)',            en:'NF RD Recheck',      fwdLd:1,  dbl:52, note:''},
+      {id:'nf_ra',    phase:'product',   th:'NF — RA Recheck (2 วัน)',            en:'NF RA Recheck',      fwdLd:2,  dbl:50, note:''},
+    ]:[
+      {id:'nf_skip',  phase:'product',   th:'Nutrition Fact — ไม่ตรวจ (Chilled)', en:'NF: N/A',            fwdLd:0,  dbl:null, note:'ไม่ต้องตรวจ', special:'skip'},
+    ]),
+    {id:'fda',        phase:'product',   th:'FDA Process (5 วัน)',                en:'FDA',                fwdLd:5,  dbl:48, note:''},
+    {id:'barcode',    phase:'product',   th:'Barcode',                            en:'Barcode',            fwdLd:1,  dbl:67, note:'ขอก่อน AW'},
+    {id:'ideacost',   phase:'product',   th:'Idea Cost',                          en:'Cost Est.',          fwdLd:1,  dbl:75, note:''},
+    {id:'pkg_trial',  phase:'product',   th:'PKG Trial',                          en:'PKG Trial',          fwdLd:1,  dbl:55, note:''},
+    {id:'microbio',   phase:'product',   th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',      en:'Micro/Chem',         fwdLd:30, dbl:48, note:'Internal · 1 เดือน'},
+    // Packaging
+    {id:'photoshoot', phase:'packaging', th:'Photo Shoot',                        en:'Photography',        fwdLd:1,  dbl:50, note:'6 portion + 6 FG'},
+    {id:'aw_design',  phase:'packaging', th:'Artwork Design (1 วัน)',             en:'AW Design',          fwdLd:1,  dbl:46, note:'ไม่รวมถ่ายรูป'},
+    {id:'aw_review',  phase:'packaging', th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',          fwdLd:2,  dbl:44, note:''},
+    {id:'qa_doc',     phase:'packaging', th:'เอกสาร QA 10 รายการ',                en:'QA Docs',            fwdLd:2,  dbl:42, note:''},
+    {id:'qa_711',     phase:'packaging', th:'QA 7-11 Approved (9 วัน)',           en:'QA 7-11',            fwdLd:9,  dbl:39, note:'แจ้งล่วงหน้า'},
+    {id:'final_aw',   phase:'packaging', th:'Final AW → Supplier',                en:'Final AW',           fwdLd:1,  dbl:37, note:''},
+    {id:'digital',    phase:'packaging', th:'Digital Proof',                      en:'Digital Proof',      fwdLd:1,  dbl:36, note:''},
+    {id:'paper',      phase:'packaging', th:'Paper Proof',                        en:'Paper Proof',        fwdLd:1,  dbl:35, note:''},
+    {id:'po_pkg',     phase:'packaging', th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',         fwdLd:1,  dbl:35, note:''},
+    {id:'pkg_prod',   phase:'packaging', th:`PKG Production (${pkgLd} วัน)`,      en:'PKG Production',     fwdLd:pkgLd, dbl:35, note:`Lead: ${pkgLd} วัน`},
+    {id:'pkg_enter',  phase:'packaging', th:'PKG Enter Factory',                  en:'PKG Arrive',         fwdLd:1,  dbl:7,  note:'7 วันก่อนผลิต'},
+    {id:'pkg_film',   phase:'packaging', th:'Packaging Film Test',                en:'Film Test',          fwdLd:1,  dbl:6,  note:''},
+    // Production
+    {id:'forecast',   phase:'production',th:'Forecast',                           en:'Forecast',           fwdLd:1,  dbl:55, note:''},
+    {id:'order_rm',   phase:'production',th:'Order Raw Material',                 en:'RM Order',           fwdLd:1,  dbl:52, note:''},
+    {id:'test_run',   phase:'production',th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',           fwdLd:1,  dbl:12, note:'Chef Cares ต้องเข้า'},
+    {id:'first_prod', phase:'production',th:'First Production',                   en:'First Production',   fwdLd:1,  dbl:10, note:'Chef Cares ต้องเข้า'},
+    {id:'stock',      phase:'production',th:`Stock (${isFrozen?9:6} วัน) · ${isFrozen?'75,000':'45,000'} ถ้วย`,en:'Stock',fwdLd:isFrozen?9:6,dbl:isFrozen?9:7,note:isFrozen?'5 ถาด/สาขา':'3 ถาด/สาขา'},
+    // Launch
+    {id:'order1',     phase:'launch',    th:'First Order 1 (เสาร์)',              en:'First Order 1',      fwdLd:1,  dbl:4,  note:''},
+    {id:'order2',     phase:'launch',    th:'First Order 2 (จันทร์)',             en:'First Order 2',      fwdLd:1,  dbl:2,  note:''},
+    {id:'launch',     phase:'launch',    th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',             fwdLd:1,  dbl:0,  note:isFrozen?'Repeat 3,000 ถาด/วัน':'Repeat 2,500 ถาด/วัน'},
   ];
-  const CHILLED = [
-    {id:'microwave',    phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',     dbl:68, ld:4,  note:'30 ถ้วย จากไลน์'},
-    {id:'plm',          phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',           dbl:72, ld:1,  note:'ทำก่อน PI'},
-    {id:'pi_doc',       phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',        dbl:64, ld:3,  note:''},
-    {id:'ra_pi',        phase:'product',    th:'RA Final PI (3 วัน)',                 en:'RA Approve PI',      dbl:60, ld:3,  note:'Chilled=3วัน'},
-    {id:'nf_skip',      phase:'product',    th:'Nutrition Fact — ไม่ตรวจ',            en:'NF: N/A',            dbl:null,ld:null,note:'Chilled ไม่ต้องตรวจ',special:'skip'},
-    {id:'fda',          phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                dbl:45, ld:5,  note:''},
-    {id:'barcode',      phase:'product',    th:'Barcode',                            en:'Barcode',            dbl:57, ld:1,  note:'ขอก่อน AW'},
-    {id:'ideacost',     phase:'product',    th:'Idea Cost',                          en:'Cost Est.',          dbl:67, ld:1,  note:''},
-    {id:'pkg_trial',    phase:'product',    th:'PKG Trial',                          en:'PKG Trial',          dbl:50, ld:1,  note:''},
-    {id:'aw_design',    phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',          dbl:42, ld:1,  note:'ไม่รวมถ่ายรูป'},
-    {id:'aw_review',    phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',          dbl:40, ld:2,  note:''},
-    {id:'qa_doc',       phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',       dbl:38, ld:2,  note:''},
-    {id:'qa_711',       phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',   dbl:35, ld:9,  note:'แจ้งล่วงหน้า'},
-    {id:'final_aw',     phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',           dbl:33, ld:1,  note:''},
-    {id:'digital_proof',phase:'packaging',  th:'Digital Proof',                      en:'Digital Proof',      dbl:32, ld:1,  note:''},
-    {id:'paper_proof',  phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',        dbl:31, ld:1,  note:''},
-    {id:'po_pkg',       phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',         dbl:31, ld:1,  note:''},
-    {id:'pkg_prod',     phase:'packaging',  th:`PKG Production (${pkgLd} วัน)`,      en:'PKG Production',     dbl:31, ld:pkgLd, note:`Lead: ${pkgLd} วัน`},
-    {id:'pkg_enter',    phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',         dbl:7,  ld:1,  note:'7 วันก่อน First Prod'},
-    {id:'pkg_film',     phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',          dbl:6,  ld:1,  note:''},
-    {id:'forecast',     phase:'production', th:'Forecast',                           en:'Forecast',           dbl:50, ld:1,  note:''},
-    {id:'order_rm',     phase:'production', th:'Order Raw Material',                 en:'RM Order',           dbl:47, ld:1,  note:''},
-    {id:'test_run',     phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',           dbl:10, ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'first_prod',   phase:'production', th:'First Production',                   en:'First Production',   dbl:8,  ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'stock',        phase:'production', th:'Stock (6 วัน) · 45,000 ถ้วย',       en:'Stock Build',        dbl:7,  ld:6,  note:'3 ถาด/สาขา'},
-    {id:'first_order1', phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',      dbl:3,  ld:1,  note:''},
-    {id:'first_order2', phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',      dbl:1,  ld:1,  note:''},
-    {id:'launch',       phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',             dbl:0,  ld:1,  note:'Repeat 2,500 ถาด/วัน'},
-  ];
-  return currentType==='frozen' ? FROZEN : CHILLED;
 }
 
 // ============================================================
 // CALCULATE
 // ============================================================
 function calculate() {
-  const launchVal = document.getElementById('launchDate').value;
-  if (!launchVal) { alert('กรุณาเลือกวันที่ Launch ก่อนค่ะ'); return; }
-  const launchDate = new Date(launchVal); launchDate.setHours(0,0,0,0);
+  const dateVal = document.getElementById('mainDate').value;
+  if (!dateVal){alert('กรุณาเลือกวันที่ก่อนค่ะ');return;}
+  const inputDate = new Date(dateVal); inputDate.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
-  const daysLeft = daysDiff(today, launchDate);
   const pkgKey = document.getElementById('pkgType').value;
   const pkgCfg = PKG[pkgKey];
+  const steps = getProductionSteps(pkgCfg.ld);
 
-  // Build rows
-  const scrRows = buildScreeningSequence(launchDate);
-  const mainSteps = getMainSteps(pkgCfg.ld).map(s => {
-    if (s.special==='skip'||s.dbl===null) return {...s, startDate:null, endDate:null};
-    const end = addDays(launchDate, -s.dbl);
-    const start = addDays(end, -(s.ld-1));
-    return {...s, startDate:start, endDate:end};
-  });
+  let scrRows, psEndDate, launchDate, mainRows;
 
-  // Convert scrRows to table format
-  const scrTableRows = scrRows.map(r => ({
-    ...r, startDate:r.date, endDate:r.date, ld:1,
-  }));
+  if (mode === 'backward') {
+    // === BACKWARD MODE ===
+    launchDate = inputDate;
 
-  const allRows = [...scrTableRows, ...mainSteps];
+    // Build screening starting ~90 days before launch
+    const scrStart = addDays(launchDate, -90);
+    const scr = buildScreening(scrStart);
+    scrRows = scr.rows;
+    psEndDate = scr.endDate;
 
-  // ==== Summary ====
-  const dl = daysLeft;
-  document.getElementById('statDays').className = 'stat-card '+(dl<70?'urgent':dl<90?'warn':'ok');
-  document.getElementById('statDaysVal').textContent = dl<0?'เลยแล้ว':dl+' วัน';
-  document.getElementById('statDaysSub').textContent = fmtDate(launchDate);
+    // Main steps: backward from launch
+    mainRows = steps.map(s => {
+      if (s.special==='skip'||s.dbl===null) return {...s,startDate:null,endDate:null};
+      const end = addDays(launchDate, -s.dbl);
+      const start = addDays(end, -(s.fwdLd-1));
+      return {...s,startDate:start,endDate:end};
+    });
 
-  const earliest = allRows.filter(r=>r.startDate).reduce((a,b)=>(!a||b.startDate<a.startDate?b:a),null);
-  document.getElementById('statFirstVal').textContent = earliest?fmtShort(earliest.startDate):'–';
-  document.getElementById('statFirstSub').textContent = earliest?earliest.th.replace('🚀 ','').substring(0,22):'';
-  document.getElementById('statFirst').className = 'stat-card '+(earliest&&earliest.startDate<today?'urgent':'ok');
+    // Check conflict: does PS end after microwave test should start?
+    const mwRow = mainRows.find(r=>r.id==='microwave');
+    const conflict = mwRow && psEndDate > mwRow.startDate;
 
-  const pkgRow = mainSteps.find(r=>r.id==='po_pkg');
-  if (pkgRow) {
-    const pl = daysDiff(today, pkgRow.endDate);
-    document.getElementById('statPkgVal').textContent = fmtShort(pkgRow.endDate);
-    document.getElementById('statPkgSub').textContent = pkgCfg.label+' · '+(pl<0?'เลยแล้ว!':pl+' วันเหลือ');
-    document.getElementById('statPkg').className = 'stat-card '+(pl<0?'urgent':pl<14?'warn':'ok');
+    buildResults({scrRows,mainRows,launchDate,psEndDate,today,pkgCfg,conflict,mode:'backward'});
+
+  } else {
+    // === FORWARD MODE ===
+    const startDate = inputDate;
+
+    // Build screening forward from start
+    const scr = buildScreening(startDate);
+    scrRows = scr.rows;
+    psEndDate = scr.endDate;
+
+    // Main steps: forward chain from psEndDate
+    let cursor = new Date(psEndDate);
+    mainRows = steps.map(s => {
+      if (s.special==='skip'||s.fwdLd===0) return {...s,startDate:null,endDate:null};
+      const start = new Date(cursor);
+      const end = addDays(start, s.fwdLd-1);
+      cursor = addDays(end, 1);
+      return {...s,startDate:start,endDate:end};
+    });
+
+    // Derive launch date from forward chain
+    const launchRow = mainRows.find(r=>r.id==='launch');
+    launchDate = launchRow ? launchRow.endDate : addDays(psEndDate, 80);
+
+    // Snap launch to next Thursday
+    if (launchDate.getDay() !== 4) {
+      launchDate = nextThursday(launchDate);
+    }
+
+    buildResults({scrRows,mainRows,launchDate,psEndDate,today,pkgCfg,conflict:false,mode:'forward',startDate});
   }
-  document.getElementById('statFactoryVal').textContent = FACTORY[currentFactory].label;
-  document.getElementById('statFactorySub').textContent = pkgCfg.label+' '+pkgCfg.ld+'วัน';
-  document.getElementById('statFactory').className = 'stat-card '+(pkgCfg.warn?'warn':'ok');
+}
 
-  // ==== Alerts ====
-  const az = document.getElementById('alertZone'); az.innerHTML='';
-  if (launchDate.getDay()!==4) {
-    az.innerHTML+=mkAlert('warn','⚠️','Launch ควรเป็นวันพฤหัส',`พฤหัสที่ใกล้ที่สุดคือ ${fmtDate(closestThursday(launchDate))}`);
+// ============================================================
+// BUILD RESULTS
+// ============================================================
+function buildResults({scrRows,mainRows,launchDate,psEndDate,today,pkgCfg,conflict,mode:calcMode,startDate}) {
+  const daysToLaunch = daysDiff(today, launchDate);
+  const allRows = [
+    ...scrRows.map(r=>({...r,startDate:r.date,endDate:r.date})),
+    ...mainRows
+  ];
+
+  // Mode bar
+  document.getElementById('resultModePill').textContent = calcMode==='backward'?'← Backward':'Forward →';
+  document.getElementById('resultModePill').className = 'result-mode-pill '+(calcMode==='backward'?'pill-backward':'pill-forward');
+
+  if (calcMode==='backward') {
+    document.getElementById('resultHeadline').innerHTML =
+      `Launch <span>${fmtDate(launchDate)}</span> — เหลือ <span>${daysToLaunch}</span> วัน`;
+  } else {
+    document.getElementById('resultHeadline').innerHTML =
+      `เริ่ม <span>${fmtDate(startDate)}</span> → ปล่อยสินค้าได้ <span>${fmtDate(launchDate)}</span>`;
   }
-  if (pkgCfg.warn) az.innerHTML+=mkAlert('warn','📦',`PKG Lead time ${pkgCfg.ld} วัน`,`${pkgCfg.label} · ตรวจสอบ deadline สั่ง PKG`);
-  if (dl<70) az.innerHTML+=mkAlert('danger','🚨',`เวลาน้อยมาก — ${dl} วัน`,`ต้องการ ${currentType==='frozen'?'~80':'~75'} วัน`);
-  else if(dl<90) az.innerHTML+=mkAlert('warn','⏰','เวลาค่อนข้างตึง',`เหลือ ${dl} วัน`);
-  else az.innerHTML+=mkAlert('ok','✅','Timeline ยังพอมีเวลา',`เหลือ ${dl} วัน`);
 
-  // ==== Checklist ====
-  const tbody = document.getElementById('timelineBody');
-  tbody.innerHTML = '';
-  let lastPhase = '';
+  // Stats
+  const firstScr = scrRows.length>0?scrRows[0].date:null;
+  const pkgRow = mainRows.find(r=>r.id==='po_pkg');
 
-  const PHASE_LABELS = {
-    screening:'Pre-Screen', ff:'FF Committee', ps:'Product Selection',
-    product:'Product Info', packaging:'Packaging', production:'Production', launch:'Launch'
-  };
-  const PHASE_COLORS = {
-    screening:'#ffc947', ff:'#f48fb1', ps:'#00d4a0',
-    product:'#00d4a0', packaging:'#4fc3f7', production:'#f48fb1', launch:'#ff6b6b'
-  };
+  document.getElementById('stat0').className='stat-card '+(daysToLaunch<70?'urgent':daysToLaunch<90?'warn':'ok');
+  document.getElementById('stat0lbl').textContent = calcMode==='backward'?'เวลาที่เหลือ':'ระยะเวลาทั้งหมด';
+  document.getElementById('stat0val').textContent = Math.abs(daysToLaunch)+' วัน';
+  document.getElementById('stat0sub').textContent = daysToLaunch<0?'เลย launch แล้ว':calcMode==='backward'?'จนถึง Launch':'ตั้งแต่เริ่มถึง Launch';
 
-  allRows.forEach(s => {
-    if (s.special==='skip') {
-      const tr = document.createElement('tr');
-      const ph = s.phase!==lastPhase?`<span class="phase-label phase-product">${PHASE_LABELS[s.phase]||s.phase}</span>`:'';
+  document.getElementById('stat1lbl').textContent='Pre-Screen รอบแรก';
+  document.getElementById('stat1val').textContent=firstScr?fmtShort(firstScr):'–';
+  document.getElementById('stat1sub').textContent=firstScr?fmtDate(firstScr):'';
+  document.getElementById('stat1').className='stat-card '+(firstScr&&firstScr<today?'urgent':'ok');
+
+  document.getElementById('stat2lbl').textContent='Deadline สั่ง PKG';
+  document.getElementById('stat2val').textContent=pkgRow&&pkgRow.endDate?fmtShort(pkgRow.endDate):'–';
+  if(pkgRow&&pkgRow.endDate){
+    const pl=daysDiff(today,pkgRow.endDate);
+    document.getElementById('stat2sub').textContent=pkgCfg.label+' · '+(pl<0?'เลยแล้ว!':pl+' วันเหลือ');
+    document.getElementById('stat2').className='stat-card '+(pl<0?'urgent':pl<14?'warn':'ok');
+  }
+
+  document.getElementById('stat3lbl').textContent='Launch Date';
+  document.getElementById('stat3val').textContent=fmtShort(launchDate);
+  document.getElementById('stat3sub').textContent=fmtDate(launchDate)+' ('+['อา','จ','จน','พ','พฤ','ศ','ส'][launchDate.getDay()]+')';
+  document.getElementById('stat3').className='stat-card '+(calcMode==='forward'?'ok':daysToLaunch<70?'urgent':daysToLaunch<90?'warn':'ok');
+
+  // Alerts
+  const az=document.getElementById('alertZone'); az.innerHTML='';
+  if(conflict) {
+    az.innerHTML+=mkAlert('danger','🚨','Timeline ไม่พอ — PS เสร็จหลัง Microwave Test ควรเริ่ม',
+      `PS สิ้นสุด ${fmtDate(psEndDate)} แต่ Microwave Test ควรเริ่มก่อนหน้านั้น · ลดรอบ Screening หรือเลื่อน Launch Date`);
+  }
+  if(launchDate.getDay()!==4) az.innerHTML+=mkAlert('warn','⚠️','Launch ควรเป็นวันพฤหัส',`พฤหัสที่ใกล้สุดคือ ${fmtDate(nextThursday(launchDate))}`);
+  if(pkgCfg.warn) az.innerHTML+=mkAlert('warn','📦',`PKG Lead time ${pkgCfg.ld} วัน`,pkgCfg.label);
+  if(calcMode==='forward') {
+    az.innerHTML+=mkAlert('info','📅',`Forward Mode: ปล่อยสินค้าได้ ${fmtDate(launchDate)}`,
+      `เริ่มจาก ${fmtDate(startDate)} ผ่าน Screening ${scrRows.length} รอบ → คำนวณไปข้างหน้า`);
+  } else if(!conflict) {
+    if(daysToLaunch<70) az.innerHTML+=mkAlert('danger','🚨',`เวลาน้อยมาก — ${daysToLaunch} วัน`,`ต้องการ ~80 วัน`);
+    else if(daysToLaunch<90) az.innerHTML+=mkAlert('warn','⏰','เวลาค่อนข้างตึง',`เหลือ ${daysToLaunch} วัน`);
+    else az.innerHTML+=mkAlert('ok','✅','Timeline ยังพอมีเวลา',`เหลือ ${daysToLaunch} วัน`);
+  }
+
+  // Checklist table
+  const tbody=document.getElementById('tbody'); tbody.innerHTML='';
+  let lastPhase='';
+
+  allRows.forEach(s=>{
+    if(s.special==='skip'){
+      const tr=document.createElement('tr');
+      const ph=s.phase!==lastPhase?`<span class="plbl plbl-product">Product Info</span>`:'';
       lastPhase=s.phase;
       tr.innerHTML=`<td>${ph}</td><td><div class="step-name" style="opacity:.4">🚫 ${s.th}</div></td><td colspan="4" class="note-cell">${s.note}</td>`;
       tbody.appendChild(tr); return;
     }
+    if(!s.endDate) return;
 
-    const tr = document.createElement('tr');
-    const ph = s.phase!==lastPhase?`<span class="phase-label phase-${s.phase==='ff'?'ff':s.phase==='ps'?'ps':s.phase}">${PHASE_LABELS[s.phase]||s.phase}</span>`:'';
+    const tr=document.createElement('tr');
+    const ph=s.phase!==lastPhase?`<span class="plbl plbl-${s.phase}">${PHASE_LABELS[s.phase]||s.phase}</span>`:'';
     lastPhase=s.phase;
 
-    let dc='date-future',bc='days-future',dt='';
-    if (s.endDate) {
-      const diff=daysDiff(today,s.endDate);
-      if(diff<0){dc='date-past';bc='days-past';dt=Math.abs(diff)+'วันที่แล้ว';}
-      else if(diff===0){dc='date-today';bc='days-today';dt='วันนี้!';}
-      else if(diff<=7){dc='date-soon';bc='days-soon';dt=diff+' วัน';}
-      else{dc='date-future';bc='days-future';dt=diff+' วัน';}
-    }
+    const diff=daysDiff(today,s.endDate);
+    let dc='d-ok',bc='db-ok',dt='';
+    if(diff<0){dc='d-past';bc='db-past';dt=Math.abs(diff)+'วันที่แล้ว';}
+    else if(diff===0){dc='d-today';bc='db-today';dt='วันนี้!';}
+    else if(diff<=7){dc='d-soon';bc='db-soon';dt=diff+' วัน';}
+    else{dt=diff+' วัน';}
 
-    const DAYNAMES=['อา','จ','อ','พ','พฤ','ศ','ส'];
-    const dayTag = s.endDate ? `<span class="tag tag-day">${DAYNAMES[s.endDate.getDay()]}</span>` : '';
-    const factTag = (s.phase==='production'||s.phase==='launch')
-      ? `<span class="tag tag-factory">${FACTORY[currentFactory].label}</span>` : '';
-    const typeTag = s.phase==='ff' ? `<span class="tag tag-ff">FF</span>`
-      : s.phase==='ps' ? `<span class="tag tag-ps">PS</span>` : '';
+    const dayTag=`<span class="tag tag-day">${DN[s.endDate.getDay()]}</span>`;
+    const modeTag=calcMode==='forward'?`<span class="tag tag-fwd">→</span>`:`<span class="tag tag-bwd">←</span>`;
+    const factTag=(s.phase==='production'||s.phase==='launch')?`<span class="tag tag-factory">${FACTORY[currentFactory].label}</span>`:'';
+
+    // conflict highlight for microwave if backward mode
+    const isConflict = conflict && s.id==='microwave';
+    if(isConflict) tr.classList.add('conflict');
 
     tr.innerHTML=`
       <td>${ph}</td>
-      <td><div class="step-name">${s.th}${dayTag}${typeTag}${factTag}</div><div class="step-eng">${s.en}</div></td>
-      <td class="date-cell ${dc}">${fmtDate(s.endDate)}</td>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)">${s.ld||'–'} วัน</span></td>
-      <td><span class="days-badge ${bc}">${dt||'–'}</span></td>
+      <td><div class="step-name">${s.th}${dayTag}${modeTag}${factTag}</div><div class="step-eng">${s.en}</div></td>
+      <td class="dcell ${dc}">${fmtDate(s.endDate)}</td>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)">${s.fwdLd||'–'} วัน</span></td>
+      <td><span class="dbadge ${bc}">${dt||'–'}</span></td>
       <td class="note-cell">${s.note}</td>`;
     tbody.appendChild(tr);
   });
 
-  buildGantt(allRows, launchDate, today, PHASE_COLORS, PHASE_LABELS);
+  buildGantt(allRows, launchDate, today);
   document.getElementById('emptyState').style.display='none';
-  document.getElementById('summaryStrip').style.display='block';
+  document.getElementById('results').style.display='block';
 }
 
+const PHASE_LABELS={
+  screening:'Pre-Screen',ff:'FF Committee',ps:'Product Selection',
+  product:'Product Info',packaging:'Packaging',production:'Production',launch:'Launch'
+};
+
 function mkAlert(t,icon,title,msg){
-  return`<div class="alert alert-${t}"><div style="font-size:15px;flex-shrink:0">${icon}</div><div><div class="alert-title">${title}</div><div class="alert-msg">${msg}</div></div></div>`;
+  return`<div class="alert alert-${t}"><div style="font-size:15px;flex-shrink:0;margin-right:2px">${icon}</div><div><div class="alert-title">${title}</div><div class="alert-msg">${msg}</div></div></div>`;
 }
 
 // ============================================================
 // GANTT
 // ============================================================
-function buildGantt(rows, launchDate, today, PHASE_COLORS, PHASE_LABELS) {
-  const container = document.getElementById('ganttContainer');
-  const allDates = rows.filter(r=>r.startDate).flatMap(r=>[r.startDate,r.endDate||r.startDate]);
-  if (!allDates.length){container.innerHTML='';return;}
-  const minDate=new Date(Math.min(...allDates));minDate.setDate(1);
-  const maxDate=new Date(Math.max(...allDates,launchDate));
-  const totalDays=daysDiff(minDate,maxDate)+8;
-  const ppd=Math.max(4,Math.min(11,(container.parentElement.offsetWidth-220)/totalDays));
+function buildGantt(rows, launchDate, today) {
+  const c=document.getElementById('ganttContainer');
+  const dates=rows.filter(r=>r.startDate).flatMap(r=>[r.startDate,r.endDate||r.startDate]);
+  if(!dates.length){c.innerHTML='';return;}
+  const minD=new Date(Math.min(...dates));minD.setDate(1);
+  const maxD=new Date(Math.max(...dates,launchDate));
+  const totalDays=daysDiff(minD,maxD)+8;
+  const ppd=Math.max(4,Math.min(11,(c.parentElement.offsetWidth-210)/totalDays));
   const totalW=totalDays*ppd;
-  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 
   let mHtml='<div class="gantt-header">';
-  const cur=new Date(minDate);
-  while(cur<=maxDate){
+  const cur=new Date(minD);
+  while(cur<=maxD){
     const dim=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
-    const w=Math.min(dim,daysDiff(cur,maxDate)+1)*ppd;
-    mHtml+=`<div class="gantt-month" style="width:${w}px">${M[cur.getMonth()]} ${cur.getFullYear()}</div>`;
+    const w=Math.min(dim,daysDiff(cur,maxD)+1)*ppd;
+    mHtml+=`<div class="gantt-month" style="width:${w}px">${MN[cur.getMonth()]} ${cur.getFullYear()}</div>`;
     cur.setMonth(cur.getMonth()+1,1);
   }
   mHtml+='</div>';
 
-  const todayOff=daysDiff(minDate,today)*ppd;
-  const launchOff=daysDiff(minDate,launchDate)*ppd;
-  const todayLine=todayOff>=0&&todayOff<=totalW?`<div class="gantt-today-line" style="left:${todayOff}px"></div>`:'';
-  const launchLine=`<div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:1px;background:var(--accent2);opacity:.25;"></div>`;
+  const todayOff=daysDiff(minD,today)*ppd;
+  const launchOff=daysDiff(minD,launchDate)*ppd;
+  const todayLine=todayOff>=0&&todayOff<=totalW?`<div class="today-line" style="left:${todayOff}px"></div>`:'';
+  const launchLine=`<div class="launch-line" style="left:${launchOff}px"></div>`;
 
   let rowsHtml=''; let lastPhase='';
   rows.forEach(s=>{
-    if(s.special==='skip')return;
+    if(s.special==='skip'||!s.startDate)return;
     if(s.phase!==lastPhase){
       lastPhase=s.phase;
-      rowsHtml+=`<div class="gantt-phase-header">${(PHASE_LABELS[s.phase]||s.phase).toUpperCase()}</div>`;
+      rowsHtml+=`<div class="gphase-hdr">${(PHASE_LABELS[s.phase]||s.phase).toUpperCase()}</div>`;
     }
-    const color=PHASE_COLORS[s.phase]||'#888';
-    let barHtml='';
-    if(s.startDate){
-      const left=daysDiff(minDate,s.startDate)*ppd;
-      const w=Math.max(4,(s.ld||1)*ppd);
-      barHtml=`<div class="gantt-bar" style="left:${left}px;width:${w}px;background:${color};">${w>28?(s.ld||'')+'d':''}</div>`;
-    }
-    const lbl=s.th.replace('🚀 ','').substring(0,25)+(s.th.length>25?'…':'');
+    const color=PC[s.phase]||'#888';
+    const left=daysDiff(minD,s.startDate)*ppd;
+    const w=Math.max(3,(s.fwdLd||1)*ppd);
+    const lbl=s.th.replace('🚀 ','').substring(0,24)+(s.th.length>24?'…':'');
     rowsHtml+=`
       <div class="gantt-row">
-        <div class="gantt-label"><span class="dot" style="background:${color}"></span>${lbl}</div>
-        <div class="gantt-timeline" style="width:${totalW}px">${todayLine}${launchLine}${barHtml}</div>
+        <div class="gantt-lbl"><span class="gdot" style="background:${color}"></span>${lbl}</div>
+        <div class="gantt-tl" style="width:${totalW}px">
+          ${todayLine}${launchLine}
+          <div class="gbar" style="left:${left}px;width:${w}px;background:${color};">${w>28?(s.fwdLd||'')+'d':''}</div>
+        </div>
       </div>`;
   });
 
   rowsHtml+=`
     <div class="gantt-row" style="background:rgba(255,107,107,.04)">
-      <div class="gantt-label" style="color:var(--accent2);font-weight:600"><span class="dot" style="background:var(--accent2)"></span>🚀 LAUNCH</div>
-      <div class="gantt-timeline" style="width:${totalW}px">
+      <div class="gantt-lbl" style="color:var(--accent2);font-weight:600"><span class="gdot" style="background:var(--accent2)"></span>🚀 LAUNCH</div>
+      <div class="gantt-tl" style="width:${totalW}px">
         <div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:2px;background:var(--accent2);"></div>
         <div style="position:absolute;top:50%;transform:translateY(-50%);left:${launchOff+4}px;font-size:10px;color:var(--accent2);font-family:'IBM Plex Mono',monospace;white-space:nowrap;">${fmtShort(launchDate)}</div>
       </div>
     </div>`;
 
-  container.innerHTML=mHtml+rowsHtml;
+  c.innerHTML=mHtml+rowsHtml;
 }
 </script>
 </body>
