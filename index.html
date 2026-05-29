@@ -27,11 +27,6 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(
 .card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
 .card-title::before{content:'';display:inline-block;width:3px;height:13px;background:var(--accent);border-radius:2px;}
 
-/* Grid layouts */
-.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;align-items:end;}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:end;}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end;}
-
 .field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
 .field label span{color:var(--text3);font-weight:400;margin-left:3px;}
 input[type="text"],input[type="date"],input[type="number"],select{
@@ -42,8 +37,7 @@ input[type="text"],input[type="date"],input[type="number"],select{
 input:focus,select:focus{border-color:var(--accent);}
 input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer;}
 input[type="number"]{-moz-appearance:textfield;}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
 select option{background:var(--surface);}
 
 .type-toggle{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px;}
@@ -55,27 +49,32 @@ select option{background:var(--surface);}
 .factory-btn{flex:1;padding:7px 8px;border:none;border-radius:4px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap;}
 .factory-btn.active{background:rgba(0,212,160,.15);color:var(--accent);}
 
-.btn-calc{background:var(--accent);color:#000;border:none;border-radius:6px;padding:9px 22px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s,transform .1s;height:40px;}
+.btn-calc{background:var(--accent);color:#000;border:none;border-radius:6px;padding:9px 22px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;height:40px;}
 .btn-calc:hover{opacity:.85;}
 .btn-calc:active{transform:scale(.98);}
-.pkg-note{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;}
 
-/* Screening section */
-.screening-section{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-top:16px;}
-.screening-header{background:var(--surface2);padding:10px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);display:flex;align-items:center;justify-content:space-between;}
-.screening-body{padding:16px;}
-.screening-row{display:grid;grid-template-columns:160px 80px 1fr;gap:12px;align-items:center;margin-bottom:12px;}
-.screening-row:last-child{margin-bottom:0;}
-.screening-label{font-size:13px;color:var(--text);font-weight:500;}
-.screening-sub{font-size:11px;color:var(--text3);}
-.round-dates{display:flex;gap:8px;flex-wrap:wrap;}
-.round-date-item{display:flex;align-items:center;gap:6px;}
-.round-date-item label{font-size:11px;color:var(--text3);white-space:nowrap;}
-.round-date-item input{width:130px;}
-.add-round-btn{background:transparent;border:1px dashed var(--border);border-radius:4px;padding:4px 10px;color:var(--text3);font-size:12px;cursor:pointer;transition:all .15s;}
-.add-round-btn:hover{border-color:var(--accent);color:var(--accent);}
-.remove-round-btn{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0 2px;line-height:1;}
-.remove-round-btn:hover{color:var(--accent2);}
+/* Grid */
+.setup-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:14px;align-items:end;margin-bottom:14px;}
+.screening-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end;}
+.pkg-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:end;}
+
+/* PKG selector */
+.pkg-info-box{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 13px;margin-top:6px;}
+.pkg-info-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+.pkg-info-label{color:var(--text3);}
+.pkg-info-val{font-family:'IBM Plex Mono',monospace;color:var(--accent);font-weight:600;}
+.pkg-warn{color:var(--accent3) !important;}
+
+/* Screening box */
+.screening-box{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;}
+.screening-box-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:12px;}
+.screening-item{display:flex;flex-direction:column;gap:4px;}
+.screening-item label{font-size:12px;color:var(--text2);font-weight:500;}
+.screening-note{font-size:11px;color:var(--text3);margin-top:2px;}
+.day-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;margin-left:5px;font-weight:600;}
+.day-wed{background:rgba(79,195,247,.12);color:var(--frozen);}
+.day-thu{background:rgba(244,143,177,.12);color:var(--chilled);}
+.day-tue{background:rgba(0,212,160,.12);color:var(--accent);}
 
 /* Summary */
 .summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
@@ -92,7 +91,7 @@ select option{background:var(--surface);}
 .tab-btn{padding:10px 18px;border:none;background:transparent;color:var(--text2);font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
 .tab-btn:hover:not(.active){color:var(--text);}
-.tab-panel{display:none;padding:0;}
+.tab-panel{display:none;}
 .tab-panel.active{display:block;}
 
 /* Table */
@@ -123,7 +122,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .days-soon{background:rgba(255,107,107,.15);color:var(--accent2);}
 .days-future{background:rgba(0,212,160,.1);color:var(--accent);}
 .note-cell{font-size:11px;color:var(--text3);max-width:200px;}
-.factory-tag{font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(0,212,160,.08);color:var(--accent);font-weight:500;white-space:nowrap;}
+.factory-tag{font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(0,212,160,.08);color:var(--accent);font-weight:500;margin-left:5px;}
+.screening-date-tag{font-size:10px;padding:2px 7px;border-radius:3px;background:rgba(255,201,71,.1);color:var(--accent3);font-family:'IBM Plex Mono',monospace;margin-left:5px;}
 
 /* Gantt */
 .gantt-wrap{overflow-x:auto;}
@@ -132,34 +132,35 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .gantt-month{flex-shrink:0;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);padding:7px 0;text-align:center;border-right:1px solid var(--border);}
 .gantt-row{display:flex;align-items:center;border-bottom:1px solid rgba(42,45,58,.4);height:var(--gantt-h);}
 .gantt-row:hover{background:rgba(255,255,255,.02);}
-.gantt-label{width:220px;flex-shrink:0;padding:0 12px 0 0;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);display:flex;align-items:center;gap:5px;}
+.gantt-label{width:220px;flex-shrink:0;padding-right:10px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);display:flex;align-items:center;gap:5px;}
 .gantt-label .phase-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.gantt-timeline{flex:1;position:relative;height:var(--gantt-h);overflow:hidden;}
+.gantt-timeline{position:relative;height:var(--gantt-h);overflow:hidden;}
 .gantt-bar{position:absolute;top:50%;transform:translateY(-50%);height:14px;border-radius:3px;display:flex;align-items:center;padding:0 5px;font-size:10px;font-family:'IBM Plex Mono',monospace;white-space:nowrap;overflow:hidden;color:#000;font-weight:600;min-width:4px;}
 .gantt-today-line{position:absolute;top:0;bottom:0;width:1px;background:var(--accent2);opacity:.6;z-index:5;}
-.gantt-phase-header{background:var(--surface2);display:flex;align-items:center;padding:5px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);border-bottom:1px solid var(--border);}
+.gantt-phase-header{background:var(--surface2);padding:5px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);border-bottom:1px solid var(--border);}
 
 /* Alerts */
-.alert{border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;font-size:13px;display:flex;gap:10px;align-items:flex-start;}
+.alert{border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;font-size:13px;display:flex;gap:10px;}
 .alert-warn{background:rgba(255,201,71,.08);border:1px solid rgba(255,201,71,.2);color:var(--accent3);}
 .alert-danger{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);color:var(--accent2);}
 .alert-ok{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2);color:var(--accent);}
 .alert-icon{font-size:15px;flex-shrink:0;}
-.alert-body{flex:1;}
 .alert-title{font-weight:600;margin-bottom:1px;}
 .alert-msg{color:var(--text2);font-size:12px;}
 
 .empty-state{text-align:center;padding:56px 20px;color:var(--text3);}
 .empty-state .icon{font-size:36px;margin-bottom:10px;opacity:.5;}
 
-.divider{height:1px;background:var(--border);margin:16px 0;}
+/* FF calendar modal */
+.ff-ref{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.7;}
+.ff-ref strong{color:var(--text2);}
 
 @media(max-width:900px){
-  .grid-4{grid-template-columns:1fr 1fr;}
+  .setup-grid{grid-template-columns:1fr 1fr;}
+  .screening-grid{grid-template-columns:1fr 1fr;}
   .summary-strip{grid-template-columns:1fr 1fr;}
   .container{padding:14px;}
   .header{padding:12px 14px;}
-  .screening-row{grid-template-columns:1fr;gap:8px;}
 }
 </style>
 </head>
@@ -171,371 +172,399 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="header-title">NPD Timeline Calculator</div>
     <div class="header-sub">Chef Cares · PLP-CPF</div>
   </div>
-  <div class="header-badge">v3.0 · 2026</div>
+  <div class="header-badge">v4.0 · 2026</div>
 </header>
 
 <div class="container">
+<div class="card">
+  <div class="card-title">ตั้งค่าสินค้า / Product Setup</div>
 
-  <!-- Setup Card -->
-  <div class="card">
-    <div class="card-title">ตั้งค่าสินค้า / Product Setup</div>
-    <div class="grid-4" style="margin-bottom:14px;">
-      <div class="field">
-        <label>ชื่อสินค้า <span>Product Name</span></label>
-        <input type="text" id="productName" placeholder="เช่น บะหมี่เป็ดราดซอส">
-      </div>
-      <div class="field">
-        <label>วันที่ Launch <span>Launch Date</span></label>
-        <input type="date" id="launchDate">
-      </div>
-      <div class="field">
-        <label>ประเภท <span>Type</span></label>
-        <div class="type-toggle" id="typeToggle">
-          <button class="type-btn active-frozen" data-type="frozen" onclick="setType('frozen')">❄️ Frozen</button>
-          <button class="type-btn" data-type="chilled" onclick="setType('chilled')">🌸 Chilled</button>
-        </div>
-        <div class="pkg-note" id="pkgNote">Top film · 30 วัน · NF ต้องตรวจ</div>
-      </div>
-      <div class="field">
-        <label>โรงงาน <span>Factory</span></label>
-        <div class="factory-toggle">
-          <button class="factory-btn active" data-factory="saraburi" onclick="setFactory('saraburi')">Saraburi</button>
-          <button class="factory-btn" data-factory="nongjok" onclick="setFactory('nongjok')">Nongjok</button>
-          <button class="factory-btn" data-factory="mahachai" onclick="setFactory('mahachai')">Mahachai</button>
-        </div>
+  <!-- Row 1: basic info -->
+  <div class="setup-grid">
+    <div class="field">
+      <label>ชื่อสินค้า <span>Product Name</span></label>
+      <input type="text" id="productName" placeholder="เช่น บะหมี่เป็ดราดซอส">
+    </div>
+    <div class="field">
+      <label>วันที่ Launch <span>Launch Date</span></label>
+      <input type="date" id="launchDate">
+    </div>
+    <div class="field">
+      <label>ประเภท <span>Type</span></label>
+      <div class="type-toggle">
+        <button class="type-btn active-frozen" data-type="frozen" onclick="setType('frozen')">❄️ Frozen</button>
+        <button class="type-btn" data-type="chilled" onclick="setType('chilled')">🌸 Chilled</button>
       </div>
     </div>
-
-    <!-- Screening Section -->
-    <div class="screening-section">
-      <div class="screening-header">
-        <span>🔬 Screening Rounds</span>
-        <span style="font-size:11px;color:var(--text3);font-weight:400;">ระบุจำนวนรอบ + วันที่แต่ละรอบ</span>
-      </div>
-      <div class="screening-body">
-
-        <!-- Pre-Screen -->
-        <div class="screening-row">
-          <div>
-            <div class="screening-label">Pre-Screen</div>
-            <div class="screening-sub">ทุกวันพฤหัส (5 ถาด/รอบ)</div>
-          </div>
-          <div class="field">
-            <label>จำนวนรอบ</label>
-            <input type="number" id="prescreenCount" value="4" min="1" max="8" onchange="updateRounds('prescreen')">
-          </div>
-          <div>
-            <div id="prescreenDates" class="round-dates"></div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- FF Committee -->
-        <div class="screening-row">
-          <div>
-            <div class="screening-label">FF Committee</div>
-            <div class="screening-sub">ทุกวันอังคาร (10 ถาด/รอบ)</div>
-          </div>
-          <div class="field">
-            <label>จำนวนรอบ</label>
-            <input type="number" id="ffCount" value="2" min="1" max="4" onchange="updateRounds('ff')">
-          </div>
-          <div>
-            <div id="ffDates" class="round-dates"></div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- Product Selection -->
-        <div class="screening-row">
-          <div>
-            <div class="screening-label">Product Selection (PS)</div>
-            <div class="screening-sub">ทุกวันอังคาร (10 ถาด/รอบ)</div>
-          </div>
-          <div class="field">
-            <label>จำนวนรอบ</label>
-            <input type="number" id="psCount" value="2" min="1" max="4" onchange="updateRounds('ps')">
-          </div>
-          <div>
-            <div id="psDates" class="round-dates"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div style="margin-top:16px;display:flex;justify-content:flex-end;">
-      <button class="btn-calc" onclick="calculate()">คำนวณ Timeline →</button>
-    </div>
-  </div>
-
-  <!-- Results -->
-  <div id="summaryStrip" style="display:none;">
-    <div class="summary-strip">
-      <div class="stat-card ok" id="statDays">
-        <div class="stat-label">เวลาที่เหลือ</div>
-        <div class="stat-value" id="statDaysVal">–</div>
-        <div class="stat-sub" id="statDaysSub"></div>
-      </div>
-      <div class="stat-card" id="statFirst">
-        <div class="stat-label">งานแรกที่ต้องทำ</div>
-        <div class="stat-value" id="statFirstVal">–</div>
-        <div class="stat-sub" id="statFirstSub"></div>
-      </div>
-      <div class="stat-card" id="statPkg">
-        <div class="stat-label">Deadline สั่ง PKG</div>
-        <div class="stat-value" id="statPkgVal">–</div>
-        <div class="stat-sub" id="statPkgSub"></div>
-      </div>
-      <div class="stat-card" id="statFactory">
-        <div class="stat-label">โรงงาน</div>
-        <div class="stat-value" id="statFactoryVal">–</div>
-        <div class="stat-sub" id="statFactorySub"></div>
-      </div>
-    </div>
-    <div id="alertZone"></div>
-
-    <div class="card" style="padding:0;overflow:hidden;">
-      <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('checklist',this)">☑ Checklist</button>
-        <button class="tab-btn" onclick="showTab('gantt',this)">📊 Gantt</button>
-      </div>
-      <div class="tab-panel active" id="tab-checklist">
-        <div class="table-wrap">
-          <table id="timelineTable">
-            <thead>
-              <tr>
-                <th style="width:95px">Phase</th>
-                <th>งาน / Task</th>
-                <th>เริ่ม</th>
-                <th>Deadline</th>
-                <th>Lead</th>
-                <th>สถานะ</th>
-                <th>หมายเหตุ</th>
-              </tr>
-            </thead>
-            <tbody id="timelineBody"></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="tab-panel" id="tab-gantt" style="padding:20px;">
-        <div class="gantt-wrap">
-          <div class="gantt-container" id="ganttContainer"></div>
-        </div>
+    <div class="field">
+      <label>โรงงาน <span>Factory</span></label>
+      <div class="factory-toggle">
+        <button class="factory-btn active" data-factory="saraburi" onclick="setFactory('saraburi')">Saraburi</button>
+        <button class="factory-btn" data-factory="nongjok" onclick="setFactory('nongjok')">Nongjok</button>
+        <button class="factory-btn" data-factory="mahachai" onclick="setFactory('mahachai')">Mahachai</button>
       </div>
     </div>
   </div>
 
-  <div class="empty-state" id="emptyState">
-    <div class="icon">📋</div>
-    <p>ใส่ข้อมูลสินค้าและ Screening rounds แล้วกด <strong>คำนวณ Timeline</strong></p>
+  <!-- Row 2: PKG -->
+  <div class="pkg-grid" style="margin-bottom:14px;">
+    <div class="field">
+      <label>ประเภท Packaging <span>PKG Type</span></label>
+      <select id="pkgType" onchange="onPkgChange()">
+        <option value="sticker">Sticker — 21 วัน</option>
+        <option value="sleeve">Sleeve / สายคาด — 21 วัน</option>
+        <option value="topfilm" selected>Top Film — 30 วัน</option>
+        <option value="topfilm_oil">Top Film (ราคาน้ำมันสูง) — 60 วัน</option>
+        <option value="npd_film">NPD Top Film — 75 วัน</option>
+      </select>
+      <div class="pkg-info-box" id="pkgInfoBox">
+        <div class="pkg-info-row"><span class="pkg-info-label">Lead time ผลิต PKG</span><span class="pkg-info-val" id="pkgLeadVal">30 วัน</span></div>
+        <div class="pkg-info-row" style="margin-top:4px;"><span class="pkg-info-label">เริ่มสั่งหลังจาก</span><span class="pkg-info-val" id="pkgAfterVal">Final AW → Supplier</span></div>
+      </div>
+    </div>
+    <div style="align-self:start;margin-top:24px;">
+      <div class="ff-ref">
+        <strong>FF 2026 (วันอังคาร)</strong><br>
+        <span id="ffRefList"></span>
+      </div>
+    </div>
   </div>
 
+  <!-- Row 3: Screening counts -->
+  <div class="screening-box">
+    <div class="screening-box-title">🔬 Screening Rounds — ระบุจำนวนรอบ</div>
+    <div class="screening-grid">
+      <div class="screening-item">
+        <label>Pre-Screen
+          <span class="day-badge" id="prescreenDayBadge">พุธ</span>
+        </label>
+        <input type="number" id="prescreenCount" value="4" min="1" max="8">
+        <div class="screening-note" id="prescreenNote">Frozen: ทุกวันพุธ · 5 ถาด/รอบ</div>
+      </div>
+      <div class="screening-item">
+        <label>FF Committee <span class="day-badge day-tue">อังคาร</span></label>
+        <input type="number" id="ffCount" value="2" min="1" max="6">
+        <div class="screening-note">ดูตาราง FF 2026 ทางขวา</div>
+      </div>
+      <div class="screening-item">
+        <label>Product Selection (PS) <span class="day-badge day-tue">อังคาร</span></label>
+        <input type="number" id="psCount" value="2" min="1" max="4">
+        <div class="screening-note">ทุกวันอังคาร</div>
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button class="btn-calc" style="width:100%;" onclick="calculate()">คำนวณ Timeline →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Results -->
+<div id="summaryStrip" style="display:none;">
+  <div class="summary-strip">
+    <div class="stat-card ok" id="statDays">
+      <div class="stat-label">เวลาที่เหลือ</div>
+      <div class="stat-value" id="statDaysVal">–</div>
+      <div class="stat-sub" id="statDaysSub"></div>
+    </div>
+    <div class="stat-card ok" id="statFirst">
+      <div class="stat-label">เริ่มงานจาก</div>
+      <div class="stat-value" id="statFirstVal">–</div>
+      <div class="stat-sub" id="statFirstSub"></div>
+    </div>
+    <div class="stat-card ok" id="statPkg">
+      <div class="stat-label">Deadline สั่ง PKG</div>
+      <div class="stat-value" id="statPkgVal">–</div>
+      <div class="stat-sub" id="statPkgSub"></div>
+    </div>
+    <div class="stat-card ok" id="statFactory">
+      <div class="stat-label">โรงงาน / PKG</div>
+      <div class="stat-value" id="statFactoryVal">–</div>
+      <div class="stat-sub" id="statFactorySub"></div>
+    </div>
+  </div>
+  <div id="alertZone"></div>
+
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('checklist',this)">☑ Checklist</button>
+      <button class="tab-btn" onclick="showTab('gantt',this)">📊 Gantt</button>
+    </div>
+    <div class="tab-panel active" id="tab-checklist">
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th style="width:90px">Phase</th>
+            <th>งาน / Task</th>
+            <th>เริ่ม</th>
+            <th>Deadline</th>
+            <th>Lead</th>
+            <th>สถานะ</th>
+            <th>หมายเหตุ</th>
+          </tr></thead>
+          <tbody id="timelineBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-gantt" style="padding:20px;">
+      <div class="gantt-wrap">
+        <div class="gantt-container" id="ganttContainer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="empty-state" id="emptyState">
+  <div class="icon">📋</div>
+  <p>ใส่ข้อมูลสินค้า เลือก PKG Type และจำนวน Screening rounds<br>แล้วกด <strong>คำนวณ Timeline</strong></p>
+</div>
 </div>
 
 <script>
-// =============================================
-// STATE
-// =============================================
+// ============================================================
+// FF 2026 DATES (from official FF calendar, all Tuesdays)
+// ============================================================
+const FF_2026 = [
+  new Date(2025,11,23), // 23 ธ.ค. 68
+  new Date(2026,0,13),  // 13 ม.ค. 69
+  new Date(2026,0,27),
+  new Date(2026,1,10),
+  new Date(2026,1,24),
+  new Date(2026,2,10),
+  new Date(2026,2,24),
+  new Date(2026,3,7),
+  new Date(2026,3,28),
+  new Date(2026,4,12),
+  new Date(2026,4,26),
+  new Date(2026,5,9),
+  new Date(2026,5,23),
+  new Date(2026,6,7),
+  new Date(2026,6,21),
+  new Date(2026,7,11),
+  new Date(2026,7,25),
+  new Date(2026,8,8),
+  new Date(2026,8,22),
+  new Date(2026,9,6),
+  new Date(2026,9,20),
+  new Date(2026,10,10),
+  new Date(2026,10,24),
+  new Date(2026,11,8),
+  new Date(2026,11,22),
+];
+
+// PKG CONFIG
+const PKG_OPTIONS = {
+  sticker:     { label:'Sticker',                    leadDays:21, note:'21 วัน' },
+  sleeve:      { label:'Sleeve / สายคาด',             leadDays:21, note:'21 วัน' },
+  topfilm:     { label:'Top Film',                   leadDays:30, note:'30 วัน (ปกติ)' },
+  topfilm_oil: { label:'Top Film (น้ำมันแพง)',         leadDays:60, note:'60 วัน ⚠ ราคาน้ำมันสูง', warn:true },
+  npd_film:    { label:'NPD Top Film',               leadDays:75, note:'75 วัน (NPD lead time ใหม่)', warn:true },
+};
+
+const FACTORY_INFO = {
+  saraburi: { label:'Saraburi', sub:'บะหมี่เป็ด · ไก่ตุ๋น · สปาเก็ตตี้' },
+  nongjok:  { label:'Nongjok',  sub:'ทิกก้า · น้ำพริกอ่อง · เรือน้ำพริก' },
+  mahachai: { label:'Mahachai', sub:'กะเพราซีฟู้ด · แกงเขียวหวาน' },
+};
+
 let currentType = 'frozen';
 let currentFactory = 'saraburi';
 
-// Screening dates state: { prescreen: [Date|null, ...], ff: [...], ps: [...] }
-const screeningDates = { prescreen: [null,null,null,null], ff: [null,null], ps: [null,null] };
-
-// =============================================
-// FACTORY CONFIG
-// =============================================
-const FACTORY_INFO = {
-  saraburi: { label:'Saraburi', note:'บะหมี่เป็ด · ไก่ตุ๋น · สปาเก็ตตี้' },
-  nongjok:  { label:'Nongjok (NJ)', note:'ทิกก้ามาซาล่า · น้ำพริกอ่อง · เรือนำ้พริก' },
-  mahachai: { label:'Mahachai (MHC)', note:'กะเพราซีฟู้ด · แกงเขียวหวานไก่' },
-};
-
-// =============================================
-// STEPS DATA (daysBeforeLaunch = days before launch date)
-// =============================================
-const STEPS_FROZEN = [
-  {id:'microwave',   phase:'product',    th:'Microwave Testing (4 วัน)',             en:'Microwave Test',           daysBeforeLaunch:76, leadDays:4,  note:'30 ถ้วย จากไลน์ผลิต'},
-  {id:'plm',         phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',             en:'Open PLM',                 daysBeforeLaunch:80, leadDays:1,  note:'ทำก่อน PI'},
-  {id:'pi_doc',      phase:'product',    th:'Create PI Document (3 วัน)',            en:'PI Document',              daysBeforeLaunch:74, leadDays:3,  note:''},
-  {id:'ra_pi',       phase:'product',    th:'RA Final PI (2 วัน)',                   en:'RA Approve PI',            daysBeforeLaunch:70, leadDays:2,  note:''},
-  {id:'nf',          phase:'product',    th:'Nutrition Fact (10 วัน)',               en:'Nutrition Facts',          daysBeforeLaunch:62, leadDays:10, note:'Frozen ต้องตรวจ'},
-  {id:'nf_rd',       phase:'product',    th:'NF — RD Recheck (1 วัน)',              en:'NF RD Recheck',            daysBeforeLaunch:52, leadDays:1,  note:''},
-  {id:'nf_ra',       phase:'product',    th:'NF — RA Recheck (2 วัน)',              en:'NF RA Recheck',            daysBeforeLaunch:50, leadDays:2,  note:''},
-  {id:'fda',         phase:'product',    th:'FDA Process (5 วัน)',                  en:'FDA',                      daysBeforeLaunch:48, leadDays:5,  note:''},
-  {id:'barcode',     phase:'product',    th:'Barcode',                              en:'Barcode',                  daysBeforeLaunch:67, leadDays:1,  note:'ขอก่อน AW'},
-  {id:'ideacost',    phase:'product',    th:'Idea Cost',                            en:'Cost Est.',                daysBeforeLaunch:75, leadDays:1,  note:''},
-  {id:'pkg_trial',   phase:'product',    th:'PKG Trial',                            en:'PKG Trial',                daysBeforeLaunch:55, leadDays:1,  note:''},
-  {id:'microbio',    phase:'product',    th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',        en:'Micro/Chem Test',          daysBeforeLaunch:48, leadDays:30, note:'Internal · 1 เดือน'},
-  {id:'photoshoot',  phase:'packaging',  th:'Photo Shoot',                          en:'Photography',              daysBeforeLaunch:50, leadDays:1,  note:'6 portion + 6 ถาด FG'},
-  {id:'aw_design',   phase:'packaging',  th:'Artwork Design (1 วัน)',               en:'AW Design',                daysBeforeLaunch:46, leadDays:1,  note:'ไม่รวมถ่ายรูป'},
-  {id:'aw_review',   phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)',   en:'AW Review',                daysBeforeLaunch:44, leadDays:2,  note:''},
-  {id:'qa_doc',      phase:'packaging',  th:'เอกสาร QA 10 รายการ',                  en:'QA Documents',             daysBeforeLaunch:42, leadDays:2,  note:'แผนตรวจเชื้อ'},
-  {id:'qa_711',      phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',           en:'QA 7-11 Approval',         daysBeforeLaunch:39, leadDays:9,  note:'แจ้งล่วงหน้า'},
-  {id:'final_aw',    phase:'packaging',  th:'Final AW → Supplier',                  en:'Final AW',                 daysBeforeLaunch:37, leadDays:1,  note:''},
-  {id:'digital_proof',phase:'packaging', th:'Digital Proof',                        en:'Digital Proof',            daysBeforeLaunch:36, leadDays:1,  note:''},
-  {id:'paper_proof', phase:'packaging',  th:'Paper Proof',                          en:'Paper Proof',              daysBeforeLaunch:35, leadDays:1,  note:''},
-  {id:'po_pkg',      phase:'packaging',  th:'เปิด PO สั่ง PKG',                     en:'PO for PKG',               daysBeforeLaunch:35, leadDays:1,  note:''},
-  {id:'pkg_prod',    phase:'packaging',  th:'PKG Production — Top Film (30 วัน)',   en:'PKG Production',           daysBeforeLaunch:35, leadDays:30, note:'Top film · 30 วัน'},
-  {id:'pkg_enter',   phase:'packaging',  th:'PKG Enter Factory (7 วันก่อนผลิต)',    en:'PKG Arrive',               daysBeforeLaunch:7,  leadDays:1,  note:'7 วันก่อน First Prod'},
-  {id:'pkg_film',    phase:'packaging',  th:'Packaging Film Test',                  en:'Film Test',                daysBeforeLaunch:6,  leadDays:1,  note:''},
-  {id:'forecast',    phase:'production', th:'Forecast',                             en:'Forecast',                 daysBeforeLaunch:55, leadDays:1,  note:''},
-  {id:'order_rm',    phase:'production', th:'Order Raw Material',                   en:'RM Order',                 daysBeforeLaunch:52, leadDays:1,  note:''},
-  {id:'test_run',    phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',       en:'Test Run',                 daysBeforeLaunch:12, leadDays:1,  note:'Chef Cares ต้องเข้า'},
-  {id:'first_prod',  phase:'production', th:'First Production (Chef Cares เข้าด้วย)',en:'First Production',        daysBeforeLaunch:10, leadDays:1,  note:'Chef Cares ต้องเข้า'},
-  {id:'stock',       phase:'production', th:'Stock (9 วัน) · 75,000 ถ้วย',         en:'Stock Build',              daysBeforeLaunch:9,  leadDays:9,  note:'5 ถาด/สาขา'},
-  {id:'first_order1',phase:'launch',     th:'First Order 1 (เสาร์)',                en:'First Order 1',            daysBeforeLaunch:4,  leadDays:1,  note:''},
-  {id:'first_order2',phase:'launch',     th:'First Order 2 (จันทร์)',               en:'First Order 2',            daysBeforeLaunch:2,  leadDays:1,  note:''},
-  {id:'launch',      phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                   en:'LAUNCH',                   daysBeforeLaunch:0,  leadDays:1,  note:'Repeat 3,000 ถาด/วัน'},
-];
-
-const STEPS_CHILLED = [
-  {id:'microwave',   phase:'product',    th:'Microwave Testing (4 วัน)',             en:'Microwave Test',           daysBeforeLaunch:68, leadDays:4,  note:'30 ถ้วย จากไลน์ผลิต'},
-  {id:'plm',         phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',             en:'Open PLM',                 daysBeforeLaunch:72, leadDays:1,  note:'ทำก่อน PI'},
-  {id:'pi_doc',      phase:'product',    th:'Create PI Document (3 วัน)',            en:'PI Document',              daysBeforeLaunch:64, leadDays:3,  note:''},
-  {id:'ra_pi',       phase:'product',    th:'RA Final PI (3 วัน)',                   en:'RA Approve PI',            daysBeforeLaunch:60, leadDays:3,  note:'Chilled = 3 วัน'},
-  {id:'nf_skip',     phase:'product',    th:'Nutrition Fact — ไม่ตรวจ (Chilled)',    en:'NF: Not Required',         daysBeforeLaunch:null,leadDays:null,note:'Chilled ไม่ต้องตรวจ NF', special:'skip'},
-  {id:'fda',         phase:'product',    th:'FDA Process (5 วัน)',                  en:'FDA',                      daysBeforeLaunch:45, leadDays:5,  note:''},
-  {id:'barcode',     phase:'product',    th:'Barcode',                              en:'Barcode',                  daysBeforeLaunch:57, leadDays:1,  note:'ขอก่อน AW'},
-  {id:'ideacost',    phase:'product',    th:'Idea Cost',                            en:'Cost Est.',                daysBeforeLaunch:67, leadDays:1,  note:''},
-  {id:'pkg_trial',   phase:'product',    th:'PKG Trial',                            en:'PKG Trial',                daysBeforeLaunch:50, leadDays:1,  note:''},
-  {id:'aw_design',   phase:'packaging',  th:'Artwork Design (1 วัน)',               en:'AW Design',                daysBeforeLaunch:42, leadDays:1,  note:'ไม่รวมถ่ายรูป'},
-  {id:'aw_review',   phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)',   en:'AW Review',                daysBeforeLaunch:40, leadDays:2,  note:''},
-  {id:'qa_doc',      phase:'packaging',  th:'เอกสาร QA 10 รายการ',                  en:'QA Documents',             daysBeforeLaunch:38, leadDays:2,  note:''},
-  {id:'qa_711',      phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',           en:'QA 7-11 Approval',         daysBeforeLaunch:35, leadDays:9,  note:'แจ้งล่วงหน้า'},
-  {id:'final_aw',    phase:'packaging',  th:'Final AW → Supplier',                  en:'Final AW',                 daysBeforeLaunch:33, leadDays:1,  note:''},
-  {id:'digital_proof',phase:'packaging', th:'Digital Proof',                        en:'Digital Proof',            daysBeforeLaunch:32, leadDays:1,  note:''},
-  {id:'paper_proof', phase:'packaging',  th:'Paper Proof',                          en:'Paper Proof',              daysBeforeLaunch:31, leadDays:1,  note:''},
-  {id:'po_pkg',      phase:'packaging',  th:'เปิด PO สั่ง PKG',                     en:'PO for PKG',               daysBeforeLaunch:31, leadDays:1,  note:''},
-  {id:'pkg_prod',    phase:'packaging',  th:'PKG Production — Sticker (21 วัน)',    en:'PKG Production',           daysBeforeLaunch:31, leadDays:21, note:'Sticker · 21 วัน'},
-  {id:'pkg_enter',   phase:'packaging',  th:'PKG Enter Factory (7 วันก่อนผลิต)',    en:'PKG Arrive',               daysBeforeLaunch:7,  leadDays:1,  note:'7 วันก่อน First Prod'},
-  {id:'pkg_film',    phase:'packaging',  th:'Packaging Film Test',                  en:'Film Test',                daysBeforeLaunch:6,  leadDays:1,  note:''},
-  {id:'forecast',    phase:'production', th:'Forecast',                             en:'Forecast',                 daysBeforeLaunch:50, leadDays:1,  note:''},
-  {id:'order_rm',    phase:'production', th:'Order Raw Material',                   en:'RM Order',                 daysBeforeLaunch:47, leadDays:1,  note:''},
-  {id:'test_run',    phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',       en:'Test Run',                 daysBeforeLaunch:10, leadDays:1,  note:'Chef Cares ต้องเข้า'},
-  {id:'first_prod',  phase:'production', th:'First Production (Chef Cares เข้าด้วย)',en:'First Production',        daysBeforeLaunch:8,  leadDays:1,  note:'Chef Cares ต้องเข้า'},
-  {id:'stock',       phase:'production', th:'Stock (6 วัน) · 45,000 ถ้วย',         en:'Stock Build',              daysBeforeLaunch:7,  leadDays:6,  note:'3 ถาด/สาขา'},
-  {id:'first_order1',phase:'launch',     th:'First Order 1 (เสาร์)',                en:'First Order 1',            daysBeforeLaunch:3,  leadDays:1,  note:''},
-  {id:'first_order2',phase:'launch',     th:'First Order 2 (จันทร์)',               en:'First Order 2',            daysBeforeLaunch:1,  leadDays:1,  note:''},
-  {id:'launch',      phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                   en:'LAUNCH',                   daysBeforeLaunch:0,  leadDays:1,  note:'Repeat 2,500 ถาด/วัน'},
-];
-
-// =============================================
+// ============================================================
 // INIT
-// =============================================
+// ============================================================
 window.onload = () => {
-  updateRounds('prescreen');
-  updateRounds('ff');
-  updateRounds('ps');
+  renderFFRef();
+  onPkgChange();
 };
 
-// =============================================
-// UI HELPERS
-// =============================================
+function renderFFRef() {
+  const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  const html = FF_2026.map(d =>
+    `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()-543+2500 > 2025 ? d.getFullYear()-543+2500 : d.getFullYear()}`
+  ).join(' · ');
+  // group by month for readability
+  let grouped = '';
+  let lastMonth = -1;
+  FF_2026.forEach(d => {
+    if (d.getMonth() !== lastMonth) {
+      if (lastMonth !== -1) grouped += '<br>';
+      grouped += `<strong>${months[d.getMonth()]}:</strong> `;
+      lastMonth = d.getMonth();
+    } else {
+      grouped += ', ';
+    }
+    grouped += d.getDate();
+  });
+  document.getElementById('ffRefList').innerHTML = grouped;
+}
+
+function onPkgChange() {
+  const val = document.getElementById('pkgType').value;
+  const cfg = PKG_OPTIONS[val];
+  const leadEl = document.getElementById('pkgLeadVal');
+  leadEl.textContent = cfg.leadDays + ' วัน';
+  leadEl.className = 'pkg-info-val' + (cfg.warn ? ' pkg-warn' : '');
+  document.getElementById('pkgAfterVal').textContent = 'Final AW → Supplier';
+}
+
 function setType(type) {
   currentType = type;
   document.querySelectorAll('.type-btn').forEach(b => {
     b.className = 'type-btn';
     if (b.dataset.type === type) b.classList.add('active-' + type);
   });
-  document.getElementById('pkgNote').textContent = type === 'frozen'
-    ? 'Top film · 30 วัน · NF ต้องตรวจ'
-    : 'Sticker · 21 วัน · ไม่ตรวจ NF';
+  // Update pre-screen day badge
+  const badge = document.getElementById('prescreenDayBadge');
+  const note  = document.getElementById('prescreenNote');
+  if (type === 'frozen') {
+    badge.textContent = 'พุธ'; badge.className = 'day-badge day-wed';
+    note.textContent = 'Frozen: ทุกวันพุธ · 5 ถาด/รอบ';
+  } else {
+    badge.textContent = 'พฤหัส'; badge.className = 'day-badge day-thu';
+    note.textContent = 'Chilled: ทุกวันพฤหัส · 5 ถาด/รอบ';
+  }
 }
 
 function setFactory(f) {
   currentFactory = f;
-  document.querySelectorAll('.factory-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.factory === f);
-  });
+  document.querySelectorAll('.factory-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.factory === f));
 }
 
-function showTab(tabName, btn) {
+function showTab(t, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tabName).classList.add('active');
+  document.getElementById('tab-' + t).classList.add('active');
   btn.classList.add('active');
 }
 
-// =============================================
-// SCREENING ROUNDS UI
-// =============================================
-const SCREENING_CONFIG = {
-  prescreen: { label:'Pre-Screen', dayOfWeek:4 }, // Thursday
-  ff:        { label:'FF Committee', dayOfWeek:2 }, // Tuesday
-  ps:        { label:'PS', dayOfWeek:2 },
-};
-
-function updateRounds(type) {
-  const count = parseInt(document.getElementById(type + 'Count').value) || 1;
-  const current = screeningDates[type];
-
-  // Resize array
-  while (current.length < count) current.push(null);
-  while (current.length > count) current.pop();
-  screeningDates[type] = current;
-
-  renderRoundDates(type);
-}
-
-function renderRoundDates(type) {
-  const container = document.getElementById(type + 'Dates');
-  const dates = screeningDates[type];
-  const cfg = SCREENING_CONFIG[type];
-
-  container.innerHTML = dates.map((d, i) => {
-    const val = d ? toInputDate(d) : '';
-    return `
-      <div class="round-date-item">
-        <label>รอบ ${i+1}</label>
-        <input type="date" value="${val}"
-          onchange="setRoundDate('${type}',${i},this.value)"
-          placeholder="เลือกวัน">
-      </div>`;
-  }).join('');
-}
-
-function setRoundDate(type, idx, val) {
-  screeningDates[type][idx] = val ? new Date(val) : null;
-}
-
-function toInputDate(d) {
-  if (!d) return '';
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const day = String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
-}
-
-// =============================================
+// ============================================================
 // DATE HELPERS
-// =============================================
-function addDays(date, days) {
-  const d = new Date(date); d.setDate(d.getDate() + days); return d;
-}
-function daysDiff(a, b) { return Math.round((b - a) / 86400000); }
+// ============================================================
+function addDays(d, n) { const r=new Date(d); r.setDate(r.getDate()+n); return r; }
+function daysDiff(a,b) { return Math.round((b-a)/86400000); }
 function fmtDate(d) {
   if (!d) return '–';
-  const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  return `${String(d.getDate()).padStart(2,'0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return `${String(d.getDate()).padStart(2,'0')} ${m[d.getMonth()]} ${d.getFullYear()}`;
 }
 function fmtShort(d) {
   if (!d) return '–';
-  const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  return `${String(d.getDate()).padStart(2,'0')} ${months[d.getMonth()]}`;
+  const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return `${d.getDate()} ${m[d.getMonth()]}`;
 }
+
+// Next occurrence of weekday (0=Sun,1=Mon,...) on or after fromDate
+function nextWeekday(fromDate, wday) {
+  const d = new Date(fromDate);
+  const diff = (wday - d.getDay() + 7) % 7;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+
+// Next N occurrences of weekday after fromDate (every 2 weeks pattern for pre-screen)
+function nextNWeekdays(fromDate, wday, n, biweekly=false) {
+  const results = [];
+  let cur = nextWeekday(fromDate, wday);
+  for (let i=0; i<n; i++) {
+    results.push(new Date(cur));
+    cur = addDays(cur, biweekly ? 14 : 7);
+  }
+  return results;
+}
+
+// Next N FF dates from fromDate
+function nextNFF(fromDate, n) {
+  return FF_2026.filter(d => d >= fromDate).slice(0, n);
+}
+
+// Next N Tuesdays from fromDate
+function nextNTuesdays(fromDate, n) {
+  return nextNWeekdays(fromDate, 2, n);
+}
+
 function closestThursday(d) {
-  const day = d.getDay();
-  const diff = (4 - day + 7) % 7 || 7;
+  const diff = (4 - d.getDay() + 7) % 7 || 7;
   return addDays(d, diff);
 }
 
-// =============================================
+// ============================================================
+// MAIN STEPS (daysBeforeLaunch from launch date)
+// ============================================================
+function getSteps(pkgLeadDays) {
+  // pkg_prod lead time is dynamic based on selection
+  const FROZEN = [
+    {id:'microwave',   phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',      dbl:76,  ld:4,  note:'30 ถ้วย จากไลน์'},
+    {id:'plm',         phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',            dbl:80,  ld:1,  note:'ทำก่อน PI'},
+    {id:'pi_doc',      phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',         dbl:74,  ld:3,  note:''},
+    {id:'ra_pi',       phase:'product',    th:'RA Final PI (2 วัน)',                 en:'RA Approve PI',       dbl:70,  ld:2,  note:''},
+    {id:'nf',          phase:'product',    th:'Nutrition Fact (10 วัน)',             en:'Nutrition Facts',     dbl:62,  ld:10, note:'Frozen ต้องตรวจ'},
+    {id:'nf_rd',       phase:'product',    th:'NF — RD Recheck (1 วัน)',            en:'NF RD Recheck',       dbl:52,  ld:1,  note:''},
+    {id:'nf_ra',       phase:'product',    th:'NF — RA Recheck (2 วัน)',            en:'NF RA Recheck',       dbl:50,  ld:2,  note:''},
+    {id:'fda',         phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                 dbl:48,  ld:5,  note:''},
+    {id:'barcode',     phase:'product',    th:'Barcode',                            en:'Barcode',             dbl:67,  ld:1,  note:'ขอก่อน AW'},
+    {id:'ideacost',    phase:'product',    th:'Idea Cost',                          en:'Cost Est.',           dbl:75,  ld:1,  note:''},
+    {id:'pkg_trial',   phase:'product',    th:'PKG Trial',                          en:'PKG Trial',           dbl:55,  ld:1,  note:''},
+    {id:'microbio',    phase:'product',    th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',      en:'Micro/Chem Test',     dbl:48,  ld:30, note:'Internal · 1 เดือน'},
+    {id:'photoshoot',  phase:'packaging',  th:'Photo Shoot',                        en:'Photography',         dbl:50,  ld:1,  note:'6 portion + 6 FG'},
+    {id:'aw_design',   phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',           dbl:46,  ld:1,  note:'ไม่รวมถ่ายรูป'},
+    {id:'aw_review',   phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',           dbl:44,  ld:2,  note:''},
+    {id:'qa_doc',      phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',        dbl:42,  ld:2,  note:'แผนตรวจเชื้อ'},
+    {id:'qa_711',      phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',    dbl:39,  ld:9,  note:'แจ้งล่วงหน้า'},
+    {id:'final_aw',    phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',            dbl:37,  ld:1,  note:''},
+    {id:'digital_proof',phase:'packaging', th:'Digital Proof',                      en:'Digital Proof',       dbl:36,  ld:1,  note:''},
+    {id:'paper_proof', phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',         dbl:35,  ld:1,  note:''},
+    {id:'po_pkg',      phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',          dbl:35,  ld:1,  note:''},
+    {id:'pkg_prod',    phase:'packaging',  th:`PKG Production (${pkgLeadDays} วัน)`, en:'PKG Production',     dbl:35,  ld:pkgLeadDays, note:`Lead: ${pkgLeadDays} วัน`},
+    {id:'pkg_enter',   phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',          dbl:7,   ld:1,  note:'7 วันก่อน First Prod'},
+    {id:'pkg_film',    phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',           dbl:6,   ld:1,  note:''},
+    {id:'forecast',    phase:'production', th:'Forecast',                           en:'Forecast',            dbl:55,  ld:1,  note:''},
+    {id:'order_rm',    phase:'production', th:'Order Raw Material',                 en:'RM Order',            dbl:52,  ld:1,  note:''},
+    {id:'test_run',    phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',            dbl:12,  ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'first_prod',  phase:'production', th:'First Production',                   en:'First Production',    dbl:10,  ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'stock',       phase:'production', th:'Stock (9 วัน) · 75,000 ถ้วย',       en:'Stock Build',         dbl:9,   ld:9,  note:'5 ถาด/สาขา'},
+    {id:'first_order1',phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',       dbl:4,   ld:1,  note:''},
+    {id:'first_order2',phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',       dbl:2,   ld:1,  note:''},
+    {id:'launch',      phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',              dbl:0,   ld:1,  note:'Repeat 3,000 ถาด/วัน'},
+  ];
+
+  const CHILLED = [
+    {id:'microwave',   phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',      dbl:68,  ld:4,  note:'30 ถ้วย จากไลน์'},
+    {id:'plm',         phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',            dbl:72,  ld:1,  note:'ทำก่อน PI'},
+    {id:'pi_doc',      phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',         dbl:64,  ld:3,  note:''},
+    {id:'ra_pi',       phase:'product',    th:'RA Final PI (3 วัน)',                 en:'RA Approve PI',       dbl:60,  ld:3,  note:'Chilled = 3 วัน'},
+    {id:'nf_skip',     phase:'product',    th:'Nutrition Fact — ไม่ตรวจ',            en:'NF: N/A',             dbl:null,ld:null,note:'Chilled ไม่ต้องตรวจ', special:'skip'},
+    {id:'fda',         phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                 dbl:45,  ld:5,  note:''},
+    {id:'barcode',     phase:'product',    th:'Barcode',                            en:'Barcode',             dbl:57,  ld:1,  note:'ขอก่อน AW'},
+    {id:'ideacost',    phase:'product',    th:'Idea Cost',                          en:'Cost Est.',           dbl:67,  ld:1,  note:''},
+    {id:'pkg_trial',   phase:'product',    th:'PKG Trial',                          en:'PKG Trial',           dbl:50,  ld:1,  note:''},
+    {id:'aw_design',   phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',           dbl:42,  ld:1,  note:'ไม่รวมถ่ายรูป'},
+    {id:'aw_review',   phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',           dbl:40,  ld:2,  note:''},
+    {id:'qa_doc',      phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',        dbl:38,  ld:2,  note:''},
+    {id:'qa_711',      phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',    dbl:35,  ld:9,  note:'แจ้งล่วงหน้า'},
+    {id:'final_aw',    phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',            dbl:33,  ld:1,  note:''},
+    {id:'digital_proof',phase:'packaging', th:'Digital Proof',                      en:'Digital Proof',       dbl:32,  ld:1,  note:''},
+    {id:'paper_proof', phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',         dbl:31,  ld:1,  note:''},
+    {id:'po_pkg',      phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',          dbl:31,  ld:1,  note:''},
+    {id:'pkg_prod',    phase:'packaging',  th:`PKG Production (${pkgLeadDays} วัน)`, en:'PKG Production',     dbl:31,  ld:pkgLeadDays, note:`Lead: ${pkgLeadDays} วัน`},
+    {id:'pkg_enter',   phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',          dbl:7,   ld:1,  note:'7 วันก่อน First Prod'},
+    {id:'pkg_film',    phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',           dbl:6,   ld:1,  note:''},
+    {id:'forecast',    phase:'production', th:'Forecast',                           en:'Forecast',            dbl:50,  ld:1,  note:''},
+    {id:'order_rm',    phase:'production', th:'Order Raw Material',                 en:'RM Order',            dbl:47,  ld:1,  note:''},
+    {id:'test_run',    phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',            dbl:10,  ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'first_prod',  phase:'production', th:'First Production',                   en:'First Production',    dbl:8,   ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'stock',       phase:'production', th:'Stock (6 วัน) · 45,000 ถ้วย',       en:'Stock Build',         dbl:7,   ld:6,  note:'3 ถาด/สาขา'},
+    {id:'first_order1',phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',       dbl:3,   ld:1,  note:''},
+    {id:'first_order2',phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',       dbl:1,   ld:1,  note:''},
+    {id:'launch',      phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',              dbl:0,   ld:1,  note:'Repeat 2,500 ถาด/วัน'},
+  ];
+
+  return currentType === 'frozen' ? FROZEN : CHILLED;
+}
+
+// ============================================================
 // CALCULATE
-// =============================================
+// ============================================================
 function calculate() {
   const launchVal = document.getElementById('launchDate').value;
   if (!launchVal) { alert('กรุณาเลือกวันที่ Launch ก่อนค่ะ'); return; }
@@ -543,86 +572,105 @@ function calculate() {
   const launchDate = new Date(launchVal); launchDate.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
   const daysLeft = daysDiff(today, launchDate);
-  const isThursday = launchDate.getDay() === 4;
-  const factory = FACTORY_INFO[currentFactory];
-  const steps = currentType === 'frozen' ? STEPS_FROZEN : STEPS_CHILLED;
+  const pkgKey = document.getElementById('pkgType').value;
+  const pkgCfg = PKG_OPTIONS[pkgKey];
+  const steps = getSteps(pkgCfg.leadDays);
 
-  // Compute main step dates
+  // Compute dates for main steps
   const computed = steps.map(s => {
-    if (s.special === 'skip' || s.daysBeforeLaunch === null) return {...s, startDate:null, endDate:null};
-    const end = addDays(launchDate, -s.daysBeforeLaunch);
-    const start = addDays(end, -(s.leadDays - 1));
+    if (s.special === 'skip' || s.dbl === null) return {...s, startDate:null, endDate:null};
+    const end = addDays(launchDate, -s.dbl);
+    const start = addDays(end, -(s.ld - 1));
     return {...s, startDate:start, endDate:end};
   });
 
-  // Build screening rows from user input
+  // Compute screening rows from counts + auto dates
+  const prescreenCount = parseInt(document.getElementById('prescreenCount').value)||4;
+  const ffCount        = parseInt(document.getElementById('ffCount').value)||2;
+  const psCount        = parseInt(document.getElementById('psCount').value)||2;
+
+  // Pre-Screen: Frozen=Wed(3), Chilled=Thu(4), work backwards from ~launch-90
+  const psWday = currentType === 'frozen' ? 3 : 4;
+  const prescreenStart = addDays(launchDate, -90);
+  const prescreenDates = nextNWeekdays(prescreenStart, psWday, prescreenCount, false);
+
+  // FF: from official calendar, starting from prescreenStart
+  const ffDates = nextNFF(prescreenStart, ffCount);
+
+  // PS: every Tuesday, after last FF date
+  const psStart = ffDates.length > 0 ? ffDates[ffDates.length-1] : addDays(launchDate, -60);
+  const psDates = nextNTuesdays(addDays(psStart, 1), psCount);
+
   const screeningRows = [];
+  prescreenDates.forEach((d,i) => screeningRows.push({
+    id:`prescreen_${i}`, phase:'screening',
+    th:`Pre-Screen รอบที่ ${i+1}`,
+    en:`Pre-Screen Round ${i+1}`,
+    startDate:d, endDate:d, ld:1,
+    note:`${currentType==='frozen'?'พุธ':'พฤหัส'} · 5 ถาด`,
+  }));
+  ffDates.forEach((d,i) => screeningRows.push({
+    id:`ff_${i}`, phase:'screening',
+    th:`FF Committee รอบที่ ${i+1}`,
+    en:`FF Committee Round ${i+1}`,
+    startDate:d, endDate:d, ld:1,
+    note:'ตาราง FF 2026 · อังคาร · 10 ถาด',
+  }));
+  psDates.forEach((d,i) => screeningRows.push({
+    id:`ps_${i}`, phase:'screening',
+    th:`Product Selection รอบที่ ${i+1}`,
+    en:`PS Round ${i+1}`,
+    startDate:d, endDate:d, ld:1,
+    note:'ทุกอังคาร · 10 ถาด',
+  }));
 
-  ['prescreen','ff','ps'].forEach(type => {
-    const dates = screeningDates[type];
-    const labels = {prescreen:'Pre-Screen', ff:'FF Committee', ps:'Product Selection (PS)'};
-    const notes = {prescreen:'ทุกพฤหัส · 5 ถาด/รอบ', ff:'ทุกอังคาร · 10 ถาด/รอบ', ps:'ทุกอังคาร · 10 ถาด/รอบ'};
-    dates.forEach((d, i) => {
-      screeningRows.push({
-        id: type + '_' + i,
-        phase: 'screening',
-        th: `${labels[type]} รอบที่ ${i+1}`,
-        en: `${labels[type]} Round ${i+1}`,
-        startDate: d,
-        endDate: d,
-        leadDays: 1,
-        note: notes[type],
-        userDate: !!d,
-      });
-    });
-  });
+  // Sort screening by date
+  screeningRows.sort((a,b) => a.startDate - b.startDate);
 
-  // Merge: screening first, then main steps
   const allRows = [...screeningRows, ...computed];
 
-  // ---- Summary Stats ----
-  const daysEl = document.getElementById('statDays');
-  daysEl.className = 'stat-card ' + (daysLeft < 70 ? 'urgent' : daysLeft < 90 ? 'warn' : 'ok');
-  document.getElementById('statDaysVal').textContent = daysLeft < 0 ? 'เลยแล้ว' : daysLeft + ' วัน';
+  // ==== Summary ====
+  const dEl = document.getElementById('statDays');
+  dEl.className = 'stat-card ' + (daysLeft<70?'urgent':daysLeft<90?'warn':'ok');
+  document.getElementById('statDaysVal').textContent = daysLeft<0?'เลยแล้ว':daysLeft+' วัน';
   document.getElementById('statDaysSub').textContent = fmtDate(launchDate);
 
-  const earliest = allRows.filter(s=>s.startDate).reduce((a,b)=>(!a||b.startDate<a.startDate?b:a),null);
+  const earliest = allRows.filter(r=>r.startDate).reduce((a,b)=>(!a||b.startDate<a.startDate?b:a),null);
   document.getElementById('statFirstVal').textContent = earliest ? fmtShort(earliest.startDate) : '–';
   document.getElementById('statFirstSub').textContent = earliest ? earliest.th.replace('🚀 ','').substring(0,22) : '';
-  document.getElementById('statFirstSub').parentElement.className = 'stat-card ' + (earliest && earliest.startDate < today ? 'urgent' : 'ok');
+  document.getElementById('statFirst').className = 'stat-card '+(earliest&&earliest.startDate<today?'urgent':'ok');
 
-  const pkgRow = computed.find(s=>s.id==='po_pkg');
+  const pkgRow = computed.find(r=>r.id==='po_pkg');
   if (pkgRow) {
-    const pkgLeft = daysDiff(today, pkgRow.endDate);
+    const pl = daysDiff(today, pkgRow.endDate);
     document.getElementById('statPkgVal').textContent = fmtShort(pkgRow.endDate);
-    document.getElementById('statPkgSub').textContent = pkgLeft < 0 ? 'เลยแล้ว!' : pkgLeft + ' วันเหลือ';
-    document.getElementById('statPkg').className = 'stat-card ' + (pkgLeft < 0 ? 'urgent' : pkgLeft < 14 ? 'warn' : 'ok');
+    document.getElementById('statPkgSub').textContent = pkgCfg.label + ' · ' + (pl<0?'เลยแล้ว!':pl+' วันเหลือ');
+    document.getElementById('statPkg').className = 'stat-card '+(pl<0?'urgent':pl<14?'warn':'ok');
   }
 
-  document.getElementById('statFactoryVal').textContent = factory.label;
-  document.getElementById('statFactorySub').textContent = factory.note;
+  document.getElementById('statFactoryVal').textContent = FACTORY_INFO[currentFactory].label;
+  document.getElementById('statFactorySub').textContent = pkgCfg.note;
+  document.getElementById('statFactory').className = 'stat-card '+(pkgCfg.warn?'warn':'ok');
 
-  // ---- Alerts ----
-  const alertZone = document.getElementById('alertZone');
-  alertZone.innerHTML = '';
-  if (!isThursday) {
-    const nearThu = closestThursday(launchDate);
-    alertZone.innerHTML += alert_html('warn','⚠️','Launch ควรเป็นวันพฤหัสบดี',`วันที่เลือกเป็นวัน${['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'][launchDate.getDay()]} · พฤหัสที่ใกล้ที่สุดคือ ${fmtDate(nearThu)}`);
+  // ==== Alerts ====
+  const az = document.getElementById('alertZone');
+  az.innerHTML = '';
+  if (launchDate.getDay() !== 4) {
+    const nxt = closestThursday(launchDate);
+    az.innerHTML += mkAlert('warn','⚠️','Launch ควรเป็นวันพฤหัส',`พฤหัสที่ใกล้ที่สุดคือ ${fmtDate(nxt)}`);
   }
-  // Check screening dates not set
-  const missingScreening = screeningRows.filter(r=>!r.startDate).length;
-  if (missingScreening > 0) {
-    alertZone.innerHTML += alert_html('warn','📅',`ยังไม่ได้ใส่วัน Screening ${missingScreening} รอบ`,`สามารถใส่วันทีหลังได้ แต่แนะนำให้ใส่เพื่อความแม่นยำของ Gantt`);
+  if (pkgCfg.warn) {
+    az.innerHTML += mkAlert('warn','📦',`PKG Lead time ${pkgCfg.leadDays} วัน`,`${pkgCfg.note} · ตรวจสอบ deadline สั่ง PKG ด้านล่าง`);
   }
   if (daysLeft < 70) {
-    alertZone.innerHTML += alert_html('danger','🚨',`เวลาน้อยมาก — ${daysLeft} วัน`,`ต้องการ ${currentType==='frozen'?'~80':'~75'} วัน · ประสาน RD/RA/PKG Supplier ทันที`);
+    az.innerHTML += mkAlert('danger','🚨',`เวลาน้อยมาก — ${daysLeft} วัน`,`ต้องการ ${currentType==='frozen'?'~80':'~75'} วัน · ประสาน RD/RA/PKG ทันที`);
   } else if (daysLeft < 90) {
-    alertZone.innerHTML += alert_html('warn','⏰','เวลาค่อนข้างตึง',`เหลือ ${daysLeft} วัน · ควรเริ่ม PKG Supplier และ Screening โดยเร็ว`);
+    az.innerHTML += mkAlert('warn','⏰','เวลาค่อนข้างตึง',`เหลือ ${daysLeft} วัน · เริ่ม PKG Supplier และ Screening โดยเร็ว`);
   } else {
-    alertZone.innerHTML += alert_html('ok','✅','Timeline ยังพอมีเวลา',`เหลือ ${daysLeft} วัน · เริ่ม Pre-Screen รอบแรกและประสาน RD ได้เลย`);
+    az.innerHTML += mkAlert('ok','✅','Timeline ยังพอมีเวลา',`เหลือ ${daysLeft} วัน · เริ่ม Pre-Screen รอบแรกและประสาน RD ได้เลย`);
   }
 
-  // ---- Checklist ----
+  // ==== Checklist ====
   const tbody = document.getElementById('timelineBody');
   tbody.innerHTML = '';
   let lastPhase = '';
@@ -630,136 +678,115 @@ function calculate() {
   allRows.forEach(s => {
     const tr = document.createElement('tr');
     const phaseHtml = s.phase !== lastPhase
-      ? `<span class="phase-label phase-${s.phase}">${phaseLabel(s.phase)}</span>`
-      : '';
+      ? `<span class="phase-label phase-${s.phase}">${phaseLabel(s.phase)}</span>` : '';
     lastPhase = s.phase;
 
-    let dateClass='date-future', badgeClass='days-future', daysText='';
+    let dc='date-future',bc='days-future',dt='';
     if (s.endDate) {
       const dl = daysDiff(today, s.endDate);
-      if (dl < 0)      { dateClass='date-past';  badgeClass='days-past';  daysText=Math.abs(dl)+'วันที่แล้ว'; }
-      else if (dl===0) { dateClass='date-today'; badgeClass='days-today'; daysText='วันนี้!'; }
-      else if (dl<=7)  { dateClass='date-soon';  badgeClass='days-soon';  daysText=dl+' วัน'; }
-      else             { dateClass='date-future';badgeClass='days-future';daysText=dl+' วัน'; }
+      if (dl<0)      {dc='date-past'; bc='days-past'; dt=Math.abs(dl)+'วันที่แล้ว';}
+      else if(dl===0){dc='date-today';bc='days-today';dt='วันนี้!';}
+      else if(dl<=7) {dc='date-soon'; bc='days-soon'; dt=dl+' วัน';}
+      else           {dc='date-future';bc='days-future';dt=dl+' วัน';}
     }
 
-    if (s.special === 'skip') {
-      tr.innerHTML = `<td>${phaseHtml}</td>
+    if (s.special==='skip') {
+      tr.innerHTML=`<td>${phaseHtml}</td>
         <td><div class="step-name" style="opacity:.4">🚫 ${s.th}</div><div class="step-eng">${s.en}</div></td>
         <td colspan="5" class="note-cell">${s.note}</td>`;
-    } else if (!s.startDate) {
-      tr.innerHTML = `<td>${phaseHtml}</td>
-        <td><div class="step-name">${s.th}</div><div class="step-eng">${s.en}</div></td>
-        <td colspan="4" class="note-cell" style="color:var(--accent3)">⚠ ยังไม่ได้ใส่วัน</td>
-        <td class="note-cell">${s.note}</td>`;
     } else {
-      const factoryBadge = s.phase === 'production' || s.phase === 'launch'
+      const factTag = (s.phase==='production'||s.phase==='launch')
         ? `<span class="factory-tag">${FACTORY_INFO[currentFactory].label}</span>` : '';
-      tr.innerHTML = `<td>${phaseHtml}</td>
-        <td><div class="step-name">${s.th} ${factoryBadge}</div><div class="step-eng">${s.en}</div></td>
-        <td class="date-cell ${dateClass}">${fmtDate(s.startDate)}</td>
-        <td class="date-cell ${dateClass}">${fmtDate(s.endDate)}</td>
-        <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)">${s.leadDays||'–'} วัน</span></td>
-        <td><span class="days-badge ${badgeClass}">${daysText||'–'}</span></td>
+      const scrTag = s.phase==='screening'
+        ? `<span class="screening-date-tag">${['อา','จ','อ','พ','พฤ','ศ','ส'][s.endDate.getDay()]}</span>` : '';
+      tr.innerHTML=`<td>${phaseHtml}</td>
+        <td><div class="step-name">${s.th}${factTag}${scrTag}</div><div class="step-eng">${s.en}</div></td>
+        <td class="date-cell ${dc}">${fmtDate(s.startDate)}</td>
+        <td class="date-cell ${dc}">${fmtDate(s.endDate)}</td>
+        <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)">${s.ld||'–'} วัน</span></td>
+        <td><span class="days-badge ${bc}">${dt||'–'}</span></td>
         <td class="note-cell">${s.note}</td>`;
     }
     tbody.appendChild(tr);
   });
 
-  // ---- Gantt ----
   buildGantt(allRows, launchDate, today);
 
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('summaryStrip').style.display = 'block';
 }
 
-function alert_html(type, icon, title, msg) {
-  return `<div class="alert alert-${type}"><div class="alert-icon">${icon}</div><div class="alert-body"><div class="alert-title">${title}</div><div class="alert-msg">${msg}</div></div></div>`;
+function mkAlert(type, icon, title, msg) {
+  return `<div class="alert alert-${type}"><div class="alert-icon">${icon}</div><div><div class="alert-title">${title}</div><div class="alert-msg">${msg}</div></div></div>`;
 }
-
 function phaseLabel(p) {
   return {screening:'Screening',product:'Product Info',packaging:'Packaging',production:'Production',launch:'Launch'}[p]||p;
 }
-
 function phaseColor(p) {
   return {screening:'#ffc947',product:'#00d4a0',packaging:'#4fc3f7',production:'#f48fb1',launch:'#ff6b6b'}[p]||'#888';
 }
 
-// =============================================
+// ============================================================
 // GANTT
-// =============================================
+// ============================================================
 function buildGantt(rows, launchDate, today) {
   const container = document.getElementById('ganttContainer');
-  const allDates = rows.filter(s=>s.startDate).flatMap(s=>[s.startDate,s.endDate||s.startDate]);
+  const allDates = rows.filter(r=>r.startDate).flatMap(r=>[r.startDate,r.endDate||r.startDate]);
   if (!allDates.length) { container.innerHTML=''; return; }
 
   const minDate = new Date(Math.min(...allDates)); minDate.setDate(1);
   const maxDate = new Date(Math.max(...allDates, launchDate));
   const totalDays = daysDiff(minDate, maxDate) + 8;
-  const pxPerDay = Math.max(4, Math.min(11, (container.parentElement.offsetWidth - 220) / totalDays));
+  const availW = container.parentElement.offsetWidth - 220;
+  const ppd = Math.max(4, Math.min(11, availW / totalDays));
+  const totalW = totalDays * ppd;
 
-  // Month headers
-  let monthHtml = '<div class="gantt-header">';
-  const cur = new Date(minDate);
   const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  let mHtml = '<div class="gantt-header">';
+  const cur = new Date(minDate);
   while (cur <= maxDate) {
-    const daysInM = new Date(cur.getFullYear(), cur.getMonth()+1, 0).getDate();
-    const w = Math.min(daysInM, daysDiff(cur, maxDate)+1) * pxPerDay;
-    monthHtml += `<div class="gantt-month" style="width:${w}px">${months[cur.getMonth()]} ${cur.getFullYear()}</div>`;
+    const dim = new Date(cur.getFullYear(), cur.getMonth()+1, 0).getDate();
+    const w = Math.min(dim, daysDiff(cur, maxDate)+1) * ppd;
+    mHtml += `<div class="gantt-month" style="width:${w}px">${months[cur.getMonth()]} ${cur.getFullYear()}</div>`;
     cur.setMonth(cur.getMonth()+1, 1);
   }
-  monthHtml += '</div>';
+  mHtml += '</div>';
 
-  // Today & launch offsets
-  const todayOff = daysDiff(minDate, today) * pxPerDay;
-  const launchOff = daysDiff(minDate, launchDate) * pxPerDay;
-  const totalW = totalDays * pxPerDay;
-
-  const todayLineHtml = todayOff>=0 && todayOff<=totalW
+  const todayOff  = daysDiff(minDate, today) * ppd;
+  const launchOff = daysDiff(minDate, launchDate) * ppd;
+  const todayLine = todayOff>=0&&todayOff<=totalW
     ? `<div class="gantt-today-line" style="left:${todayOff}px"></div>` : '';
+  const launchLine = `<div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:1px;background:var(--accent2);opacity:.25;"></div>`;
 
-  // Rows
   let rowsHtml = '';
   let lastPhase = '';
 
   rows.forEach(s => {
-    if (s.special === 'skip') return;
+    if (s.special==='skip') return;
     if (s.phase !== lastPhase) {
       lastPhase = s.phase;
       rowsHtml += `<div class="gantt-phase-header">${phaseLabel(s.phase).toUpperCase()}</div>`;
     }
     let barHtml = '';
     if (s.startDate) {
-      const left = daysDiff(minDate, s.startDate) * pxPerDay;
-      const w = Math.max(4, (s.leadDays||1) * pxPerDay);
-      const color = s.phase === 'screening' && !s.userDate ? 'rgba(255,201,71,0.3)' : phaseColor(s.phase);
-      const opacity = s.phase === 'screening' && !s.userDate ? '0.4' : '1';
-      barHtml = `<div class="gantt-bar" style="left:${left}px;width:${w}px;background:${color};opacity:${opacity};">${w>28?(s.leadDays||'')+'d':''}</div>`;
-    } else {
-      barHtml = `<div style="position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--accent3);font-size:10px;">? ยังไม่ได้ใส่วัน</div>`;
+      const left = daysDiff(minDate, s.startDate) * ppd;
+      const w = Math.max(4, (s.ld||1) * ppd);
+      barHtml = `<div class="gantt-bar" style="left:${left}px;width:${w}px;background:${phaseColor(s.phase)};">${w>28?(s.ld||'')+'d':''}</div>`;
     }
-
-    const labelTxt = s.th.replace('🚀 ','').substring(0,26) + (s.th.length>26?'…':'');
+    const lbl = s.th.replace('🚀 ','').substring(0,25)+(s.th.length>25?'…':'');
     rowsHtml += `
       <div class="gantt-row">
         <div class="gantt-label">
-          <span class="phase-dot" style="background:${phaseColor(s.phase)}"></span>
-          ${labelTxt}
+          <span class="phase-dot" style="background:${phaseColor(s.phase)}"></span>${lbl}
         </div>
-        <div class="gantt-timeline" style="width:${totalW}px">
-          ${todayLineHtml}
-          <div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:1px;background:var(--accent2);opacity:.3;"></div>
-          ${barHtml}
-        </div>
+        <div class="gantt-timeline" style="width:${totalW}px">${todayLine}${launchLine}${barHtml}</div>
       </div>`;
   });
 
-  // Launch marker row
   rowsHtml += `
     <div class="gantt-row" style="background:rgba(255,107,107,.04)">
       <div class="gantt-label" style="color:var(--accent2);font-weight:600">
-        <span class="phase-dot" style="background:var(--accent2)"></span>
-        🚀 LAUNCH
+        <span class="phase-dot" style="background:var(--accent2)"></span>🚀 LAUNCH
       </div>
       <div class="gantt-timeline" style="width:${totalW}px">
         <div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:2px;background:var(--accent2);"></div>
@@ -767,7 +794,7 @@ function buildGantt(rows, launchDate, today) {
       </div>
     </div>`;
 
-  container.innerHTML = monthHtml + rowsHtml;
+  container.innerHTML = mHtml + rowsHtml;
 }
 </script>
 </body>
