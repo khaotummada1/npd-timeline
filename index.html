@@ -591,15 +591,14 @@ function calculate() {
 
   // Pre-Screen: Frozen=Wed(3), Chilled=Thu(4), work backwards from ~launch-90
   const psWday = currentType === 'frozen' ? 3 : 4;
-  const prescreenStart = addDays(launchDate, -90);
-  const prescreenDates = nextNWeekdays(prescreenStart, psWday, prescreenCount, false);
+  // Pre-Screen and FF both start from same window (~launch-90), no ordering between them
+  const screeningStart = addDays(launchDate, -90);
+  const prescreenDates = nextNWeekdays(screeningStart, psWday, prescreenCount, false);
+  const ffDates = nextNFF(screeningStart, ffCount);
 
-  // FF: from official calendar, starting from prescreenStart
-  const ffDates = nextNFF(prescreenStart, ffCount);
-
-  // PS: every Tuesday, after last FF date
-  const psStart = ffDates.length > 0 ? ffDates[ffDates.length-1] : addDays(launchDate, -60);
-  const psDates = nextNTuesdays(addDays(psStart, 1), psCount);
+  // PS: every Tuesday, after last FF date (PS requires FF to complete first)
+  const lastFF = ffDates.length > 0 ? ffDates[ffDates.length-1] : addDays(launchDate, -60);
+  const psDates = nextNTuesdays(addDays(lastFF, 1), psCount);
 
   const screeningRows = [];
   prescreenDates.forEach((d,i) => screeningRows.push({
