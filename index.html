@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0e0f14; --surface:#16181f; --surface2:#1e2029; --border:#2a2d3a;
-  --accent:#00d4a0; --accent2:#ff6b6b; --accent3:#ffc947;
-  --frozen:#4fc3f7; --chilled:#f48fb1;
-  --text:#e8eaf0; --text2:#8b8fa8; --text3:#5a5d72;
-  --gantt-h:32px; --radius:8px;
+  --bg:#0e0f14;--surface:#16181f;--surface2:#1e2029;--border:#2a2d3a;
+  --accent:#00d4a0;--accent2:#ff6b6b;--accent3:#ffc947;
+  --frozen:#4fc3f7;--chilled:#f48fb1;
+  --text:#e8eaf0;--text2:#8b8fa8;--text3:#5a5d72;
+  --gantt-h:32px;--radius:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
@@ -37,44 +37,68 @@ input[type="text"],input[type="date"],input[type="number"],select{
 input:focus,select:focus{border-color:var(--accent);}
 input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer;}
 input[type="number"]{-moz-appearance:textfield;}
-input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
 select option{background:var(--surface);}
 
-.type-toggle{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px;}
-.type-btn{flex:1;padding:7px 12px;border:none;border-radius:4px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;}
-.type-btn.active-frozen{background:rgba(79,195,247,.15);color:var(--frozen);}
-.type-btn.active-chilled{background:rgba(244,143,177,.15);color:var(--chilled);}
+.toggle-group{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px;}
+.toggle-btn{flex:1;padding:7px 10px;border:none;border-radius:4px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap;}
+.toggle-btn.active-frozen{background:rgba(79,195,247,.15);color:var(--frozen);}
+.toggle-btn.active-chilled{background:rgba(244,143,177,.15);color:var(--chilled);}
+.toggle-btn.active{background:rgba(0,212,160,.15);color:var(--accent);}
 
-.factory-toggle{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px;}
-.factory-btn{flex:1;padding:7px 8px;border:none;border-radius:4px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all .15s;white-space:nowrap;}
-.factory-btn.active{background:rgba(0,212,160,.15);color:var(--accent);}
-
-.btn-calc{background:var(--accent);color:#000;border:none;border-radius:6px;padding:9px 22px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;height:40px;}
+.btn-calc{background:var(--accent);color:#000;border:none;border-radius:6px;padding:10px 24px;font-family:'IBM Plex Sans Thai',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;}
 .btn-calc:hover{opacity:.85;}
 .btn-calc:active{transform:scale(.98);}
 
-/* Grid */
-.setup-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:14px;align-items:end;margin-bottom:14px;}
-.screening-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end;}
-.pkg-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:end;}
+/* Setup grid */
+.setup-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:14px;align-items:end;margin-bottom:16px;}
 
-/* PKG selector */
-.pkg-info-box{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 13px;margin-top:6px;}
-.pkg-info-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
-.pkg-info-label{color:var(--text3);}
-.pkg-info-val{font-family:'IBM Plex Mono',monospace;color:var(--accent);font-weight:600;}
-.pkg-warn{color:var(--accent3) !important;}
+/* PKG row */
+.pkg-row{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:16px;align-items:start;}
+.pkg-info{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 13px;margin-top:6px;display:flex;justify-content:space-between;align-items:center;}
+.pkg-info-label{font-size:12px;color:var(--text3);}
+.pkg-info-val{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);font-weight:600;}
+.pkg-warn-val{color:var(--accent3) !important;}
 
-/* Screening box */
-.screening-box{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;}
-.screening-box-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:12px;}
-.screening-item{display:flex;flex-direction:column;gap:4px;}
-.screening-item label{font-size:12px;color:var(--text2);font-weight:500;}
-.screening-note{font-size:11px;color:var(--text3);margin-top:2px;}
-.day-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;margin-left:5px;font-weight:600;}
-.day-wed{background:rgba(79,195,247,.12);color:var(--frozen);}
-.day-thu{background:rgba(244,143,177,.12);color:var(--chilled);}
-.day-tue{background:rgba(0,212,160,.12);color:var(--accent);}
+/* FF calendar */
+.ff-ref{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}
+.ff-ref-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px;}
+.ff-ref-body{font-size:11px;color:var(--text2);line-height:2;}
+.ff-ref-body strong{color:var(--text);font-weight:600;}
+
+/* Screening sequence builder */
+.seq-builder{background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.seq-header{padding:10px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.seq-body{padding:16px;}
+.seq-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:8px;}
+
+/* Each block in the sequence */
+.seq-block{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.seq-block-inner{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;min-width:120px;text-align:center;}
+.seq-block-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.seq-block-label.ps-color{color:var(--accent);}
+.seq-block-label.ff-color{color:var(--chilled);}
+.seq-block-label.pre-color{color:var(--accent3);}
+.seq-block-count{display:flex;align-items:center;justify-content:center;gap:6px;}
+.seq-count-btn{width:24px;height:24px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.seq-count-btn:hover{border-color:var(--accent);color:var(--accent);}
+.seq-count-val{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;min-width:24px;text-align:center;}
+.seq-block-sub{font-size:10px;color:var(--text3);text-align:center;}
+
+/* Arrow between blocks */
+.seq-arrow{color:var(--text3);font-size:16px;flex-shrink:0;align-self:center;}
+
+/* Optional block toggle */
+.seq-optional-toggle{font-size:11px;color:var(--text3);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:2px;}
+.seq-optional-toggle:hover{color:var(--accent);}
+.seq-block.disabled .seq-block-inner{opacity:.35;pointer-events:none;}
+
+/* FF2 add/remove */
+.btn-add-ff2{background:transparent;border:1px dashed var(--border);border-radius:6px;padding:8px 14px;color:var(--text3);font-size:12px;cursor:pointer;transition:all .15s;font-family:'IBM Plex Sans Thai',sans-serif;}
+.btn-add-ff2:hover{border-color:var(--chilled);color:var(--chilled);}
+.btn-remove-ff2{background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;margin-top:2px;}
+.btn-remove-ff2:hover{color:var(--accent2);}
 
 /* Summary */
 .summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
@@ -108,6 +132,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .phase-packaging{background:rgba(79,195,247,.12);color:var(--frozen);}
 .phase-production{background:rgba(244,143,177,.12);color:var(--chilled);}
 .phase-launch{background:rgba(255,107,107,.12);color:var(--accent2);}
+.phase-ff{background:rgba(244,143,177,.12);color:var(--chilled);}
+.phase-ps{background:rgba(0,212,160,.12);color:var(--accent);}
 
 .step-name{font-size:13px;}
 .step-eng{font-size:11px;color:var(--text3);margin-top:1px;}
@@ -121,9 +147,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .days-today{background:rgba(255,201,71,.15);color:var(--accent3);}
 .days-soon{background:rgba(255,107,107,.15);color:var(--accent2);}
 .days-future{background:rgba(0,212,160,.1);color:var(--accent);}
-.note-cell{font-size:11px;color:var(--text3);max-width:200px;}
-.factory-tag{font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(0,212,160,.08);color:var(--accent);font-weight:500;margin-left:5px;}
-.screening-date-tag{font-size:10px;padding:2px 7px;border-radius:3px;background:rgba(255,201,71,.1);color:var(--accent3);font-family:'IBM Plex Mono',monospace;margin-left:5px;}
+.note-cell{font-size:11px;color:var(--text3);max-width:180px;}
+.tag{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500;margin-left:4px;white-space:nowrap;}
+.tag-factory{background:rgba(0,212,160,.08);color:var(--accent);}
+.tag-day{background:rgba(255,201,71,.1);color:var(--accent3);font-family:'IBM Plex Mono',monospace;}
+.tag-ff{background:rgba(244,143,177,.1);color:var(--chilled);}
+.tag-ps{background:rgba(0,212,160,.1);color:var(--accent);}
 
 /* Gantt */
 .gantt-wrap{overflow-x:auto;}
@@ -133,7 +162,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .gantt-row{display:flex;align-items:center;border-bottom:1px solid rgba(42,45,58,.4);height:var(--gantt-h);}
 .gantt-row:hover{background:rgba(255,255,255,.02);}
 .gantt-label{width:220px;flex-shrink:0;padding-right:10px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2);display:flex;align-items:center;gap:5px;}
-.gantt-label .phase-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.gantt-label .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
 .gantt-timeline{position:relative;height:var(--gantt-h);overflow:hidden;}
 .gantt-bar{position:absolute;top:50%;transform:translateY(-50%);height:14px;border-radius:3px;display:flex;align-items:center;padding:0 5px;font-size:10px;font-family:'IBM Plex Mono',monospace;white-space:nowrap;overflow:hidden;color:#000;font-weight:600;min-width:4px;}
 .gantt-today-line{position:absolute;top:0;bottom:0;width:1px;background:var(--accent2);opacity:.6;z-index:5;}
@@ -144,23 +173,20 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .alert-warn{background:rgba(255,201,71,.08);border:1px solid rgba(255,201,71,.2);color:var(--accent3);}
 .alert-danger{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);color:var(--accent2);}
 .alert-ok{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2);color:var(--accent);}
-.alert-icon{font-size:15px;flex-shrink:0;}
 .alert-title{font-weight:600;margin-bottom:1px;}
 .alert-msg{color:var(--text2);font-size:12px;}
 
 .empty-state{text-align:center;padding:56px 20px;color:var(--text3);}
 .empty-state .icon{font-size:36px;margin-bottom:10px;opacity:.5;}
 
-/* FF calendar modal */
-.ff-ref{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.7;}
-.ff-ref strong{color:var(--text2);}
-
 @media(max-width:900px){
   .setup-grid{grid-template-columns:1fr 1fr;}
-  .screening-grid{grid-template-columns:1fr 1fr;}
+  .pkg-row{grid-template-columns:1fr;}
   .summary-strip{grid-template-columns:1fr 1fr;}
   .container{padding:14px;}
   .header{padding:12px 14px;}
+  .seq-flow{flex-direction:column;align-items:flex-start;}
+  .seq-arrow{transform:rotate(90deg);}
 }
 </style>
 </head>
@@ -172,14 +198,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="header-title">NPD Timeline Calculator</div>
     <div class="header-sub">Chef Cares · PLP-CPF</div>
   </div>
-  <div class="header-badge">v4.0 · 2026</div>
+  <div class="header-badge">v5.0 · 2026</div>
 </header>
 
 <div class="container">
 <div class="card">
   <div class="card-title">ตั้งค่าสินค้า / Product Setup</div>
 
-  <!-- Row 1: basic info -->
+  <!-- Row 1 -->
   <div class="setup-grid">
     <div class="field">
       <label>ชื่อสินค้า <span>Product Name</span></label>
@@ -191,70 +217,127 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
     <div class="field">
       <label>ประเภท <span>Type</span></label>
-      <div class="type-toggle">
-        <button class="type-btn active-frozen" data-type="frozen" onclick="setType('frozen')">❄️ Frozen</button>
-        <button class="type-btn" data-type="chilled" onclick="setType('chilled')">🌸 Chilled</button>
+      <div class="toggle-group">
+        <button class="toggle-btn active-frozen" data-type="frozen" onclick="setType('frozen')">❄️ Frozen</button>
+        <button class="toggle-btn" data-type="chilled" onclick="setType('chilled')">🌸 Chilled</button>
       </div>
     </div>
     <div class="field">
       <label>โรงงาน <span>Factory</span></label>
-      <div class="factory-toggle">
-        <button class="factory-btn active" data-factory="saraburi" onclick="setFactory('saraburi')">Saraburi</button>
-        <button class="factory-btn" data-factory="nongjok" onclick="setFactory('nongjok')">Nongjok</button>
-        <button class="factory-btn" data-factory="mahachai" onclick="setFactory('mahachai')">Mahachai</button>
+      <div class="toggle-group">
+        <button class="toggle-btn active" data-factory="saraburi" onclick="setFactory('saraburi')">Saraburi</button>
+        <button class="toggle-btn" data-factory="nongjok" onclick="setFactory('nongjok')">Nongjok</button>
+        <button class="toggle-btn" data-factory="mahachai" onclick="setFactory('mahachai')">Mahachai</button>
       </div>
     </div>
   </div>
 
-  <!-- Row 2: PKG -->
-  <div class="pkg-grid" style="margin-bottom:14px;">
-    <div class="field">
-      <label>ประเภท Packaging <span>PKG Type</span></label>
-      <select id="pkgType" onchange="onPkgChange()">
-        <option value="sticker">Sticker — 21 วัน</option>
-        <option value="sleeve">Sleeve / สายคาด — 21 วัน</option>
-        <option value="topfilm" selected>Top Film — 30 วัน</option>
-        <option value="topfilm_oil">Top Film (ราคาน้ำมันสูง) — 60 วัน</option>
-        <option value="npd_film">NPD Top Film — 75 วัน</option>
-      </select>
-      <div class="pkg-info-box" id="pkgInfoBox">
-        <div class="pkg-info-row"><span class="pkg-info-label">Lead time ผลิต PKG</span><span class="pkg-info-val" id="pkgLeadVal">30 วัน</span></div>
-        <div class="pkg-info-row" style="margin-top:4px;"><span class="pkg-info-label">เริ่มสั่งหลังจาก</span><span class="pkg-info-val" id="pkgAfterVal">Final AW → Supplier</span></div>
+  <!-- Row 2: PKG + FF ref -->
+  <div class="pkg-row">
+    <div>
+      <div class="field">
+        <label>ประเภท Packaging <span>PKG Type</span></label>
+        <select id="pkgType" onchange="onPkgChange()">
+          <option value="sticker">Sticker — 21 วัน</option>
+          <option value="sleeve">Sleeve / สายคาด — 21 วัน</option>
+          <option value="topfilm" selected>Top Film (ปกติ) — 45 วัน</option>
+          <option value="topfilm_war">Top Film (ภาวะสงคราม) — 60 วัน</option>
+          <option value="npd_film">NPD Top Film — 75 วัน</option>
+        </select>
+      </div>
+      <div class="pkg-info">
+        <span class="pkg-info-label">Lead time ผลิต PKG</span>
+        <span class="pkg-info-val" id="pkgLeadVal">45 วัน</span>
       </div>
     </div>
-    <div style="align-self:start;margin-top:24px;">
-      <div class="ff-ref">
-        <strong>FF 2026 (วันอังคาร)</strong><br>
-        <span id="ffRefList"></span>
+    <div class="ff-ref">
+      <div class="ff-ref-title">📅 FF 2026 (ทุกวันอังคาร)</div>
+      <div class="ff-ref-body" id="ffRefBody"></div>
+    </div>
+  </div>
+
+  <!-- Row 3: Screening sequence builder -->
+  <div class="seq-builder">
+    <div class="seq-header">
+      <span>🔬 Screening Sequence</span>
+      <span style="font-size:11px;color:var(--text3);font-weight:400;" id="prescreenDayNote">Frozen: Pre-Screen วันพุธ</span>
+    </div>
+    <div class="seq-body">
+      <div class="seq-flow" id="seqFlow">
+        <!-- Pre-Screen block 1 -->
+        <div class="seq-block" id="block-pre1">
+          <div class="seq-block-inner">
+            <div class="seq-block-label pre-color">Pre-Screen</div>
+            <div class="seq-block-count">
+              <button class="seq-count-btn" onclick="adjustCount('pre1',-1)">−</button>
+              <span class="seq-count-val" id="count-pre1">4</span>
+              <button class="seq-count-btn" onclick="adjustCount('pre1',1)">+</button>
+            </div>
+            <div class="seq-block-sub" id="sub-pre1">4 รอบ · วันพุธ</div>
+          </div>
+        </div>
+
+        <div class="seq-arrow">→</div>
+
+        <!-- FF1 block -->
+        <div class="seq-block" id="block-ff1">
+          <div class="seq-block-inner">
+            <div class="seq-block-label ff-color">FF ครั้งที่ 1</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:4px;">จากตาราง FF 2026</div>
+          </div>
+        </div>
+
+        <div class="seq-arrow" id="arrow-pre2">→</div>
+
+        <!-- Pre-Screen block 2 (optional) -->
+        <div class="seq-block" id="block-pre2">
+          <div class="seq-block-inner">
+            <div class="seq-block-label pre-color">Pre-Screen เพิ่ม</div>
+            <div class="seq-block-count">
+              <button class="seq-count-btn" onclick="adjustCount('pre2',-1)">−</button>
+              <span class="seq-count-val" id="count-pre2">0</span>
+              <button class="seq-count-btn" onclick="adjustCount('pre2',1)">+</button>
+            </div>
+            <div class="seq-block-sub">รอบเพิ่ม (ถ้าไม่ผ่าน FF1)</div>
+          </div>
+        </div>
+
+        <div class="seq-arrow" id="arrow-ff2">→</div>
+
+        <!-- FF2 block (optional) -->
+        <div class="seq-block" id="block-ff2">
+          <div class="seq-block-inner">
+            <div class="seq-block-label ff-color">FF ครั้งที่ 2</div>
+            <div class="seq-block-count" style="margin-top:4px;">
+              <label style="font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px;cursor:pointer;">
+                <input type="checkbox" id="ff2enabled" onchange="onFF2Toggle()" style="width:auto;accent-color:var(--chilled);">
+                <span>มี FF รอบ 2</span>
+              </label>
+            </div>
+            <div class="seq-block-sub" id="sub-ff2" style="color:var(--text3);">ปิดอยู่</div>
+          </div>
+        </div>
+
+        <div class="seq-arrow">→</div>
+
+        <!-- PS block -->
+        <div class="seq-block" id="block-ps">
+          <div class="seq-block-inner">
+            <div class="seq-block-label ps-color">Product Selection</div>
+            <div class="seq-block-count">
+              <button class="seq-count-btn" onclick="adjustCount('ps',-1)">−</button>
+              <span class="seq-count-val" id="count-ps">2</span>
+              <button class="seq-count-btn" onclick="adjustCount('ps',1)">+</button>
+            </div>
+            <div class="seq-block-sub">รอบ · ทุกวันอังคาร</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Row 3: Screening counts -->
-  <div class="screening-box">
-    <div class="screening-box-title">🔬 Screening Rounds — ระบุจำนวนรอบ</div>
-    <div class="screening-grid">
-      <div class="screening-item">
-        <label>Pre-Screen
-          <span class="day-badge" id="prescreenDayBadge">พุธ</span>
-        </label>
-        <input type="number" id="prescreenCount" value="4" min="1" max="8">
-        <div class="screening-note" id="prescreenNote">Frozen: ทุกวันพุธ · 5 ถาด/รอบ</div>
-      </div>
-      <div class="screening-item">
-        <label>FF Committee <span class="day-badge day-tue">อังคาร</span></label>
-        <input type="number" id="ffCount" value="2" min="1" max="6">
-        <div class="screening-note">ดูตาราง FF 2026 ทางขวา</div>
-      </div>
-      <div class="screening-item">
-        <label>Product Selection (PS) <span class="day-badge day-tue">อังคาร</span></label>
-        <input type="number" id="psCount" value="2" min="1" max="4">
-        <div class="screening-note">ทุกวันอังคาร</div>
-      </div>
-      <div style="display:flex;align-items:flex-end;">
-        <button class="btn-calc" style="width:100%;" onclick="calculate()">คำนวณ Timeline →</button>
-      </div>
-    </div>
+  <div style="display:flex;justify-content:flex-end;">
+    <button class="btn-calc" onclick="calculate()">คำนวณ Timeline →</button>
   </div>
 </div>
 
@@ -283,7 +366,6 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
   <div id="alertZone"></div>
-
   <div class="card" style="padding:0;overflow:hidden;">
     <div class="tabs">
       <button class="tab-btn active" onclick="showTab('checklist',this)">☑ Checklist</button>
@@ -295,8 +377,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <thead><tr>
             <th style="width:90px">Phase</th>
             <th>งาน / Task</th>
-            <th>เริ่ม</th>
-            <th>Deadline</th>
+            <th>วันที่</th>
             <th>Lead</th>
             <th>สถานะ</th>
             <th>หมายเหตุ</th>
@@ -315,251 +396,289 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
 <div class="empty-state" id="emptyState">
   <div class="icon">📋</div>
-  <p>ใส่ข้อมูลสินค้า เลือก PKG Type และจำนวน Screening rounds<br>แล้วกด <strong>คำนวณ Timeline</strong></p>
+  <p>ตั้งค่า Screening sequence และ PKG Type<br>แล้วกด <strong>คำนวณ Timeline</strong></p>
 </div>
 </div>
 
 <script>
 // ============================================================
-// FF 2026 DATES (from official FF calendar, all Tuesdays)
+// FF 2026 OFFICIAL DATES (all Tuesdays)
 // ============================================================
 const FF_2026 = [
-  new Date(2025,11,23), // 23 ธ.ค. 68
-  new Date(2026,0,13),  // 13 ม.ค. 69
-  new Date(2026,0,27),
-  new Date(2026,1,10),
-  new Date(2026,1,24),
-  new Date(2026,2,10),
-  new Date(2026,2,24),
-  new Date(2026,3,7),
-  new Date(2026,3,28),
-  new Date(2026,4,12),
-  new Date(2026,4,26),
-  new Date(2026,5,9),
-  new Date(2026,5,23),
-  new Date(2026,6,7),
-  new Date(2026,6,21),
-  new Date(2026,7,11),
-  new Date(2026,7,25),
-  new Date(2026,8,8),
-  new Date(2026,8,22),
-  new Date(2026,9,6),
-  new Date(2026,9,20),
-  new Date(2026,10,10),
-  new Date(2026,10,24),
-  new Date(2026,11,8),
-  new Date(2026,11,22),
+  new Date(2025,11,23),
+  new Date(2026,0,13), new Date(2026,0,27),
+  new Date(2026,1,10), new Date(2026,1,24),
+  new Date(2026,2,10), new Date(2026,2,24),
+  new Date(2026,3,7),  new Date(2026,3,28),
+  new Date(2026,4,12), new Date(2026,4,26),
+  new Date(2026,5,9),  new Date(2026,5,23),
+  new Date(2026,6,7),  new Date(2026,6,21),
+  new Date(2026,7,11), new Date(2026,7,25),
+  new Date(2026,8,8),  new Date(2026,8,22),
+  new Date(2026,9,6),  new Date(2026,9,20),
+  new Date(2026,10,10),new Date(2026,10,24),
+  new Date(2026,11,8), new Date(2026,11,22),
 ];
 
+// ============================================================
 // PKG CONFIG
-const PKG_OPTIONS = {
-  sticker:     { label:'Sticker',                    leadDays:21, note:'21 วัน' },
-  sleeve:      { label:'Sleeve / สายคาด',             leadDays:21, note:'21 วัน' },
-  topfilm:     { label:'Top Film',                   leadDays:30, note:'30 วัน (ปกติ)' },
-  topfilm_oil: { label:'Top Film (น้ำมันแพง)',         leadDays:60, note:'60 วัน ⚠ ราคาน้ำมันสูง', warn:true },
-  npd_film:    { label:'NPD Top Film',               leadDays:75, note:'75 วัน (NPD lead time ใหม่)', warn:true },
+// ============================================================
+const PKG = {
+  sticker:     {label:'Sticker',               ld:21, warn:false},
+  sleeve:      {label:'Sleeve / สายคาด',        ld:21, warn:false},
+  topfilm:     {label:'Top Film (ปกติ)',         ld:45, warn:false},
+  topfilm_war: {label:'Top Film (ภาวะสงคราม)',   ld:60, warn:true},
+  npd_film:    {label:'NPD Top Film',            ld:75, warn:true},
 };
 
-const FACTORY_INFO = {
-  saraburi: { label:'Saraburi', sub:'บะหมี่เป็ด · ไก่ตุ๋น · สปาเก็ตตี้' },
-  nongjok:  { label:'Nongjok',  sub:'ทิกก้า · น้ำพริกอ่อง · เรือน้ำพริก' },
-  mahachai: { label:'Mahachai', sub:'กะเพราซีฟู้ด · แกงเขียวหวาน' },
+const FACTORY = {
+  saraburi:{label:'Saraburi', sub:'บะหมี่เป็ด · ไก่ตุ๋น · สปาเก็ตตี้'},
+  nongjok: {label:'Nongjok',  sub:'ทิกก้า · น้ำพริกอ่อง · เรือน้ำพริก'},
+  mahachai:{label:'Mahachai', sub:'กะเพราซีฟู้ด · แกงเขียวหวาน'},
 };
 
+// ============================================================
+// STATE
+// ============================================================
 let currentType = 'frozen';
 let currentFactory = 'saraburi';
+const counts = {pre1:4, pre2:0, ps:2};
 
 // ============================================================
 // INIT
 // ============================================================
-window.onload = () => {
-  renderFFRef();
-  onPkgChange();
-};
+window.onload = () => { renderFFRef(); onPkgChange(); };
 
 function renderFFRef() {
-  const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  const html = FF_2026.map(d =>
-    `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()-543+2500 > 2025 ? d.getFullYear()-543+2500 : d.getFullYear()}`
-  ).join(' · ');
-  // group by month for readability
-  let grouped = '';
-  let lastMonth = -1;
+  const M = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  let html = ''; let lastM = -1;
   FF_2026.forEach(d => {
-    if (d.getMonth() !== lastMonth) {
-      if (lastMonth !== -1) grouped += '<br>';
-      grouped += `<strong>${months[d.getMonth()]}:</strong> `;
-      lastMonth = d.getMonth();
-    } else {
-      grouped += ', ';
-    }
-    grouped += d.getDate();
+    if (d.getMonth() !== lastM) {
+      if (lastM !== -1) html += '<br>';
+      html += `<strong>${M[d.getMonth()]}:</strong> `;
+      lastM = d.getMonth();
+    } else { html += ', '; }
+    html += d.getDate();
   });
-  document.getElementById('ffRefList').innerHTML = grouped;
+  document.getElementById('ffRefBody').innerHTML = html;
 }
 
 function onPkgChange() {
-  const val = document.getElementById('pkgType').value;
-  const cfg = PKG_OPTIONS[val];
-  const leadEl = document.getElementById('pkgLeadVal');
-  leadEl.textContent = cfg.leadDays + ' วัน';
-  leadEl.className = 'pkg-info-val' + (cfg.warn ? ' pkg-warn' : '');
-  document.getElementById('pkgAfterVal').textContent = 'Final AW → Supplier';
+  const cfg = PKG[document.getElementById('pkgType').value];
+  const el = document.getElementById('pkgLeadVal');
+  el.textContent = cfg.ld + ' วัน';
+  el.className = 'pkg-info-val' + (cfg.warn ? ' pkg-warn-val' : '');
 }
 
 function setType(type) {
   currentType = type;
-  document.querySelectorAll('.type-btn').forEach(b => {
-    b.className = 'type-btn';
-    if (b.dataset.type === type) b.classList.add('active-' + type);
+  document.querySelectorAll('[data-type]').forEach(b => {
+    b.className = 'toggle-btn' + (b.dataset.type===type ? ' active-'+type : '');
   });
-  // Update pre-screen day badge
-  const badge = document.getElementById('prescreenDayBadge');
-  const note  = document.getElementById('prescreenNote');
-  if (type === 'frozen') {
-    badge.textContent = 'พุธ'; badge.className = 'day-badge day-wed';
-    note.textContent = 'Frozen: ทุกวันพุธ · 5 ถาด/รอบ';
-  } else {
-    badge.textContent = 'พฤหัส'; badge.className = 'day-badge day-thu';
-    note.textContent = 'Chilled: ทุกวันพฤหัส · 5 ถาด/รอบ';
-  }
+  const isFrozen = type === 'frozen';
+  document.getElementById('prescreenDayNote').textContent =
+    isFrozen ? 'Frozen: Pre-Screen วันพุธ' : 'Chilled: Pre-Screen วันพฤหัส';
+  document.getElementById('sub-pre1').textContent =
+    `${counts.pre1} รอบ · ${isFrozen?'วันพุธ':'วันพฤหัส'}`;
 }
 
 function setFactory(f) {
   currentFactory = f;
-  document.querySelectorAll('.factory-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.factory === f));
+  document.querySelectorAll('[data-factory]').forEach(b =>
+    b.classList.toggle('active', b.dataset.factory===f));
+}
+
+function adjustCount(key, delta) {
+  const min = key === 'pre2' ? 0 : 1;
+  counts[key] = Math.max(min, Math.min(10, (counts[key]||0) + delta));
+  document.getElementById('count-'+key).textContent = counts[key];
+  if (key === 'pre1') {
+    document.getElementById('sub-pre1').textContent =
+      `${counts.pre1} รอบ · ${currentType==='frozen'?'วันพุธ':'วันพฤหัส'}`;
+  }
+}
+
+function onFF2Toggle() {
+  const on = document.getElementById('ff2enabled').checked;
+  document.getElementById('sub-ff2').textContent = on ? 'เปิดอยู่ · จากตาราง FF' : 'ปิดอยู่';
 }
 
 function showTab(t, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + t).classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
   btn.classList.add('active');
 }
 
 // ============================================================
 // DATE HELPERS
 // ============================================================
-function addDays(d, n) { const r=new Date(d); r.setDate(r.getDate()+n); return r; }
-function daysDiff(a,b) { return Math.round((b-a)/86400000); }
-function fmtDate(d) {
-  if (!d) return '–';
-  const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  return `${String(d.getDate()).padStart(2,'0')} ${m[d.getMonth()]} ${d.getFullYear()}`;
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function daysDiff(a,b){return Math.round((b-a)/86400000);}
+function fmtDate(d){
+  if(!d)return'–';
+  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return`${String(d.getDate()).padStart(2,'0')} ${M[d.getMonth()]} ${d.getFullYear()}`;
 }
-function fmtShort(d) {
-  if (!d) return '–';
-  const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  return `${d.getDate()} ${m[d.getMonth()]}`;
+function fmtShort(d){
+  if(!d)return'–';
+  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return`${d.getDate()} ${M[d.getMonth()]}`;
 }
-
-// Next occurrence of weekday (0=Sun,1=Mon,...) on or after fromDate
-function nextWeekday(fromDate, wday) {
-  const d = new Date(fromDate);
+function nextWeekdayOnOrAfter(from, wday) {
+  const d = new Date(from);
   const diff = (wday - d.getDay() + 7) % 7;
   d.setDate(d.getDate() + diff);
   return d;
 }
+function nWeekdays(from, wday, n) {
+  const res = []; let cur = nextWeekdayOnOrAfter(from, wday);
+  for (let i=0;i<n;i++) { res.push(new Date(cur)); cur=addDays(cur,7); }
+  return res;
+}
+function nFFFrom(from, n) {
+  return FF_2026.filter(d=>d>=from).slice(0,n);
+}
+function closestThursday(d){
+  const diff=(4-d.getDay()+7)%7||7;
+  return addDays(d,diff);
+}
 
-// Next N occurrences of weekday after fromDate (every 2 weeks pattern for pre-screen)
-function nextNWeekdays(fromDate, wday, n, biweekly=false) {
-  const results = [];
-  let cur = nextWeekday(fromDate, wday);
-  for (let i=0; i<n; i++) {
-    results.push(new Date(cur));
-    cur = addDays(cur, biweekly ? 14 : 7);
+// ============================================================
+// BUILD SCREENING SEQUENCE
+// ============================================================
+function buildScreeningSequence(launchDate) {
+  const rows = [];
+  const wday = currentType==='frozen' ? 3 : 4; // Wed=3, Thu=4
+  const ff2on = document.getElementById('ff2enabled').checked;
+
+  // Start from ~launchDate - 90 days
+  let cursor = addDays(launchDate, -90);
+
+  // Phase 1: Pre-Screen rounds before FF1
+  if (counts.pre1 > 0) {
+    const dates = nWeekdays(cursor, wday, counts.pre1);
+    dates.forEach((d,i) => {
+      rows.push({id:`pre1_${i}`, phase:'screening', subtype:'prescreen',
+        th:`Pre-Screen รอบที่ ${i+1}`, en:`Pre-Screen Round ${i+1}`,
+        date:d, note:`${currentType==='frozen'?'วันพุธ':'วันพฤหัส'} · 5 ถาด`});
+    });
+    cursor = addDays(dates[dates.length-1], 1);
   }
-  return results;
-}
 
-// Next N FF dates from fromDate
-function nextNFF(fromDate, n) {
-  return FF_2026.filter(d => d >= fromDate).slice(0, n);
-}
+  // FF1
+  const ff1dates = nFFFrom(cursor, 1);
+  if (ff1dates.length > 0) {
+    rows.push({id:'ff1', phase:'ff', subtype:'ff',
+      th:'FF Committee ครั้งที่ 1', en:'FF Committee Round 1',
+      date:ff1dates[0], note:'ตาราง FF 2026 · อังคาร · 10 ถาด'});
+    cursor = addDays(ff1dates[0], 1);
+  }
 
-// Next N Tuesdays from fromDate
-function nextNTuesdays(fromDate, n) {
-  return nextNWeekdays(fromDate, 2, n);
-}
+  // Phase 2: Extra Pre-Screen rounds (if any) after FF1
+  if (counts.pre2 > 0) {
+    const dates = nWeekdays(cursor, wday, counts.pre2);
+    dates.forEach((d,i) => {
+      rows.push({id:`pre2_${i}`, phase:'screening', subtype:'prescreen',
+        th:`Pre-Screen รอบที่ ${counts.pre1+i+1}`, en:`Pre-Screen Round ${counts.pre1+i+1}`,
+        date:d, note:`เพิ่มหลัง FF1 · ${currentType==='frozen'?'วันพุธ':'วันพฤหัส'}`});
+    });
+    cursor = addDays(dates[dates.length-1], 1);
+  }
 
-function closestThursday(d) {
-  const diff = (4 - d.getDay() + 7) % 7 || 7;
-  return addDays(d, diff);
+  // FF2 (optional)
+  if (ff2on) {
+    const ff2dates = nFFFrom(cursor, 1);
+    if (ff2dates.length > 0) {
+      rows.push({id:'ff2', phase:'ff', subtype:'ff',
+        th:'FF Committee ครั้งที่ 2', en:'FF Committee Round 2',
+        date:ff2dates[0], note:'ตาราง FF 2026 · อังคาร · 10 ถาด'});
+      cursor = addDays(ff2dates[0], 1);
+    }
+  }
+
+  // PS rounds (every Tuesday after last FF)
+  if (counts.ps > 0) {
+    const dates = nWeekdays(cursor, 2, counts.ps); // Tuesday=2
+    dates.forEach((d,i) => {
+      rows.push({id:`ps_${i}`, phase:'ps', subtype:'ps',
+        th:`Product Selection รอบที่ ${i+1}`, en:`PS Round ${i+1}`,
+        date:d, note:'ทุกวันอังคาร · 10 ถาด'});
+    });
+  }
+
+  return rows;
 }
 
 // ============================================================
-// MAIN STEPS (daysBeforeLaunch from launch date)
+// MAIN STEPS DATA
 // ============================================================
-function getSteps(pkgLeadDays) {
-  // pkg_prod lead time is dynamic based on selection
+function getMainSteps(pkgLd) {
   const FROZEN = [
-    {id:'microwave',   phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',      dbl:76,  ld:4,  note:'30 ถ้วย จากไลน์'},
-    {id:'plm',         phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',            dbl:80,  ld:1,  note:'ทำก่อน PI'},
-    {id:'pi_doc',      phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',         dbl:74,  ld:3,  note:''},
-    {id:'ra_pi',       phase:'product',    th:'RA Final PI (2 วัน)',                 en:'RA Approve PI',       dbl:70,  ld:2,  note:''},
-    {id:'nf',          phase:'product',    th:'Nutrition Fact (10 วัน)',             en:'Nutrition Facts',     dbl:62,  ld:10, note:'Frozen ต้องตรวจ'},
-    {id:'nf_rd',       phase:'product',    th:'NF — RD Recheck (1 วัน)',            en:'NF RD Recheck',       dbl:52,  ld:1,  note:''},
-    {id:'nf_ra',       phase:'product',    th:'NF — RA Recheck (2 วัน)',            en:'NF RA Recheck',       dbl:50,  ld:2,  note:''},
-    {id:'fda',         phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                 dbl:48,  ld:5,  note:''},
-    {id:'barcode',     phase:'product',    th:'Barcode',                            en:'Barcode',             dbl:67,  ld:1,  note:'ขอก่อน AW'},
-    {id:'ideacost',    phase:'product',    th:'Idea Cost',                          en:'Cost Est.',           dbl:75,  ld:1,  note:''},
-    {id:'pkg_trial',   phase:'product',    th:'PKG Trial',                          en:'PKG Trial',           dbl:55,  ld:1,  note:''},
-    {id:'microbio',    phase:'product',    th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',      en:'Micro/Chem Test',     dbl:48,  ld:30, note:'Internal · 1 เดือน'},
-    {id:'photoshoot',  phase:'packaging',  th:'Photo Shoot',                        en:'Photography',         dbl:50,  ld:1,  note:'6 portion + 6 FG'},
-    {id:'aw_design',   phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',           dbl:46,  ld:1,  note:'ไม่รวมถ่ายรูป'},
-    {id:'aw_review',   phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',           dbl:44,  ld:2,  note:''},
-    {id:'qa_doc',      phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',        dbl:42,  ld:2,  note:'แผนตรวจเชื้อ'},
-    {id:'qa_711',      phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',    dbl:39,  ld:9,  note:'แจ้งล่วงหน้า'},
-    {id:'final_aw',    phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',            dbl:37,  ld:1,  note:''},
-    {id:'digital_proof',phase:'packaging', th:'Digital Proof',                      en:'Digital Proof',       dbl:36,  ld:1,  note:''},
-    {id:'paper_proof', phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',         dbl:35,  ld:1,  note:''},
-    {id:'po_pkg',      phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',          dbl:35,  ld:1,  note:''},
-    {id:'pkg_prod',    phase:'packaging',  th:`PKG Production (${pkgLeadDays} วัน)`, en:'PKG Production',     dbl:35,  ld:pkgLeadDays, note:`Lead: ${pkgLeadDays} วัน`},
-    {id:'pkg_enter',   phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',          dbl:7,   ld:1,  note:'7 วันก่อน First Prod'},
-    {id:'pkg_film',    phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',           dbl:6,   ld:1,  note:''},
-    {id:'forecast',    phase:'production', th:'Forecast',                           en:'Forecast',            dbl:55,  ld:1,  note:''},
-    {id:'order_rm',    phase:'production', th:'Order Raw Material',                 en:'RM Order',            dbl:52,  ld:1,  note:''},
-    {id:'test_run',    phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',            dbl:12,  ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'first_prod',  phase:'production', th:'First Production',                   en:'First Production',    dbl:10,  ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'stock',       phase:'production', th:'Stock (9 วัน) · 75,000 ถ้วย',       en:'Stock Build',         dbl:9,   ld:9,  note:'5 ถาด/สาขา'},
-    {id:'first_order1',phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',       dbl:4,   ld:1,  note:''},
-    {id:'first_order2',phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',       dbl:2,   ld:1,  note:''},
-    {id:'launch',      phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',              dbl:0,   ld:1,  note:'Repeat 3,000 ถาด/วัน'},
+    {id:'microwave',    phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',     dbl:76, ld:4,  note:'30 ถ้วย จากไลน์'},
+    {id:'plm',          phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',           dbl:80, ld:1,  note:'ทำก่อน PI'},
+    {id:'pi_doc',       phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',        dbl:74, ld:3,  note:''},
+    {id:'ra_pi',        phase:'product',    th:'RA Final PI (2 วัน)',                 en:'RA Approve PI',      dbl:70, ld:2,  note:''},
+    {id:'nf',           phase:'product',    th:'Nutrition Fact (10 วัน)',             en:'Nutrition Facts',    dbl:62, ld:10, note:'Frozen ต้องตรวจ'},
+    {id:'nf_rd',        phase:'product',    th:'NF — RD Recheck (1 วัน)',            en:'NF RD Recheck',      dbl:52, ld:1,  note:''},
+    {id:'nf_ra',        phase:'product',    th:'NF — RA Recheck (2 วัน)',            en:'NF RA Recheck',      dbl:50, ld:2,  note:''},
+    {id:'fda',          phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                dbl:48, ld:5,  note:''},
+    {id:'barcode',      phase:'product',    th:'Barcode',                            en:'Barcode',            dbl:67, ld:1,  note:'ขอก่อน AW'},
+    {id:'ideacost',     phase:'product',    th:'Idea Cost',                          en:'Cost Est.',          dbl:75, ld:1,  note:''},
+    {id:'pkg_trial',    phase:'product',    th:'PKG Trial',                          en:'PKG Trial',          dbl:55, ld:1,  note:''},
+    {id:'microbio',     phase:'product',    th:'ตรวจเคมี + จุลินทรีย์ (30 วัน)',      en:'Micro/Chem Test',    dbl:48, ld:30, note:'Internal · 1 เดือน'},
+    {id:'photoshoot',   phase:'packaging',  th:'Photo Shoot',                        en:'Photography',        dbl:50, ld:1,  note:'6 portion + 6 FG'},
+    {id:'aw_design',    phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',          dbl:46, ld:1,  note:'ไม่รวมถ่ายรูป'},
+    {id:'aw_review',    phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',          dbl:44, ld:2,  note:''},
+    {id:'qa_doc',       phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',       dbl:42, ld:2,  note:'แผนตรวจเชื้อ'},
+    {id:'qa_711',       phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',   dbl:39, ld:9,  note:'แจ้งล่วงหน้า'},
+    {id:'final_aw',     phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',           dbl:37, ld:1,  note:''},
+    {id:'digital_proof',phase:'packaging',  th:'Digital Proof',                      en:'Digital Proof',      dbl:36, ld:1,  note:''},
+    {id:'paper_proof',  phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',        dbl:35, ld:1,  note:''},
+    {id:'po_pkg',       phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',         dbl:35, ld:1,  note:''},
+    {id:'pkg_prod',     phase:'packaging',  th:`PKG Production (${pkgLd} วัน)`,      en:'PKG Production',     dbl:35, ld:pkgLd, note:`Lead: ${pkgLd} วัน`},
+    {id:'pkg_enter',    phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',         dbl:7,  ld:1,  note:'7 วันก่อน First Prod'},
+    {id:'pkg_film',     phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',          dbl:6,  ld:1,  note:''},
+    {id:'forecast',     phase:'production', th:'Forecast',                           en:'Forecast',           dbl:55, ld:1,  note:''},
+    {id:'order_rm',     phase:'production', th:'Order Raw Material',                 en:'RM Order',           dbl:52, ld:1,  note:''},
+    {id:'test_run',     phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',           dbl:12, ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'first_prod',   phase:'production', th:'First Production',                   en:'First Production',   dbl:10, ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'stock',        phase:'production', th:'Stock (9 วัน) · 75,000 ถ้วย',       en:'Stock Build',        dbl:9,  ld:9,  note:'5 ถาด/สาขา'},
+    {id:'first_order1', phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',      dbl:4,  ld:1,  note:''},
+    {id:'first_order2', phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',      dbl:2,  ld:1,  note:''},
+    {id:'launch',       phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',             dbl:0,  ld:1,  note:'Repeat 3,000 ถาด/วัน'},
   ];
-
   const CHILLED = [
-    {id:'microwave',   phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',      dbl:68,  ld:4,  note:'30 ถ้วย จากไลน์'},
-    {id:'plm',         phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',            dbl:72,  ld:1,  note:'ทำก่อน PI'},
-    {id:'pi_doc',      phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',         dbl:64,  ld:3,  note:''},
-    {id:'ra_pi',       phase:'product',    th:'RA Final PI (3 วัน)',                 en:'RA Approve PI',       dbl:60,  ld:3,  note:'Chilled = 3 วัน'},
-    {id:'nf_skip',     phase:'product',    th:'Nutrition Fact — ไม่ตรวจ',            en:'NF: N/A',             dbl:null,ld:null,note:'Chilled ไม่ต้องตรวจ', special:'skip'},
-    {id:'fda',         phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                 dbl:45,  ld:5,  note:''},
-    {id:'barcode',     phase:'product',    th:'Barcode',                            en:'Barcode',             dbl:57,  ld:1,  note:'ขอก่อน AW'},
-    {id:'ideacost',    phase:'product',    th:'Idea Cost',                          en:'Cost Est.',           dbl:67,  ld:1,  note:''},
-    {id:'pkg_trial',   phase:'product',    th:'PKG Trial',                          en:'PKG Trial',           dbl:50,  ld:1,  note:''},
-    {id:'aw_design',   phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',           dbl:42,  ld:1,  note:'ไม่รวมถ่ายรูป'},
-    {id:'aw_review',   phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',           dbl:40,  ld:2,  note:''},
-    {id:'qa_doc',      phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',        dbl:38,  ld:2,  note:''},
-    {id:'qa_711',      phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',    dbl:35,  ld:9,  note:'แจ้งล่วงหน้า'},
-    {id:'final_aw',    phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',            dbl:33,  ld:1,  note:''},
-    {id:'digital_proof',phase:'packaging', th:'Digital Proof',                      en:'Digital Proof',       dbl:32,  ld:1,  note:''},
-    {id:'paper_proof', phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',         dbl:31,  ld:1,  note:''},
-    {id:'po_pkg',      phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',          dbl:31,  ld:1,  note:''},
-    {id:'pkg_prod',    phase:'packaging',  th:`PKG Production (${pkgLeadDays} วัน)`, en:'PKG Production',     dbl:31,  ld:pkgLeadDays, note:`Lead: ${pkgLeadDays} วัน`},
-    {id:'pkg_enter',   phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',          dbl:7,   ld:1,  note:'7 วันก่อน First Prod'},
-    {id:'pkg_film',    phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',           dbl:6,   ld:1,  note:''},
-    {id:'forecast',    phase:'production', th:'Forecast',                           en:'Forecast',            dbl:50,  ld:1,  note:''},
-    {id:'order_rm',    phase:'production', th:'Order Raw Material',                 en:'RM Order',            dbl:47,  ld:1,  note:''},
-    {id:'test_run',    phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',            dbl:10,  ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'first_prod',  phase:'production', th:'First Production',                   en:'First Production',    dbl:8,   ld:1,  note:'Chef Cares ต้องเข้า'},
-    {id:'stock',       phase:'production', th:'Stock (6 วัน) · 45,000 ถ้วย',       en:'Stock Build',         dbl:7,   ld:6,  note:'3 ถาด/สาขา'},
-    {id:'first_order1',phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',       dbl:3,   ld:1,  note:''},
-    {id:'first_order2',phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',       dbl:1,   ld:1,  note:''},
-    {id:'launch',      phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',              dbl:0,   ld:1,  note:'Repeat 2,500 ถาด/วัน'},
+    {id:'microwave',    phase:'product',    th:'Microwave Testing (4 วัน)',           en:'Microwave Test',     dbl:68, ld:4,  note:'30 ถ้วย จากไลน์'},
+    {id:'plm',          phase:'product',    th:'เปิด PLM + แจ้งชื่อสินค้า',           en:'Open PLM',           dbl:72, ld:1,  note:'ทำก่อน PI'},
+    {id:'pi_doc',       phase:'product',    th:'Create PI Document (3 วัน)',          en:'PI Document',        dbl:64, ld:3,  note:''},
+    {id:'ra_pi',        phase:'product',    th:'RA Final PI (3 วัน)',                 en:'RA Approve PI',      dbl:60, ld:3,  note:'Chilled=3วัน'},
+    {id:'nf_skip',      phase:'product',    th:'Nutrition Fact — ไม่ตรวจ',            en:'NF: N/A',            dbl:null,ld:null,note:'Chilled ไม่ต้องตรวจ',special:'skip'},
+    {id:'fda',          phase:'product',    th:'FDA Process (5 วัน)',                en:'FDA',                dbl:45, ld:5,  note:''},
+    {id:'barcode',      phase:'product',    th:'Barcode',                            en:'Barcode',            dbl:57, ld:1,  note:'ขอก่อน AW'},
+    {id:'ideacost',     phase:'product',    th:'Idea Cost',                          en:'Cost Est.',          dbl:67, ld:1,  note:''},
+    {id:'pkg_trial',    phase:'product',    th:'PKG Trial',                          en:'PKG Trial',          dbl:50, ld:1,  note:''},
+    {id:'aw_design',    phase:'packaging',  th:'Artwork Design (1 วัน)',             en:'AW Design',          dbl:42, ld:1,  note:'ไม่รวมถ่ายรูป'},
+    {id:'aw_review',    phase:'packaging',  th:'RD/RA Review & Approve AW (2 วัน)', en:'AW Review',          dbl:40, ld:2,  note:''},
+    {id:'qa_doc',       phase:'packaging',  th:'เอกสาร QA 10 รายการ',                en:'QA Documents',       dbl:38, ld:2,  note:''},
+    {id:'qa_711',       phase:'packaging',  th:'QA 7-11 Approved (7+2 วัน)',         en:'QA 7-11 Approval',   dbl:35, ld:9,  note:'แจ้งล่วงหน้า'},
+    {id:'final_aw',     phase:'packaging',  th:'Final AW → Supplier',                en:'Final AW',           dbl:33, ld:1,  note:''},
+    {id:'digital_proof',phase:'packaging',  th:'Digital Proof',                      en:'Digital Proof',      dbl:32, ld:1,  note:''},
+    {id:'paper_proof',  phase:'packaging',  th:'Paper Proof',                        en:'Paper Proof',        dbl:31, ld:1,  note:''},
+    {id:'po_pkg',       phase:'packaging',  th:'เปิด PO สั่ง PKG',                   en:'PO for PKG',         dbl:31, ld:1,  note:''},
+    {id:'pkg_prod',     phase:'packaging',  th:`PKG Production (${pkgLd} วัน)`,      en:'PKG Production',     dbl:31, ld:pkgLd, note:`Lead: ${pkgLd} วัน`},
+    {id:'pkg_enter',    phase:'packaging',  th:'PKG Enter Factory',                  en:'PKG Arrive',         dbl:7,  ld:1,  note:'7 วันก่อน First Prod'},
+    {id:'pkg_film',     phase:'packaging',  th:'Packaging Film Test',                en:'Film Test',          dbl:6,  ld:1,  note:''},
+    {id:'forecast',     phase:'production', th:'Forecast',                           en:'Forecast',           dbl:50, ld:1,  note:''},
+    {id:'order_rm',     phase:'production', th:'Order Raw Material',                 en:'RM Order',           dbl:47, ld:1,  note:''},
+    {id:'test_run',     phase:'production', th:'Test Run (Chef Cares เข้าด้วย)',     en:'Test Run',           dbl:10, ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'first_prod',   phase:'production', th:'First Production',                   en:'First Production',   dbl:8,  ld:1,  note:'Chef Cares ต้องเข้า'},
+    {id:'stock',        phase:'production', th:'Stock (6 วัน) · 45,000 ถ้วย',       en:'Stock Build',        dbl:7,  ld:6,  note:'3 ถาด/สาขา'},
+    {id:'first_order1', phase:'launch',     th:'First Order 1 (เสาร์)',              en:'First Order 1',      dbl:3,  ld:1,  note:''},
+    {id:'first_order2', phase:'launch',     th:'First Order 2 (จันทร์)',             en:'First Order 2',      dbl:1,  ld:1,  note:''},
+    {id:'launch',       phase:'launch',     th:'🚀 LAUNCH (พฤหัส)',                 en:'LAUNCH',             dbl:0,  ld:1,  note:'Repeat 2,500 ถาด/วัน'},
   ];
-
-  return currentType === 'frozen' ? FROZEN : CHILLED;
+  return currentType==='frozen' ? FROZEN : CHILLED;
 }
 
 // ============================================================
@@ -568,232 +687,183 @@ function getSteps(pkgLeadDays) {
 function calculate() {
   const launchVal = document.getElementById('launchDate').value;
   if (!launchVal) { alert('กรุณาเลือกวันที่ Launch ก่อนค่ะ'); return; }
-
   const launchDate = new Date(launchVal); launchDate.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
   const daysLeft = daysDiff(today, launchDate);
   const pkgKey = document.getElementById('pkgType').value;
-  const pkgCfg = PKG_OPTIONS[pkgKey];
-  const steps = getSteps(pkgCfg.leadDays);
+  const pkgCfg = PKG[pkgKey];
 
-  // Compute dates for main steps
-  const computed = steps.map(s => {
-    if (s.special === 'skip' || s.dbl === null) return {...s, startDate:null, endDate:null};
+  // Build rows
+  const scrRows = buildScreeningSequence(launchDate);
+  const mainSteps = getMainSteps(pkgCfg.ld).map(s => {
+    if (s.special==='skip'||s.dbl===null) return {...s, startDate:null, endDate:null};
     const end = addDays(launchDate, -s.dbl);
-    const start = addDays(end, -(s.ld - 1));
+    const start = addDays(end, -(s.ld-1));
     return {...s, startDate:start, endDate:end};
   });
 
-  // Compute screening rows from counts + auto dates
-  const prescreenCount = parseInt(document.getElementById('prescreenCount').value)||4;
-  const ffCount        = parseInt(document.getElementById('ffCount').value)||2;
-  const psCount        = parseInt(document.getElementById('psCount').value)||2;
-
-  // Pre-Screen: Frozen=Wed(3), Chilled=Thu(4), work backwards from ~launch-90
-  const psWday = currentType === 'frozen' ? 3 : 4;
-  // Pre-Screen and FF both start from same window (~launch-90), no ordering between them
-  const screeningStart = addDays(launchDate, -90);
-  const prescreenDates = nextNWeekdays(screeningStart, psWday, prescreenCount, false);
-  const ffDates = nextNFF(screeningStart, ffCount);
-
-  // PS: every Tuesday, after last FF date (PS requires FF to complete first)
-  const lastFF = ffDates.length > 0 ? ffDates[ffDates.length-1] : addDays(launchDate, -60);
-  const psDates = nextNTuesdays(addDays(lastFF, 1), psCount);
-
-  const screeningRows = [];
-  prescreenDates.forEach((d,i) => screeningRows.push({
-    id:`prescreen_${i}`, phase:'screening',
-    th:`Pre-Screen รอบที่ ${i+1}`,
-    en:`Pre-Screen Round ${i+1}`,
-    startDate:d, endDate:d, ld:1,
-    note:`${currentType==='frozen'?'พุธ':'พฤหัส'} · 5 ถาด`,
-  }));
-  ffDates.forEach((d,i) => screeningRows.push({
-    id:`ff_${i}`, phase:'screening',
-    th:`FF Committee รอบที่ ${i+1}`,
-    en:`FF Committee Round ${i+1}`,
-    startDate:d, endDate:d, ld:1,
-    note:'ตาราง FF 2026 · อังคาร · 10 ถาด',
-  }));
-  psDates.forEach((d,i) => screeningRows.push({
-    id:`ps_${i}`, phase:'screening',
-    th:`Product Selection รอบที่ ${i+1}`,
-    en:`PS Round ${i+1}`,
-    startDate:d, endDate:d, ld:1,
-    note:'ทุกอังคาร · 10 ถาด',
+  // Convert scrRows to table format
+  const scrTableRows = scrRows.map(r => ({
+    ...r, startDate:r.date, endDate:r.date, ld:1,
   }));
 
-  // Sort screening by date
-  screeningRows.sort((a,b) => a.startDate - b.startDate);
-
-  const allRows = [...screeningRows, ...computed];
+  const allRows = [...scrTableRows, ...mainSteps];
 
   // ==== Summary ====
-  const dEl = document.getElementById('statDays');
-  dEl.className = 'stat-card ' + (daysLeft<70?'urgent':daysLeft<90?'warn':'ok');
-  document.getElementById('statDaysVal').textContent = daysLeft<0?'เลยแล้ว':daysLeft+' วัน';
+  const dl = daysLeft;
+  document.getElementById('statDays').className = 'stat-card '+(dl<70?'urgent':dl<90?'warn':'ok');
+  document.getElementById('statDaysVal').textContent = dl<0?'เลยแล้ว':dl+' วัน';
   document.getElementById('statDaysSub').textContent = fmtDate(launchDate);
 
   const earliest = allRows.filter(r=>r.startDate).reduce((a,b)=>(!a||b.startDate<a.startDate?b:a),null);
-  document.getElementById('statFirstVal').textContent = earliest ? fmtShort(earliest.startDate) : '–';
-  document.getElementById('statFirstSub').textContent = earliest ? earliest.th.replace('🚀 ','').substring(0,22) : '';
+  document.getElementById('statFirstVal').textContent = earliest?fmtShort(earliest.startDate):'–';
+  document.getElementById('statFirstSub').textContent = earliest?earliest.th.replace('🚀 ','').substring(0,22):'';
   document.getElementById('statFirst').className = 'stat-card '+(earliest&&earliest.startDate<today?'urgent':'ok');
 
-  const pkgRow = computed.find(r=>r.id==='po_pkg');
+  const pkgRow = mainSteps.find(r=>r.id==='po_pkg');
   if (pkgRow) {
     const pl = daysDiff(today, pkgRow.endDate);
     document.getElementById('statPkgVal').textContent = fmtShort(pkgRow.endDate);
-    document.getElementById('statPkgSub').textContent = pkgCfg.label + ' · ' + (pl<0?'เลยแล้ว!':pl+' วันเหลือ');
+    document.getElementById('statPkgSub').textContent = pkgCfg.label+' · '+(pl<0?'เลยแล้ว!':pl+' วันเหลือ');
     document.getElementById('statPkg').className = 'stat-card '+(pl<0?'urgent':pl<14?'warn':'ok');
   }
-
-  document.getElementById('statFactoryVal').textContent = FACTORY_INFO[currentFactory].label;
-  document.getElementById('statFactorySub').textContent = pkgCfg.note;
+  document.getElementById('statFactoryVal').textContent = FACTORY[currentFactory].label;
+  document.getElementById('statFactorySub').textContent = pkgCfg.label+' '+pkgCfg.ld+'วัน';
   document.getElementById('statFactory').className = 'stat-card '+(pkgCfg.warn?'warn':'ok');
 
   // ==== Alerts ====
-  const az = document.getElementById('alertZone');
-  az.innerHTML = '';
-  if (launchDate.getDay() !== 4) {
-    const nxt = closestThursday(launchDate);
-    az.innerHTML += mkAlert('warn','⚠️','Launch ควรเป็นวันพฤหัส',`พฤหัสที่ใกล้ที่สุดคือ ${fmtDate(nxt)}`);
+  const az = document.getElementById('alertZone'); az.innerHTML='';
+  if (launchDate.getDay()!==4) {
+    az.innerHTML+=mkAlert('warn','⚠️','Launch ควรเป็นวันพฤหัส',`พฤหัสที่ใกล้ที่สุดคือ ${fmtDate(closestThursday(launchDate))}`);
   }
-  if (pkgCfg.warn) {
-    az.innerHTML += mkAlert('warn','📦',`PKG Lead time ${pkgCfg.leadDays} วัน`,`${pkgCfg.note} · ตรวจสอบ deadline สั่ง PKG ด้านล่าง`);
-  }
-  if (daysLeft < 70) {
-    az.innerHTML += mkAlert('danger','🚨',`เวลาน้อยมาก — ${daysLeft} วัน`,`ต้องการ ${currentType==='frozen'?'~80':'~75'} วัน · ประสาน RD/RA/PKG ทันที`);
-  } else if (daysLeft < 90) {
-    az.innerHTML += mkAlert('warn','⏰','เวลาค่อนข้างตึง',`เหลือ ${daysLeft} วัน · เริ่ม PKG Supplier และ Screening โดยเร็ว`);
-  } else {
-    az.innerHTML += mkAlert('ok','✅','Timeline ยังพอมีเวลา',`เหลือ ${daysLeft} วัน · เริ่ม Pre-Screen รอบแรกและประสาน RD ได้เลย`);
-  }
+  if (pkgCfg.warn) az.innerHTML+=mkAlert('warn','📦',`PKG Lead time ${pkgCfg.ld} วัน`,`${pkgCfg.label} · ตรวจสอบ deadline สั่ง PKG`);
+  if (dl<70) az.innerHTML+=mkAlert('danger','🚨',`เวลาน้อยมาก — ${dl} วัน`,`ต้องการ ${currentType==='frozen'?'~80':'~75'} วัน`);
+  else if(dl<90) az.innerHTML+=mkAlert('warn','⏰','เวลาค่อนข้างตึง',`เหลือ ${dl} วัน`);
+  else az.innerHTML+=mkAlert('ok','✅','Timeline ยังพอมีเวลา',`เหลือ ${dl} วัน`);
 
   // ==== Checklist ====
   const tbody = document.getElementById('timelineBody');
   tbody.innerHTML = '';
   let lastPhase = '';
 
+  const PHASE_LABELS = {
+    screening:'Pre-Screen', ff:'FF Committee', ps:'Product Selection',
+    product:'Product Info', packaging:'Packaging', production:'Production', launch:'Launch'
+  };
+  const PHASE_COLORS = {
+    screening:'#ffc947', ff:'#f48fb1', ps:'#00d4a0',
+    product:'#00d4a0', packaging:'#4fc3f7', production:'#f48fb1', launch:'#ff6b6b'
+  };
+
   allRows.forEach(s => {
+    if (s.special==='skip') {
+      const tr = document.createElement('tr');
+      const ph = s.phase!==lastPhase?`<span class="phase-label phase-product">${PHASE_LABELS[s.phase]||s.phase}</span>`:'';
+      lastPhase=s.phase;
+      tr.innerHTML=`<td>${ph}</td><td><div class="step-name" style="opacity:.4">🚫 ${s.th}</div></td><td colspan="4" class="note-cell">${s.note}</td>`;
+      tbody.appendChild(tr); return;
+    }
+
     const tr = document.createElement('tr');
-    const phaseHtml = s.phase !== lastPhase
-      ? `<span class="phase-label phase-${s.phase}">${phaseLabel(s.phase)}</span>` : '';
-    lastPhase = s.phase;
+    const ph = s.phase!==lastPhase?`<span class="phase-label phase-${s.phase==='ff'?'ff':s.phase==='ps'?'ps':s.phase}">${PHASE_LABELS[s.phase]||s.phase}</span>`:'';
+    lastPhase=s.phase;
 
     let dc='date-future',bc='days-future',dt='';
     if (s.endDate) {
-      const dl = daysDiff(today, s.endDate);
-      if (dl<0)      {dc='date-past'; bc='days-past'; dt=Math.abs(dl)+'วันที่แล้ว';}
-      else if(dl===0){dc='date-today';bc='days-today';dt='วันนี้!';}
-      else if(dl<=7) {dc='date-soon'; bc='days-soon'; dt=dl+' วัน';}
-      else           {dc='date-future';bc='days-future';dt=dl+' วัน';}
+      const diff=daysDiff(today,s.endDate);
+      if(diff<0){dc='date-past';bc='days-past';dt=Math.abs(diff)+'วันที่แล้ว';}
+      else if(diff===0){dc='date-today';bc='days-today';dt='วันนี้!';}
+      else if(diff<=7){dc='date-soon';bc='days-soon';dt=diff+' วัน';}
+      else{dc='date-future';bc='days-future';dt=diff+' วัน';}
     }
 
-    if (s.special==='skip') {
-      tr.innerHTML=`<td>${phaseHtml}</td>
-        <td><div class="step-name" style="opacity:.4">🚫 ${s.th}</div><div class="step-eng">${s.en}</div></td>
-        <td colspan="5" class="note-cell">${s.note}</td>`;
-    } else {
-      const factTag = (s.phase==='production'||s.phase==='launch')
-        ? `<span class="factory-tag">${FACTORY_INFO[currentFactory].label}</span>` : '';
-      const scrTag = s.phase==='screening'
-        ? `<span class="screening-date-tag">${['อา','จ','อ','พ','พฤ','ศ','ส'][s.endDate.getDay()]}</span>` : '';
-      tr.innerHTML=`<td>${phaseHtml}</td>
-        <td><div class="step-name">${s.th}${factTag}${scrTag}</div><div class="step-eng">${s.en}</div></td>
-        <td class="date-cell ${dc}">${fmtDate(s.startDate)}</td>
-        <td class="date-cell ${dc}">${fmtDate(s.endDate)}</td>
-        <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)">${s.ld||'–'} วัน</span></td>
-        <td><span class="days-badge ${bc}">${dt||'–'}</span></td>
-        <td class="note-cell">${s.note}</td>`;
-    }
+    const DAYNAMES=['อา','จ','อ','พ','พฤ','ศ','ส'];
+    const dayTag = s.endDate ? `<span class="tag tag-day">${DAYNAMES[s.endDate.getDay()]}</span>` : '';
+    const factTag = (s.phase==='production'||s.phase==='launch')
+      ? `<span class="tag tag-factory">${FACTORY[currentFactory].label}</span>` : '';
+    const typeTag = s.phase==='ff' ? `<span class="tag tag-ff">FF</span>`
+      : s.phase==='ps' ? `<span class="tag tag-ps">PS</span>` : '';
+
+    tr.innerHTML=`
+      <td>${ph}</td>
+      <td><div class="step-name">${s.th}${dayTag}${typeTag}${factTag}</div><div class="step-eng">${s.en}</div></td>
+      <td class="date-cell ${dc}">${fmtDate(s.endDate)}</td>
+      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)">${s.ld||'–'} วัน</span></td>
+      <td><span class="days-badge ${bc}">${dt||'–'}</span></td>
+      <td class="note-cell">${s.note}</td>`;
     tbody.appendChild(tr);
   });
 
-  buildGantt(allRows, launchDate, today);
-
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('summaryStrip').style.display = 'block';
+  buildGantt(allRows, launchDate, today, PHASE_COLORS, PHASE_LABELS);
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('summaryStrip').style.display='block';
 }
 
-function mkAlert(type, icon, title, msg) {
-  return `<div class="alert alert-${type}"><div class="alert-icon">${icon}</div><div><div class="alert-title">${title}</div><div class="alert-msg">${msg}</div></div></div>`;
-}
-function phaseLabel(p) {
-  return {screening:'Screening',product:'Product Info',packaging:'Packaging',production:'Production',launch:'Launch'}[p]||p;
-}
-function phaseColor(p) {
-  return {screening:'#ffc947',product:'#00d4a0',packaging:'#4fc3f7',production:'#f48fb1',launch:'#ff6b6b'}[p]||'#888';
+function mkAlert(t,icon,title,msg){
+  return`<div class="alert alert-${t}"><div style="font-size:15px;flex-shrink:0">${icon}</div><div><div class="alert-title">${title}</div><div class="alert-msg">${msg}</div></div></div>`;
 }
 
 // ============================================================
 // GANTT
 // ============================================================
-function buildGantt(rows, launchDate, today) {
+function buildGantt(rows, launchDate, today, PHASE_COLORS, PHASE_LABELS) {
   const container = document.getElementById('ganttContainer');
   const allDates = rows.filter(r=>r.startDate).flatMap(r=>[r.startDate,r.endDate||r.startDate]);
-  if (!allDates.length) { container.innerHTML=''; return; }
+  if (!allDates.length){container.innerHTML='';return;}
+  const minDate=new Date(Math.min(...allDates));minDate.setDate(1);
+  const maxDate=new Date(Math.max(...allDates,launchDate));
+  const totalDays=daysDiff(minDate,maxDate)+8;
+  const ppd=Math.max(4,Math.min(11,(container.parentElement.offsetWidth-220)/totalDays));
+  const totalW=totalDays*ppd;
+  const M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 
-  const minDate = new Date(Math.min(...allDates)); minDate.setDate(1);
-  const maxDate = new Date(Math.max(...allDates, launchDate));
-  const totalDays = daysDiff(minDate, maxDate) + 8;
-  const availW = container.parentElement.offsetWidth - 220;
-  const ppd = Math.max(4, Math.min(11, availW / totalDays));
-  const totalW = totalDays * ppd;
-
-  const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  let mHtml = '<div class="gantt-header">';
-  const cur = new Date(minDate);
-  while (cur <= maxDate) {
-    const dim = new Date(cur.getFullYear(), cur.getMonth()+1, 0).getDate();
-    const w = Math.min(dim, daysDiff(cur, maxDate)+1) * ppd;
-    mHtml += `<div class="gantt-month" style="width:${w}px">${months[cur.getMonth()]} ${cur.getFullYear()}</div>`;
-    cur.setMonth(cur.getMonth()+1, 1);
+  let mHtml='<div class="gantt-header">';
+  const cur=new Date(minDate);
+  while(cur<=maxDate){
+    const dim=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
+    const w=Math.min(dim,daysDiff(cur,maxDate)+1)*ppd;
+    mHtml+=`<div class="gantt-month" style="width:${w}px">${M[cur.getMonth()]} ${cur.getFullYear()}</div>`;
+    cur.setMonth(cur.getMonth()+1,1);
   }
-  mHtml += '</div>';
+  mHtml+='</div>';
 
-  const todayOff  = daysDiff(minDate, today) * ppd;
-  const launchOff = daysDiff(minDate, launchDate) * ppd;
-  const todayLine = todayOff>=0&&todayOff<=totalW
-    ? `<div class="gantt-today-line" style="left:${todayOff}px"></div>` : '';
-  const launchLine = `<div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:1px;background:var(--accent2);opacity:.25;"></div>`;
+  const todayOff=daysDiff(minDate,today)*ppd;
+  const launchOff=daysDiff(minDate,launchDate)*ppd;
+  const todayLine=todayOff>=0&&todayOff<=totalW?`<div class="gantt-today-line" style="left:${todayOff}px"></div>`:'';
+  const launchLine=`<div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:1px;background:var(--accent2);opacity:.25;"></div>`;
 
-  let rowsHtml = '';
-  let lastPhase = '';
-
-  rows.forEach(s => {
-    if (s.special==='skip') return;
-    if (s.phase !== lastPhase) {
-      lastPhase = s.phase;
-      rowsHtml += `<div class="gantt-phase-header">${phaseLabel(s.phase).toUpperCase()}</div>`;
+  let rowsHtml=''; let lastPhase='';
+  rows.forEach(s=>{
+    if(s.special==='skip')return;
+    if(s.phase!==lastPhase){
+      lastPhase=s.phase;
+      rowsHtml+=`<div class="gantt-phase-header">${(PHASE_LABELS[s.phase]||s.phase).toUpperCase()}</div>`;
     }
-    let barHtml = '';
-    if (s.startDate) {
-      const left = daysDiff(minDate, s.startDate) * ppd;
-      const w = Math.max(4, (s.ld||1) * ppd);
-      barHtml = `<div class="gantt-bar" style="left:${left}px;width:${w}px;background:${phaseColor(s.phase)};">${w>28?(s.ld||'')+'d':''}</div>`;
+    const color=PHASE_COLORS[s.phase]||'#888';
+    let barHtml='';
+    if(s.startDate){
+      const left=daysDiff(minDate,s.startDate)*ppd;
+      const w=Math.max(4,(s.ld||1)*ppd);
+      barHtml=`<div class="gantt-bar" style="left:${left}px;width:${w}px;background:${color};">${w>28?(s.ld||'')+'d':''}</div>`;
     }
-    const lbl = s.th.replace('🚀 ','').substring(0,25)+(s.th.length>25?'…':'');
-    rowsHtml += `
+    const lbl=s.th.replace('🚀 ','').substring(0,25)+(s.th.length>25?'…':'');
+    rowsHtml+=`
       <div class="gantt-row">
-        <div class="gantt-label">
-          <span class="phase-dot" style="background:${phaseColor(s.phase)}"></span>${lbl}
-        </div>
+        <div class="gantt-label"><span class="dot" style="background:${color}"></span>${lbl}</div>
         <div class="gantt-timeline" style="width:${totalW}px">${todayLine}${launchLine}${barHtml}</div>
       </div>`;
   });
 
-  rowsHtml += `
+  rowsHtml+=`
     <div class="gantt-row" style="background:rgba(255,107,107,.04)">
-      <div class="gantt-label" style="color:var(--accent2);font-weight:600">
-        <span class="phase-dot" style="background:var(--accent2)"></span>🚀 LAUNCH
-      </div>
+      <div class="gantt-label" style="color:var(--accent2);font-weight:600"><span class="dot" style="background:var(--accent2)"></span>🚀 LAUNCH</div>
       <div class="gantt-timeline" style="width:${totalW}px">
         <div style="position:absolute;top:0;bottom:0;left:${launchOff}px;width:2px;background:var(--accent2);"></div>
         <div style="position:absolute;top:50%;transform:translateY(-50%);left:${launchOff+4}px;font-size:10px;color:var(--accent2);font-family:'IBM Plex Mono',monospace;white-space:nowrap;">${fmtShort(launchDate)}</div>
       </div>
     </div>`;
 
-  container.innerHTML = mHtml + rowsHtml;
+  container.innerHTML=mHtml+rowsHtml;
 }
 </script>
 </body>
